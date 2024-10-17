@@ -1,0 +1,35 @@
+.wrapper {
+  background-color: #6f4e37;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  padding: 24px;
+}
+
+.leftSide {
+  width: 30vw;
+  margin: 2rem 3rem;
+  color: white;
+}
+
+.leftSide_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftSide_container h2 {
+  font-size: 48px;
+  font-family: var(--font-poppins);
+}
+
+.rightSide {
+  width: 70vw;
+  position: relative;
+  overflow: hidden;
+  padding: 12px;
+}
+
+.rightSide img {
+  object-fit: cover;
+  border-radius: 12px;
+}
