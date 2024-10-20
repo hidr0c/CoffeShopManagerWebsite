@@ -4,12 +4,25 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.loginWrapper::-webkit-scrollbar {
+  display: none;
 }
 
 #loginForm {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+#loginForm input::placeholder {
+  color: white;
+  opacity: 1;
 }
 
 .inputField {
@@ -57,23 +70,22 @@
   height: 1.15em;
   border: 0.15em solid #fff;
   border-radius: 0.35em;
-  transform: translateY(-0.075em);
   display: grid;
   place-content: center;
 }
 
 .rememberWrapper input[type="checkbox"]::before {
   content: "";
-  width: 0.65em;
-  height: 0.65em;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
+  width: 1.15em;
+  height: 1.15em;
+  opacity: 0;
+  transition: 120ms opacity ease-in-out;
   box-shadow: inset 1em 1em #fff;
-  border-radius: 0.15em;
+  border-radius: 0.35em;
 }
 
 .rememberWrapper input[type="checkbox"]:checked::before {
-  transform: scale(1);
+  opacity: 1;
 }
 
 .signupWrapper a {
