@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useFormik } from 'formik';
-import { Input, message } from "antd"
+import { Input, Checkbox, message } from "antd"
 import AuthApi from "../../services/auth";
 import { LoginParams } from "../../models/AuthModel";
 
