@@ -41,6 +41,10 @@ a {
   }
 }
 
+.ant-input {
+  padding: unset;
+}
+
 button,
 input[type="submit"],
 input[type="reset"] {
@@ -51,6 +55,12 @@ input[type="reset"] {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+.ant-input-password-icon,
+.ant-input::placeholder,
+.ant-input:placeholder-shown {
+  color: white !important;
 }
 
 .ant-input-outlined:focus,

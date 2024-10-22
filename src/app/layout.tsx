@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Poppins } from 'next/font/google';
+
+import '../../public/antd.min.css';
 import "./globals.css";
 
 const geistSans = localFont({
