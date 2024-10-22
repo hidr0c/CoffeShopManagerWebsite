@@ -26,11 +26,11 @@ async function login(params: LoginParams): Promise<LoginResponse | null> {
     return null;
 }
 
-async function signUp(params: SignupParams): Promise<any | null> {
-    const url = `/auth/signup`;
+async function signUp(params: SignupParams): Promise<SignupResponse | null> {
+    const url = `/auth/register`;
     const response = await Api.post<SignupResponse>(url, params);
 
-    if (response.data && response.data.result === "success") {
+    if (response.data) {
         return response.data;
     }
 

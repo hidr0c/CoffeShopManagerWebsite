@@ -1,4 +1,5 @@
-.loginWrapper {
+.loginWrapper,
+.registerWrapper {
   width: 100%;
   height: 75%;
   display: flex;
@@ -14,15 +15,11 @@
   display: none;
 }
 
-#loginForm {
+#loginForm,
+#registerForm {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-#loginForm input::placeholder {
-  color: white;
-  opacity: 1;
 }
 
 .inputField {
@@ -34,6 +31,11 @@
   border: 2px solid #fff;
   background-color: var(--background);
   color: #fff;
+}
+
+.inputField::placeholder {
+  color: white;
+  opacity: 0.8;
 }
 
 .passwordTitleWrapper {
