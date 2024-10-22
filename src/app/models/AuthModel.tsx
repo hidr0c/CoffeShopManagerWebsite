@@ -26,7 +26,7 @@ interface LoginResponse {
 
 interface UpdateUserParams {
     avatar: string;
-    fullName: string;
+    name: string;
     email: string;
 }
 

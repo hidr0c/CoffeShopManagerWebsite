@@ -54,6 +54,7 @@ input[type="reset"] {
 }
 
 .ant-input-outlined:focus,
-.ant-input-outlined:hover {
+.ant-input-outlined:hover,
+.ant-input-outlined:focus-within {
   background-color: transparent;
 }

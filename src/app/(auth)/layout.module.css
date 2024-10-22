@@ -7,7 +7,6 @@
   display: flex;
   width: 100vw;
   height: 100vh;
-  padding: 24px;
 }
 
 .leftSide {
@@ -17,6 +16,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 24px 0;
 }
 
 .leftSide_container {
@@ -33,10 +33,8 @@
   width: 70vw;
   position: relative;
   overflow: hidden;
-  padding: 12px;
 }
 
 .rightSide img {
   object-fit: cover;
-  border-radius: 12px;
 }
