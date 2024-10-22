@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predev": "ts-node --project ./tsconfig.node.json ./scripts/genAntdCss.tsx",
+    "prebuild": "cross-env NODE_ENV=production ts-node --project ./tsconfig.node.json ./scripts/genAntdCss.tsx"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.1",
+    "@ant-design/static-style-extract": "^1.0.3",
     "antd": "^5.21.4",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
@@ -22,8 +25,11 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.8.0",
     "typescript": "^5"
   }
 }
