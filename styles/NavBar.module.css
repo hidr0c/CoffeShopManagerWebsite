@@ -1,0 +1,18 @@
+.navbar {
+  font-family: var(--font-poppins);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #a67b5b;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bolder;
+}
+
+.link {
+  display: flex;
+  gap: 10px;
+}

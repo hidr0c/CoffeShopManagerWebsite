@@ -1,0 +1,24 @@
+.sideBarItem {
+  color: #fff;
+  font-family: var(--font-poppins);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%;
+
+  cursor: pointer;
+
+  margin-bottom: 8px;
+  padding: 18px;
+  padding-left: 32px;
+}
+
+.sideBarItem.selected {
+  color: #2e2e2e;
+  background-color: #fc9;
+  border-radius: 50px 0 0 50px;
+}
+
+.sideBarItem span {
+  margin-right: 20px;
+}
