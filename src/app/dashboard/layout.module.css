@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.sidebar {
+  background-color: #6f4e37;
+  width: 256px;
+  height: 100%;
+  padding: 24px;
+  padding-right: 0px;
+}
