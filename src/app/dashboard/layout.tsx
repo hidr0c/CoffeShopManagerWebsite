@@ -27,7 +27,7 @@ interface MenuItem {
 // type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-    { key: "home", icon: <PieChartOutlined />, label: "Trang chủ" },
+    { key: "/", icon: <PieChartOutlined />, label: "Trang chủ" },
     { key: "storage", icon: <DesktopOutlined />, label: "Kho hàng" },
     { key: "selling", icon: <ContainerOutlined />, label: "Bán hàng" },
 ];
