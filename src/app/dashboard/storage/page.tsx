@@ -80,7 +80,10 @@ export default function StoragePage() {
                         Search
                     </Button>
                     <Button
-                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        onClick={() => {
+                            clearFilters && handleReset(clearFilters)
+                            close()
+                        }}
                         size="small"
                         style={{ width: 90 }}
                     >
@@ -115,15 +118,20 @@ export default function StoragePage() {
         onFilter: (value, record) => {
             const r = record[dataIndex];
 
-            if (dataIndex.toString() === "price" && typeof value === "string" && typeof r === "number") {
+            if (typeof value === "string" && typeof r === "number") {
                 value = value.trim();  // trim whitespace
-                const matchOp = value.match(/[><=]+/);
+                const matchOp = value.match(/[><=!]+/);
                 if (!matchOp) {
                     return r == Number(value);
                 }
                 const operator = matchOp[0];
                 const compValue = parseInt(value.match(/\s*(\d+)/)[1], 10);
-                return eval(`${r} ${operator} ${compValue}`);
+                try {
+                    return eval(`${r} ${operator} ${compValue}`);
+                }
+                catch (e) {
+                    return false;
+                }
             }
 
             if (Array.isArray(r)) {
