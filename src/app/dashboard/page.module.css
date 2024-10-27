@@ -52,3 +52,7 @@
   flex-direction: column;
   margin-bottom: 32px;
 }
+
+.searchInput::placeholder {
+  padding-left: 4px;
+}

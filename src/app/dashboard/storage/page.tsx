@@ -1,13 +1,12 @@
 'use client'
 
-import { MoneyCollectOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, InputRef, Space, Table, TableColumnsType, TableColumnType, TableProps, Tag } from 'antd';
 import styles from '../page.module.css';
 import { useRef, useState } from 'react';
 import { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 
-const { Column, ColumnGroup } = Table;
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
 
 const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -63,11 +62,12 @@ export default function StoragePage() {
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    placeholder={`Tìm ${columns.find((col) => col.key === dataIndex)?.title.toString().toLowerCase() || ''}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
                     style={{ marginBottom: 8, display: 'block' }}
+                    className={styles.searchInput}
                 />
                 <Space>
                     <Button
@@ -185,7 +185,6 @@ export default function StoragePage() {
             price: 2000000
         }
     ];
-
 
     const columns: TableColumnsType<MenuItem> = [
         {
