@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 
-import sharedStyles from '../page.module.css';
+import sharedStyles from '../shared.module.css';
 import styles from './page.module.css'
 
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
