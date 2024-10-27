@@ -2,10 +2,12 @@
 
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, InputRef, Space, Table, TableColumnsType, TableColumnType, TableProps, Tag } from 'antd';
-import styles from '../page.module.css';
 import { useRef, useState } from 'react';
 import { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
+
+import sharedStyles from '../page.module.css';
+import styles from './page.module.css'
 
 type TableRowSelection<T extends object = object> = TableProps<T>['rowSelection'];
 
@@ -254,8 +256,8 @@ export default function StoragePage() {
     ]
 
     return (
-        <div className={styles.sectionOne}>
-            <h1 className={styles.title}>KHO HÀNG</h1>
+        <div className={sharedStyles.sectionOne}>
+            <h1 className={sharedStyles.title}>KHO HÀNG</h1>
             <Table<MenuItem>
                 size='middle'
                 onRow={record => {  //placeholder

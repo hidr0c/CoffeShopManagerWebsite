@@ -3,6 +3,7 @@
 import { MoneyCollectOutlined } from '@ant-design/icons';
 import { Space, Table, TableColumnsType, TableProps, Tag } from 'antd';
 import styles from './page.module.css';
+import sharedStyles from './shared.module.css';
 import { useState } from 'react';
 
 const { Column, ColumnGroup } = Table;
@@ -115,8 +116,8 @@ export default function DashboardPage() {
 
     return (
         <>
-            <div className={styles.sectionOne}>
-                <h1 className={styles.title}>TRANG CHỦ</h1>
+            <div className={sharedStyles.sectionOne}>
+                <h1 className={sharedStyles.title}>TRANG CHỦ</h1>
                 <div className={styles.cardContainer}>
                     {first_row.map(item => renderCard(item))}
                 </div>
@@ -124,8 +125,8 @@ export default function DashboardPage() {
                     {second_row.map(item => renderCard(item))}
                 </div>
             </div>
-            <div className={styles.sectionTwo}>
-                <h1 className={styles.title}>SỐ LƯỢNG HÀNG TỒN CÒN ÍT</h1>
+            <div className={sharedStyles.sectionTwo}>
+                <h1 className={sharedStyles.title}>SỐ LƯỢNG HÀNG TỒN CÒN ÍT</h1>
                 <Table<LeftInvertory>
                     scroll={{ x: 1500 }}
                     rowSelection={rowSelection}

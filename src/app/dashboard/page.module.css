@@ -1,7 +1,3 @@
-.title {
-  color: #10155f;
-}
-
 .card {
   display: flex;
   flex-direction: column;
@@ -43,16 +39,4 @@
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-}
-
-.sectionOne,
-.sectionTwo {
-  display: flex;
-  gap: 20px;
-  flex-direction: column;
-  margin-bottom: 32px;
-}
-
-.searchInput::placeholder {
-  padding-left: 4px;
 }

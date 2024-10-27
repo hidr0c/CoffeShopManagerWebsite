@@ -1,0 +1,11 @@
+.title {
+  color: #10155f;
+}
+
+.sectionOne,
+.sectionTwo {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  margin-bottom: 32px;
+}
