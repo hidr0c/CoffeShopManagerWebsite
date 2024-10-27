@@ -10,7 +10,7 @@ export default function SideBarItem(
         {
             icon: React.ReactNode,
             label: string,
-            selected: boolean,
+            selected?: boolean,
             onClick: () => void
         }) {
     return (

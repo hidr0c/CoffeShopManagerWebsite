@@ -2,15 +2,10 @@
 
 import { useState } from 'react';
 import {
-    AppstoreOutlined,
-    ArrowLeftOutlined,
-    ArrowRightOutlined,
-    ContainerOutlined,
-    DesktopOutlined,
-    MailOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    PieChartOutlined,
+    HomeOutlined,
+    ShopOutlined,
+    BarChartOutlined,
+    LogoutOutlined
 } from '@ant-design/icons';
 
 import NavBar from "../components/NavBar";
@@ -27,9 +22,9 @@ interface MenuItem {
 // type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-    { key: "/", icon: <PieChartOutlined />, label: "Trang chủ" },
-    { key: "storage", icon: <DesktopOutlined />, label: "Kho hàng" },
-    { key: "selling", icon: <ContainerOutlined />, label: "Bán hàng" },
+    { key: "/", icon: <HomeOutlined />, label: "Trang chủ" },
+    { key: "storage", icon: <ShopOutlined />, label: "Kho hàng" },
+    { key: "selling", icon: <BarChartOutlined />, label: "Bán hàng" },
 ];
 
 export default function DashboardLayout({
@@ -44,19 +39,29 @@ export default function DashboardLayout({
         <NavBar />
         <div className={styles.container}>
             <div className={styles.sidebar}>
-                {items.map(item => (
+                <div className={styles.topPart}>
+                    {items.map(item => (
+                        <SideBarItem
+                            key={item.key}
+                            icon={item.icon}
+                            label={item.label}
+                            selected={item.key === activeIndex}
+                            onClick={() => {
+                                setActive(item.key)
+                                router.push("/dashboard/" + item.key)
+                            }} />
+                    ))}
+                </div>
+                <div className={styles.bottomPart}>
                     <SideBarItem
-                        key={item.key}
-                        icon={item.icon}
-                        label={item.label}
-                        selected={item.key === activeIndex}
-                        onClick={() => {
-                            setActive(item.key)
-                            router.push("/dashboard/" + item.key)
-                        }} />
-                ))}
+                        key="logout"
+                        icon={<LogoutOutlined />}
+                        label="Logout"
+                        onClick={() => { }}
+                    />
+                </div>
             </div>
-            <div>
+            <div className={styles.content}>
                 {children}
             </div>
         </div>
