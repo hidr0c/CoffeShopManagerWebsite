@@ -232,7 +232,11 @@ export default function StoragePage() {
                 <span>
                     {tags.map((tag) => {
                         return (
-                            <Tag key={tag}>
+                            <Tag onClick={() => {
+                                console.log(tag)
+                                setSearchText(tag)
+                                setSearchedColumn('type')
+                            }} key={tag}>
                                 {tag.toUpperCase()}
                             </Tag>
                         );
@@ -251,16 +255,23 @@ export default function StoragePage() {
     ]
 
     return (
-        <>
+        <div className={styles.sectionOne}>
             <h1 className={styles.title}>KHO HÀNG</h1>
             <Table<MenuItem>
                 size='middle'
+                onRow={record => {  //placeholder
+                    return {
+                        onClick: () => {
+                            console.log(record);
+                        },
+                    };
+                }}
                 bordered={true}
                 scroll={{ x: 1500 }}
                 dataSource={data}
                 columns={columns}
                 rowSelection={rowSelection}
             />
-        </>
+        </div>
     );
 }
