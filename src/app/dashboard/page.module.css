@@ -1,6 +1,5 @@
 .title {
   color: #10155f;
-  margin-bottom: 24px;
 }
 
 .card {
@@ -46,8 +45,10 @@
   flex-wrap: wrap;
 }
 
-.sectionOne {
+.sectionOne,
+.sectionTwo {
   display: flex;
   gap: 20px;
   flex-direction: column;
+  margin-bottom: 32px;
 }
