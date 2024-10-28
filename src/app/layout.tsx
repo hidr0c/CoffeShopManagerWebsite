@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Poppins } from 'next/font/google';
+import Header from "./components/header/Header";
+import SideBar from './components/sidebar/Sidebar'
 
 import '../../public/antd.min.css';
 import "./globals.css";
@@ -35,7 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}`}>
-        {children}
+      <Header />
+      <SideBar />
+      <div className="main">
+      {children}
+      </div>
+
       </body>
     </html>
   );
