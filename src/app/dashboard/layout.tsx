@@ -8,10 +8,10 @@ import {
     LogoutOutlined
 } from '@ant-design/icons';
 
-import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 import SideBarItem from '../components/SideBarItem';
 import styles from "./layout.module.css";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface MenuItem {
     key: React.Key;
@@ -32,11 +32,18 @@ export default function DashboardLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const [activeIndex, setActive] = useState(items[0].key);
+    const currentPath = usePathname().split("/");
+    const [activeIndex, setActive] = useState(
+        currentPath.length >= 3
+            &&
+            items.map(item => item.key).includes(currentPath[2])
+            ? currentPath[2]
+            :
+            items[0].key
+    );
     const router = useRouter();
-
     return <>
-        <NavBar />
+        <Header />
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <div className={styles.topPart}>
