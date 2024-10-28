@@ -63,3 +63,17 @@ input[type="reset"] {
   overflow: hidden;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.ant-input::placeholder {
+  color: inherit;
+}
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-input:active,
+.ant-input-password:hover,
+.ant-input-password:focus,
+.ant-input-password:focus-within,
+.ant-input-password:active {
+  background-color: inherit;
+}

@@ -1,25 +1,13 @@
 'use client'
 
-import Image from "next/image";
-import { Input } from 'antd'
 import styles from "../../../styles/Header.module.css";
 
-export default function NavBar() {
-    const onSearch = () => { }
-
+export default function Header() {
     return (
-        <div className={styles.navbar}>
+        <div className={styles.header}>
             <div className={styles.logo}>
                 Phan Café
             </div>
-            {/* <Input.Search
-                placeholder="input search text"
-                allowClear
-                enterButton="Search"
-                size="large"
-                onSearch={onSearch}>
-
-            </Input.Search> */}
             <div className={styles.link}>
                 <a href="#">Nhà cung cấp</a>
                 <a href="#">Khách hàng</a>
