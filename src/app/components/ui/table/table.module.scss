@@ -1,0 +1,71 @@
+.preHeader{
+  background-color: white;
+  border-radius: 20px 20px 0 0;
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .left {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    span {
+      font-weight: 500;
+    }
+    select {
+      background-color: #9E9E9E;
+      padding: .5em .2em;
+      border: none;
+      border-radius: 3px;
+    }
+  }
+
+
+}
+.pagination{
+  background-color: white;
+  border-radius: 0 0 20px 20px;
+}
+.table{
+  border-spacing: 0;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 20px; /* Thay đổi giá trị này theo ý bạn */
+  overflow: hidden;
+
+
+}
+.head {
+  font-weight: 700;
+}
+
+.body{
+    .row:nth-child(odd) {
+      background-color: #F9F9F9 ; /* Màu nền cho dòng lẻ */
+    }
+
+    .row:nth-child(even) {
+      background: #f0f0f0;
+    }
+
+    .cell {
+      font-weight: 500;
+    }
+
+
+}
+
+.cell {
+  position: relative;
+  padding: 1em 1em 1em 2em;
+}
+
+.sort{
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9E9E9E;
+  cursor: pointer;
+}
