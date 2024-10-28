@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Input } from 'antd'
-import styles from "../../../styles/NavBar.module.css";
+import styles from "../../../styles/Header.module.css";
 
 export default function NavBar() {
     const onSearch = () => { }
