@@ -1,0 +1,69 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2em;
+  font-family: 'Montserrat';
+  background: #A67B5B;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  color: white;
+  padding: 1em 0;
+  z-index: 3;
+  height: 6em;
+  .logo {
+    font-size: 40px;
+    font-weight: 700;
+    font-family: 'Poppins';
+  }
+  .right{
+    display: flex;
+    justify-content:flex-end;
+    align-items: center;
+    gap: 2em;
+  }
+  nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    font-weight: 600;
+    font-size: 1.2em;
+  }
+  .profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+  }
+}
+
+.navItem {
+  transition: all 0.3s ease;
+  &:hover {
+    font-size: 1.2em;
+  }
+}
+.navItemActive{
+  font-size: 1.2em;
+}
+
+
+@media (max-width:1400px ) {
+  .container{
+    .search {
+      display: none;
+    }
+  }
+}
+
+@media (max-width:1200px ) {
+  .container {
+    nav {
+      display: none;
+    }
+  }
+
+}
