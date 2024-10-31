@@ -61,7 +61,7 @@ export default function Sidebar() {
         />
         }
         label='Nhân viên'
-        href='/sell' />
+        href='/employee' />
     </div>
   )
 }
