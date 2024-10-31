@@ -1,4 +1,6 @@
 .container {
+  --input-background: #d9ddeb;
+  
   position: relative;
   height: max-content;
   .search {
@@ -13,5 +15,13 @@
     border-radius: 10px;
     font-size: 1.2em;
     min-width: 20em;
+    background: var(--input-background);
   }
 }
+
+
+// @media (prefers-color-scheme: dark) {
+//   .container {
+//     --input-background: #1a1a1a;
+//   }
+// }

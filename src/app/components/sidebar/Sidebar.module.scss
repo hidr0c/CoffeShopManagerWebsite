@@ -1,12 +1,12 @@
 .container {
-  width: 17vw;
+  width: 15vw;
   background: #6F4E37;
   position: fixed;
   left: 0;
   top: 5em;
   height: calc(100vh - 5em);
   z-index: 2;
-  padding: 2em 0 2em 3em;
+  padding: 2em 0;
   display: flex;
   align-items: flex-end;
   flex-direction: column;

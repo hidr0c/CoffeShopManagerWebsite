@@ -6,11 +6,8 @@
   background: #F8F8F8;
   border-radius: 20px;
   padding: 2em;
-  gap: 4em;
-  transition: all 0.3s ease;
-  &:hover {
-    transform: scale(1.1);
-  }
+  gap: 2em;
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -34,5 +31,4 @@
     background: #FEFEFD;
     border-radius: 50%;
   }
-
 }
