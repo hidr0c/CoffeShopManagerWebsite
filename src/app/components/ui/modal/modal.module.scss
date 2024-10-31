@@ -1,0 +1,53 @@
+/* components/modal.module.scss */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure the modal is on top */
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 80vw;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modalTitle {
+  margin: 0 0 15px;
+  padding: 1em 0;
+  border-bottom: 1px solid silver;
+}
+
+.modalBody {
+  margin-bottom: 15px;
+}
+
+.modalCloseButton {
+  background: #624DE3;
+
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+
+
+.btnContainer{
+  display: flex;
+  justify-content:flex-end;
+  gap:1em;
+
+}
