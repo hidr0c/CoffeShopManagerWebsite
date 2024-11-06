@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useFormik } from 'formik';
 import { Input, Checkbox, message } from "antd"
-import AuthApi from "../../services/auth";
+import AuthApi from "@services/auth";
 import { LoginParams } from "../../models/AuthModel";
 
 export default function LoginPage() {

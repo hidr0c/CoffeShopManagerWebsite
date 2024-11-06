@@ -1,5 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/app/*"
+      ],
+      "@ui/*": [
+        "./src/app/components/ui/*"
+      ],
+      "@servies": [
+        "./src/app/services/*"
+      ]
+    },
     "lib": [
       "dom",
       "dom.iterable",
