@@ -1,133 +1,91 @@
-'use client'
+// Sell.tsx
 
-import styles from './sell.module.scss'
-import { Table, TableCell, TableHead, TableRow, TableBody } from "../components/ui/table/table";
-import Export from '../components/modal-content/export/export';
-import { FaRegTrashAlt } from 'react-icons/fa';
+'use client';
 
-export default function Sell() {
-  const data = [
-    {
-      id: '#20462',
-      quant: 144,
-      name: 'Hat',
-      date: '13/05/2024 00:00:00',
-      customer: 'Diddy',
-      address: '123 ABC XYZ',
+import React from 'react';
+import styles from './sell.module.scss';
+import { FaPlus, FaTrashAlt, FaInfoCircle } from 'react-icons/fa';
 
-    },
-    {
-      id: '#20462',
-      quant: 144,
-      name: 'Hat',
-      date: '13/05/2024 00:00:00',
-      customer: 'Diddy',
-      address: '123 ABC XYZ',
+// Mock data for products
+const products = [
+  { id: '1', name: 'Espresso', price: 39000, image: '/src/app/Testing product image/01.png' },
+  { id: '2', name: 'Black Coffee', price: 25000, image: '/src/app/Testing product image/01.png' },
+  { id: '3', name: 'Flat White', price: 45000, image: '/src/app/Testing product image/01.png' },
+  { id: '4', name: 'Irish Coffee', price: 50000, image: '/src/app/Testing product image/01.png' },
+  // Add more products as needed
+];
 
-    },
-    {
-      id: '#20462',
-      quant: 144,
-      name: 'Hat',
-      date: '13/05/2024 00:00:00',
-      customer: 'Diddy',
-      address: '123 ABC XYZ',
+// Mock data for order items
+const orderItems = [
+  { id: '1', name: 'Trà thạch đào', quantity: 1, total: 49000 },
+  { id: '2', name: 'Black Coffee', quantity: 1, total: 25000 },
+  { id: '3', name: 'Cappuccino', quantity: 2, total: 65000 },
+  { id: '4', name: 'Irish Coffee', quantity: 1, total: 50000 },
+  { id: '5', name: 'Mousse Cacao', quantity: 2, total: 29000 },
+  { id: '6', name: 'Phô mai Caramel', quantity: 1, total: 29000 },
+];
 
-    },
-    {
-      id: '#20462',
-      quant: 144,
-      name: 'Hat',
-      date: '13/05/2024 00:00:00',
-      customer: 'Diddy',
-      address: '123 ABC XYZ',
-
-    },
-
-    {
-      id: '#20462',
-      quant: 144,
-      name: 'Hat',
-      date: '13/05/2024 00:00:00',
-      customer: 'Diddy',
-      address: '123 ABC XYZ',
-
-    },
-  ]
+const Sell: React.FC = () => {
   return (
-    <div className="">
-      <h1 className="title">BÁN HÀNG</h1>
-      <div className="" style={{ margin: '2em 0' }}>
+    <div className={styles.container}>
 
-        <Table style={{ borderRadius: '0px' }} preHeader={true} pagination={true}
-          modalAddContent={<Export />}
-          modalTitle={'Thêm phiếu xuất kho'} addButtonTitle="Thêm phiếu xuất"
-        >
-          <TableHead style={{ background: 'white' }}>
-            <TableRow>
-              <TableCell>
-                STT
-              </TableCell>
-              <TableCell>
-                ID
-              </TableCell>
-              <TableCell>
-                Tên sản phẩm
-              </TableCell>
-              <TableCell>
-                Khách hàng
-              </TableCell>
-              <TableCell>
-                Địa chỉ
-              </TableCell>
-              <TableCell>
-                Ngày tháng
-              </TableCell>
-              <TableCell>
-                Số lượng
-              </TableCell>
-              <TableCell>
-                Chỉnh sửa
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  {index}
-                </TableCell>
-                <TableCell>
-                  {item.id}
-                </TableCell>
-                <TableCell>
-                  {item.name}
-                </TableCell>
-                <TableCell>
-                  {item.customer}
-                </TableCell>
-                <TableCell>
-                  {item.address}
-                </TableCell>
-                <TableCell>
-                  {item.date}
-                </TableCell>
-                <TableCell>
-                  {item.quant}
-                </TableCell>
-                <TableCell>
-                  <div className="" style={{ display: 'flex', gap: '1em' }}>
+      {/* Main Content */}
+      <div className={styles.mainContent}>
+        {/* Product Tabs */}
+        <div className={styles.tabs}>
+          <button className={styles.active}>Coffe</button>
+          <button>Trà</button>
+          <button>Bánh</button>
+          <button>Khác</button>
+        </div>
 
-                    <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}><FaRegTrashAlt /></div>
-                  </div>
-                </TableCell>
-              </TableRow>
-
-            ))}
-          </TableBody>
-        </Table>
+        {/* Product List */}
+        <div className={styles.productList}>
+          {products.map((product) => (
+            <div key={product.id} className={styles.product}>
+              <img src={product.image} alt={product.name} />
+              <p>{product.name}</p>
+              <p>{product.price.toLocaleString()} VND</p>
+            </div>
+          ))}
+        </div>
       </div>
 
+      {/* Order Summary */}
+      <div className={styles.orderSummary}>
+        <h3>Order Summary</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tên món</th>
+              <th>Số lượng</th>
+              <th>Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderItems.map((item, index) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.quantity}</td>
+                <td>{item.total.toLocaleString()} VND</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button className={styles.addItem}><FaPlus /> Thêm món khác</button>
+        <div className={styles.summaryFooter}>
+          <div>
+            <FaInfoCircle /> Tổng tiền
+          </div>
+          <p>341.000 VND</p>
+        </div>
+        <div className={styles.actions}>
+          <button className={styles.payButton}>Thanh toán</button>
+          <button className={styles.cancelButton}>Hủy bỏ</button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
+
+export default Sell;
