@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { Input, Select } from '../../ui/input/input';
-import { Button } from "../../ui/button/button";
+import { Input, Select } from '@ui/input/input';
+import { Button } from "@ui/button/button";
 
 export default function CustomerForm() {
   // Khởi tạo state cho từng trường

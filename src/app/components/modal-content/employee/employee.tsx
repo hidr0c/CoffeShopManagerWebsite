@@ -1,11 +1,11 @@
 "use client"
 
-import { Table, TableCell, TableHead, TableRow, TableBody } from "../../ui/table/table";
-import { Input, Select} from '../../ui/input/input'
-import { Button } from "../../ui/button/button";
+import { Table, TableCell, TableHead, TableRow, TableBody } from "@ui/table/table";
+import { Input, Select } from '@ui/input/input'
+import { Button } from "@ui/button/button";
 import { useState } from "react";
 
-export default function EmployeeForm () {
+export default function EmployeeForm() {
   const data = [ //Mock data
     {
       name: 'Hat',
