@@ -1,17 +1,20 @@
-// Sell.tsx
+
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './sell.module.scss';
 import { FaPlus, FaTrashAlt, FaInfoCircle } from 'react-icons/fa';
 
-// Mock data for products
+// Mock data for products with categories
 const products = [
-  { id: '1', name: 'Espresso', price: 39000, image: '/src/app/Testing product image/01.png' },
-  { id: '2', name: 'Black Coffee', price: 25000, image: '/src/app/Testing product image/01.png' },
-  { id: '3', name: 'Flat White', price: 45000, image: '/src/app/Testing product image/01.png' },
-  { id: '4', name: 'Irish Coffee', price: 50000, image: '/src/app/Testing product image/01.png' },
+  { id: '1', name: 'Espresso', price: 39000, category: 'Coffee', image: '/Testing product image/01.png' },
+  { id: '2', name: 'Black Coffee', price: 25000, category: 'Coffee', image: '/Testing product image/01.png' },
+  { id: '3', name: 'Flat White', price: 45000, category: 'Coffee', image: '/Testing product image/01.png' },
+  { id: '4', name: 'Irish Coffee', price: 50000, category: 'Coffee', image: '/Testing product image/01.png' },
+  { id: '5', name: 'Trà Đào', price: 30000, category: 'Trà', image: '/Testing product image/01.png' },
+  { id: '6', name: 'Bánh Croissant', price: 20000, category: 'Bánh', image: '/Testing product image/01.png' },
+  { id: '7', name: 'Nước Cam', price: 25000, category: 'Khác', image: '/Testing product image/01.png' },
   // Add more products as needed
 ];
 
@@ -26,6 +29,12 @@ const orderItems = [
 ];
 
 const Sell: React.FC = () => {
+  // State for selected category
+  const [selectedCategory, setSelectedCategory] = useState('Coffee');
+
+  // Filtered products based on selected category
+  const filteredProducts = products.filter((product) => product.category === selectedCategory);
+
   return (
     <div className={styles.container}>
 
@@ -33,15 +42,15 @@ const Sell: React.FC = () => {
       <div className={styles.mainContent}>
         {/* Product Tabs */}
         <div className={styles.tabs}>
-          <button className={styles.active}>Coffe</button>
-          <button>Trà</button>
-          <button>Bánh</button>
-          <button>Khác</button>
+          <button onClick={() => setSelectedCategory('Coffee')} className={selectedCategory === 'Coffee' ? styles.active : ''}>Coffee</button>
+          <button onClick={() => setSelectedCategory('Trà')} className={selectedCategory === 'Trà' ? styles.active : ''}>Trà</button>
+          <button onClick={() => setSelectedCategory('Bánh')} className={selectedCategory === 'Bánh' ? styles.active : ''}>Bánh</button>
+          <button onClick={() => setSelectedCategory('Khác')} className={selectedCategory === 'Khác' ? styles.active : ''}>Khác</button>
         </div>
 
         {/* Product List */}
         <div className={styles.productList}>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div key={product.id} className={styles.product}>
               <img src={product.image} alt={product.name} />
               <p>{product.name}</p>
