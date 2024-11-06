@@ -14,20 +14,26 @@ interface InputProps {
 }
 
 export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholder, type = "text" }) => {
+  const [inputValue, setInputValue] = React.useState(value);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    onChange(e);
+  };
+
   return (
     <div className={styles.inputContainer}>
       <label className={styles.label}>{label}</label>
       <input
         type={type}
-        value={value}
-        onChange={onChange}
+        value={inputValue}
+        onChange={handleChange}
         placeholder={placeholder}
         className={styles.input}
       />
     </div>
   );
 };
-
 
 
 interface SelectProps {
