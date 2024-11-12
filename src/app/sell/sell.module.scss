@@ -60,6 +60,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1em;
+  width: calc(100%/3);
+  aspect-ratio: 1;
 }
 
 .product {
@@ -71,7 +73,7 @@
 }
 
 .orderSummary {
-  width: 300px;
+  width: 500px;
   background: #fff;
   padding: 1.5em; /* Added padding for better spacing */
   border-radius: 8px; /* Rounded corners */
@@ -85,6 +87,9 @@
 .orderSummary table {
   width: 100%;
   margin-bottom: 1em;
+}
+.orderItems {
+  padding: 1em;
 }
 
 .addItem {
