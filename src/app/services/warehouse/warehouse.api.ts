@@ -21,6 +21,7 @@ interface DeleteWarehouseResponse {
     message?: string;
 }
 
+// Get
 // Function to get the paginated warehouse list
 async function getWarehouseList(params: WarehouseListParams): Promise<WarehouseListResponse | null> {
     const url = `/warehouse/list?page=${params.page}&limit=${params.limit}`; // Phần này chưa rõ lắm
@@ -55,6 +56,7 @@ async function getWarehouseById(id: string): Promise<WarehouseGetResponse | null
     return null;
 }
 
+// Post
 async function addWarehouseEntry(params: IWarehouse): Promise<IWarehouseRespone | null> {
     const url = `/warehouse/add`; // Chưa có trang thêm sản phẩm
     const requestHeaders = {
@@ -76,7 +78,7 @@ async function addWarehouseEntry(params: IWarehouse): Promise<IWarehouseRespone 
 }
 
 
-
+// Put
 async function updateWarehouseEntry(id: string, params: IWarehouse): Promise<IWarehouseRespone| null> {
     const url = `/warehouse/update/${id}`; // Chưa có sửa sản phẩm also
     const requestHeaders = {
@@ -97,6 +99,7 @@ async function updateWarehouseEntry(id: string, params: IWarehouse): Promise<IWa
     return null;
 }
 
+// Delete
 // Function to delete a warehouse entry by ID
 async function deleteWarehouseEntry(id: string): Promise<DeleteWarehouseResponse | null> {
     const url = `/warehouse/delete/${id}`;
