@@ -39,3 +39,15 @@ export interface AddProductResponse {
     message: string;
     product?: string;
 }
+
+// Define the request structure for setting product availability
+export interface SetAvailabilityRequest {
+    id: string;
+    isAvailable: boolean;
+}
+
+// Define the response structure for setting product availability
+export interface SetAvailabilityResponse {
+    result: string;
+    message: string;
+}
