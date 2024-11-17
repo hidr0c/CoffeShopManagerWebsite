@@ -11,9 +11,12 @@ interface InputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
+  style?: any;
+  labelStyle?: any;
+  required?: boolean;
 }
 
-export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholder, type = "text" }) => {
+export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholder, type = "text", style , labelStyle, required}) => {
   const [inputValue, setInputValue] = React.useState(value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +25,8 @@ export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholde
   };
 
   return (
-    <div className={styles.inputContainer}>
-      <label className={styles.label}>{label}</label>
+    <div className={styles.inputContainer} style={style}>
+      <label className={styles.label} style={labelStyle}>{label}<span  style={{color:'#CF0000', marginLeft:'0.5em'}}>{required ? '(*)' : ''}</span></label>
       <input
         type={type}
         value={inputValue}

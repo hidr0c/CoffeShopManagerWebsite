@@ -21,6 +21,7 @@ interface TableProps {
   modalAddContent?: React.ReactNode,
   modalTitle?: string,
   addButtonTitle?: string,
+  modalStyle?: any,
 }
 
 interface TableRowProps {
@@ -44,7 +45,7 @@ interface TableBodyProps {
   children: React.ReactNode;
 }
 
-export function Table({ style = {}, children, pagination=false, preHeader=false, modalAddContent, modalTitle, addButtonTitle }: TableProps) {
+export function Table({ style = {}, children, pagination=false, preHeader=false, modalAddContent, modalTitle, addButtonTitle, modalStyle }: TableProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -90,7 +91,7 @@ export function Table({ style = {}, children, pagination=false, preHeader=false,
       />
     </div>}
 
-    <Modal isOpen={isModalOpen} onClose={closeModal} title={modalTitle} action={addButtonTitle}>
+    <Modal isOpen={isModalOpen} onClose={closeModal} title={modalTitle} action={addButtonTitle} style={modalStyle}>
         {modalAddContent}
     </Modal>
     </div>

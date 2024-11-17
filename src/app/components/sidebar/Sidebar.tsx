@@ -51,6 +51,18 @@ export default function Sidebar() {
         label='Bán hàng'
         href='/sell' />
       <SideBarItem
+        icon={<Image src={'/images/sidebar/statistic.png'}
+          width={20} height={20}
+          alt='Thực đơn'
+        />}
+        iconHover={<Image src={'/images/sidebar/statistic-hover.png'}
+          width={20} height={20}
+          alt='Thực đơn'
+        />
+        }
+        label='Thực đơn'
+        href='/menu' />
+      <SideBarItem
         icon={<Image src={'/images/sidebar/staff.png'}
           width={20} height={20}
           alt='Nhân viên'
