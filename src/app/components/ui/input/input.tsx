@@ -5,7 +5,7 @@
 import React from 'react';
 import styles from './input.module.scss';
 
-interface InputProps {
+export interface InputProps {
   label: string;
   value: any;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -14,29 +14,49 @@ interface InputProps {
   style?: any;
   labelStyle?: any;
   required?: boolean;
+  readOnly?: boolean;
 }
 
-export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholder, type = "text", style , labelStyle, required}) => {
+export const Input: React.FC<InputProps> = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  style,
+  labelStyle,
+  required,
+  readOnly, // Thêm readOnly vào destructuring
+}) => {
   const [inputValue, setInputValue] = React.useState(value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    onChange(e);
+    if (!readOnly) { // Chỉ thay đổi giá trị khi không ở chế độ readOnly
+      setInputValue(e.target.value);
+      onChange(e);
+    }
   };
 
   return (
     <div className={styles.inputContainer} style={style}>
-      <label className={styles.label} style={labelStyle}>{label}<span  style={{color:'#CF0000', marginLeft:'0.5em'}}>{required ? '(*)' : ''}</span></label>
+      <label className={styles.label} style={labelStyle}>
+        {label}
+        <span style={{ color: '#CF0000', marginLeft: '0.5em' }}>
+          {required ? '(*)' : ''}
+        </span>
+      </label>
       <input
         type={type}
         value={inputValue}
         onChange={handleChange}
         placeholder={placeholder}
         className={styles.input}
+        readOnly={readOnly} // Truyền thuộc tính readOnly vào đây
       />
     </div>
   );
 };
+
 
 
 interface SelectProps {
