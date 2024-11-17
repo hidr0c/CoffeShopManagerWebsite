@@ -50,6 +50,7 @@ export default function Sidebar() {
         }
         label='Bán hàng'
         href='/sell' />
+      
       <SideBarItem
         icon={<Image src={'/images/sidebar/statistic.png'}
           width={20} height={20}
@@ -74,6 +75,18 @@ export default function Sidebar() {
         }
         label='Nhân viên'
         href='/employee' />
+        <SideBarItem
+        icon={<Image src={'/images/sidebar/statistic.png'}
+          width={20} height={20}
+          alt='Hóa đơn'
+        />}
+        iconHover={<Image src={'/images/sidebar/statistic-hover.png'}
+          width={20} height={20}
+          alt='Hóa đơn'
+        />
+        }
+        label='Hóa đơn'
+        href='/invoice' />  
     </div>
   )
 }
