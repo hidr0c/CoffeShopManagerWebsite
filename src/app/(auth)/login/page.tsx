@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import { Input, Checkbox, message } from "antd"
 import AuthApi from "@services/auth";
 import { LoginParams } from "../../models/AuthModel";
+import AuthLayout from "@/components/auth/layout";
+
 
 export default function LoginPage() {
     const router = useRouter();
@@ -37,45 +39,47 @@ export default function LoginPage() {
     });
 
     return (
-        <div className={styles.loginWrapper}>
-            <form onSubmit={formik.handleSubmit} id={styles.loginForm}>
-                <label>
-                    Email
-                </label>
-                <Input
-                    name="email"
-                    type="email"
-                    placeholder="Nhập email"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    className={styles.inputField} />
-
-                <div className={styles.passwordTitleWrapper}>
-                    <label>Password</label>
-                    <a href="/forgot-password">Quên mật khẩu</a>
-                </div>
-                <Input.Password
-                    name="password"
-                    placeholder="Mật khẩu"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                    className={styles.inputField} />
-
-                <div className={styles.rememberWrapper}>
+        <AuthLayout>
+            <div className={styles.loginWrapper}>
+                <form onSubmit={formik.handleSubmit} id={styles.loginForm}>
+                    <label>
+                        Email
+                    </label>
                     <Input
-                        name="rememberMe"
+                        name="email"
+                        type="email"
+                        placeholder="Nhập email"
                         onChange={formik.handleChange}
-                        type="checkbox"
-                        id="rememberMe" />
-                    <label htmlFor="rememberMe">Nhớ tôi 30 ngày</label>
+                        value={formik.values.email}
+                        className={styles.inputField} />
+
+                    <div className={styles.passwordTitleWrapper}>
+                        <label>Password</label>
+                        <a href="/forgot-password">Quên mật khẩu</a>
+                    </div>
+                    <Input.Password
+                        name="password"
+                        placeholder="Mật khẩu"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        className={styles.inputField} />
+
+                    <div className={styles.rememberWrapper}>
+                        <Input
+                            name="rememberMe"
+                            onChange={formik.handleChange}
+                            type="checkbox"
+                            id="rememberMe" />
+                        <label htmlFor="rememberMe">Nhớ tôi 30 ngày</label>
+                    </div>
+
+                    <button type="submit" className={styles.loginButton}>Đăng nhập</button>
+                </form>
+
+                <div className={styles.signupWrapper}>
+                    <p>Chưa có tài khoản? <a href="/signup">Đăng ký</a></p>
                 </div>
-
-                <button type="submit" className={styles.loginButton}>Đăng nhập</button>
-            </form>
-
-            <div className={styles.signupWrapper}>
-                <p>Chưa có tài khoản? <a href="/signup">Đăng ký</a></p>
             </div>
-        </div>
+        </AuthLayout>
     );
 }

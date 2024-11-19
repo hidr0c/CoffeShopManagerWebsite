@@ -5,10 +5,10 @@ import { FaSort } from "react-icons/fa";
 import { Search } from '../search/search';
 import { Button } from '../button/button';
 import { FaPlus } from "react-icons/fa";
-import  {Pagination}  from '../pagination/pagination';
-import { useState,useEffect } from 'react';
-import Modal from '../modal/modal';
-import { Input, Select} from '../input/input'
+import { Pagination } from '../pagination/pagination';
+import { useState, useEffect } from 'react';
+import Modal, { ModalProps } from '../modal/modal';
+import { Input, Select } from '../input/input'
 
 
 
@@ -18,10 +18,8 @@ interface TableProps {
   preHeader?: boolean,
   pagination?: boolean,
   preHeaderName?: string,
-  modalAddContent?: React.ReactNode,
-  modalTitle?: string,
   addButtonTitle?: string,
-  modalStyle?: any,
+  addButtonAction?: () => void,
 }
 
 interface TableRowProps {
@@ -45,11 +43,14 @@ interface TableBodyProps {
   children: React.ReactNode;
 }
 
-export function Table({ style = {}, children, pagination=false, preHeader=false, modalAddContent, modalTitle, addButtonTitle, modalStyle }: TableProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+export function Table({
+  style = {},
+  children,
+  pagination = false,
+  preHeader = false,
+  addButtonTitle,
+  addButtonAction = () => { },
+}: TableProps) {
   const handlePageChange = () => {
 
 
@@ -61,39 +62,35 @@ export function Table({ style = {}, children, pagination=false, preHeader=false,
     <div className="">
       {preHeader && <div className={styles.preHeader}>
         <div className={styles.left}>
-            <span>Show</span>
-            <select name="" id="" className="">
-              <option value="" className="">10</option>
-              <option value="" className="">20</option>
-              <option value="" className="">50</option>
+          <span>Show</span>
+          <select name="" id="" className="">
+            <option value="" className="">10</option>
+            <option value="" className="">20</option>
+            <option value="" className="">50</option>
 
-            </select>
-            <span>entries</span>
-            <Search />
+          </select>
+          <span>entries</span>
+          <Search />
         </div>
         <div className={styles.right}>
-          <Button onClick={() => openModal()}>
+          <Button onClick={addButtonAction}>
             <>
-            <FaPlus />
-            {addButtonTitle}
+              <FaPlus />
+              {addButtonTitle}
             </>
           </Button>
         </div>
       </div>}
-       <table className={styles.table} style={style}>
-      {children}
-    </table>
-   {pagination && <div className={styles.pagination}>
-    <Pagination
-        currentPage={1}
-        totalPages={10}
-        onPageChange={handlePageChange}
-      />
-    </div>}
-
-    <Modal isOpen={isModalOpen} onClose={closeModal} title={modalTitle} action={addButtonTitle} style={modalStyle}>
-        {modalAddContent}
-    </Modal>
+      <table className={styles.table} style={style}>
+        {children}
+      </table>
+      {pagination && <div className={styles.pagination}>
+        <Pagination
+          currentPage={1}
+          totalPages={10}
+          onPageChange={handlePageChange}
+        />
+      </div>}
     </div>
 
   );
@@ -107,7 +104,7 @@ export function TableRow({ style = {}, children }: TableRowProps) {
   );
 }
 
-export function TableHead({ style = {}, children }:TableHeadProps) {
+export function TableHead({ style = {}, children }: TableHeadProps) {
   return (
     <thead className={styles.head} style={style}>
       {children}

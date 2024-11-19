@@ -36,7 +36,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, onAction, action
         <div className={styles.btnContainer}>
           <Button onClick={onClose}>Hủy</Button>
           {action && <Button onClick={onAction}>{action}</Button>}
-          {onSave && <Button onClick={onSave}>Save</Button>}
+          {onSave && <Button onClick={onSave}>Lưu</Button>}
         </div>
       </div>
     </div>
@@ -44,3 +44,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, onAction, action
 };
 
 export default Modal;
+export type { ModalProps };

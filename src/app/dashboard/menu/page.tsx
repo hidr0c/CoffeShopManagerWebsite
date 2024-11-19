@@ -1,8 +1,8 @@
 'use client'
 
 import styles from './menu.module.scss'
-import { Table, TableCell, TableHead, TableRow, TableBody } from "../components/ui/table/table";
-import Export from '../components/modal-content/export/export';
+import { Table, TableCell, TableHead, TableRow, TableBody } from "../../components/ui/table/table";
+import Export from '../../components/modal-content/export/export';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import AddDishModal from '@/components/modal-content/add-menu/addMenu';
 
@@ -50,7 +50,7 @@ export default function Menu() {
       <div className="" style={{ margin: '2em 0' }}>
         <Table style={{ borderRadius: '0px' }} preHeader={true} pagination={true}
           modalAddContent={<AddDishModal />}
-          modalStyle={{width:'60vw'}}
+          modalStyle={{ width: '60vw' }}
           modalTitle={'Thêm món vào thực đơn'} addButtonTitle="Thêm món"
         >
           <TableHead style={{ background: 'white' }}>

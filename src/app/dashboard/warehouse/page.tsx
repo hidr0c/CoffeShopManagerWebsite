@@ -3,12 +3,12 @@
 
 import { useState, useEffect } from "react";
 import styles from "./warehouse.module.scss";
-import { Table, TableCell, TableHead, TableRow, TableBody } from "../components/ui/table/table";
-import Import from "../components/modal-content/import/import";
+import { Table, TableCell, TableHead, TableRow, TableBody } from "../../components/ui/table/table";
+import Import from "../../components/modal-content/import/import";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import Modal from "../components/ui/modal/modal";
-import { Input, Select } from "../components/ui/input/input";
-import WarehouseApi from "../services/warehouse";
+import Modal from "../../components/ui/modal/modal";
+import { Input, Select } from "../../components/ui/input/input";
+import WarehouseApi from "../../services/warehouse";
 import { IWarehouse, IWarehouseItem } from "@services/warehouse";
 
 export default function WareHouse() {
@@ -72,6 +72,7 @@ export default function WareHouse() {
   };
 
   const handleSave = async () => {
+    console.log("Save", name, quant, ingredientType, date, id);
     const entry: IWarehouse = {
       customerName: "Default Customer", // Replace with actual value
       phoneNumber: "000-000-0000", // Replace with actual value
@@ -110,9 +111,13 @@ export default function WareHouse() {
           style={{ borderRadius: "0px" }}
           preHeader={true}
           pagination={true}
-          modalAddContent={<Import />}
-          modalTitle={"Thêm phiếu nhập kho"}
           addButtonTitle="Thêm phiếu nhập"
+          addButtonAction={openModal}
+        // modalChildren={<Import />}
+        // modalOptions={{
+        //   action: "Thêm phiếu nhập",
+        //   title: "Thêm phiếu nhập kho",
+        // }}
         >
           <TableHead style={{ background: "white" }}>
             <TableRow>
@@ -162,26 +167,9 @@ export default function WareHouse() {
         isOpen={isModalOpen}
         onClose={closeModal}
         onSave={handleSave}
-        style={{ width: "50vw", background: "#FFCC99" }}
+      // style={{ width: "50vw", background: "#FFCC99" }}
       >
-        <Input label="Tên sản phẩm" value={name} onChange={(e) => setName(e.target.value)} />
-        <Input
-          label="Số lượng tồn"
-          value={quant}
-          type="number"
-          onChange={(e) => setQuant(Number(e.target.value))}
-        />
-        <Select
-          label="Loại nguyên liệu"
-          options={Object.keys(ingredientTypeMapping).map((key) => ({
-            value: key,
-            label: key,
-          }))}
-          value={ingredientType}
-          onChange={(e) => handleIngredientTypeChange(e.target.value)}
-        />
-        <Input label="Ngày tháng" value={date} readOnly onChange={() => {}} /> {/* Add onChange */}
-        <Input label="ID" value={id} readOnly onChange={() => {}} /> {/* Add onChange */}
+        <Import></Import>
       </Modal>
     </div>
   );
