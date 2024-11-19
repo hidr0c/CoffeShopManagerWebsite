@@ -8,26 +8,35 @@ import { Button } from '../button/button';
 
 // modal.tsx (or wherever your Modal component is defined)
 
+// modal.tsx
+
+// modal.tsx
+
 interface ModalProps {
+  style?: React.CSSProperties;
   title: string;
   isOpen: boolean;
   onClose: () => void;
-  onSave?: () => void; // Add this line
-  style?: React.CSSProperties;
+  onSave?: () => void;
   children: React.ReactNode;
+  action?: string;
+  onAction?: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose, onSave, style, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, onAction, action, title, children, style }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal" style={style}>
-      <div className="modal-content">
-        <h2>{title}</h2>
-        {children}
-        <div className="modal-actions">
-          <button onClick={onClose}>Close</button>
-          {onSave && <button onClick={onSave}>Save</button>} {/* Add this line */}
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()} style={style}>
+        {title && <h2 className={styles.modalTitle}>{title}</h2>}
+        <div className={styles.modalBody}>
+          {children}
+        </div>
+        <div className={styles.btnContainer}>
+          <Button onClick={onClose}>Hủy</Button>
+          {action && <Button onClick={onAction}>{action}</Button>}
+          {onSave && <Button onClick={onSave}>Save</Button>}
         </div>
       </div>
     </div>
