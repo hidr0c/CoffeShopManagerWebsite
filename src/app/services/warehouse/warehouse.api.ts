@@ -1,5 +1,5 @@
 import Api from "../api";
-import { IWarehouseRespone, IWarehouseItem, IWarehouse  } from "./warehouse.type";
+import { IWarehouseRespone, IWarehouseItem, IWarehouse } from "./warehouse.type";
 
 // Define parameters and response types for warehouse list
 interface WarehouseListParams {
@@ -10,9 +10,9 @@ interface WarehouseListParams {
 interface WarehouseListResponse extends IWarehouseRespone {
     exports: IWarehouseItem[];
 }
-// Hơi BS nên không rõ lắm :^)
+
 interface WarehouseGetResponse extends IWarehouseRespone {
-    exportItem: IWarehouse; 
+    exportItem: IWarehouse;
 }
 
 interface DeleteWarehouseResponse {
@@ -21,10 +21,9 @@ interface DeleteWarehouseResponse {
     message?: string;
 }
 
-// Get
 // Function to get the paginated warehouse list
-async function getWarehouseList(params: WarehouseListParams): Promise<WarehouseListResponse | null> {
-    const url = `/warehouse/list?page=${params.page}&limit=${params.limit}`; // Phần này chưa rõ lắm
+export async function getWarehouseList(params: WarehouseListParams): Promise<WarehouseListResponse | null> {
+    const url = `/warehouse/list?page=${params.page}&limit=${params.limit}`;
 
     try {
         const response = await Api.get<WarehouseListResponse>(url);
@@ -40,7 +39,7 @@ async function getWarehouseList(params: WarehouseListParams): Promise<WarehouseL
 }
 
 // Function to get warehouse details by ID
-async function getWarehouseById(id: string): Promise<WarehouseGetResponse | null> {
+export async function getWarehouseById(id: string): Promise<WarehouseGetResponse | null> {
     const url = `/warehouse/get/${id}`;
 
     try {
@@ -56,9 +55,9 @@ async function getWarehouseById(id: string): Promise<WarehouseGetResponse | null
     return null;
 }
 
-// Post
-async function addWarehouseEntry(params: IWarehouse): Promise<IWarehouseRespone | null> {
-    const url = `/warehouse/add`; // Chưa có trang thêm sản phẩm
+// Function to add a new warehouse entry
+export async function addWarehouseEntry(params: IWarehouse): Promise<IWarehouseRespone | null> {
+    const url = `/warehouse/add`;
     const requestHeaders = {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
@@ -77,10 +76,9 @@ async function addWarehouseEntry(params: IWarehouse): Promise<IWarehouseRespone 
     return null;
 }
 
-
-// Put
-async function updateWarehouseEntry(id: string, params: IWarehouse): Promise<IWarehouseRespone| null> {
-    const url = `/warehouse/update/${id}`; // Chưa có sửa sản phẩm also
+// Function to update an existing warehouse entry
+export async function updateWarehouseEntry(id: string, params: IWarehouse): Promise<IWarehouseRespone | null> {
+    const url = `/warehouse/update/${id}`;
     const requestHeaders = {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
@@ -99,15 +97,13 @@ async function updateWarehouseEntry(id: string, params: IWarehouse): Promise<IWa
     return null;
 }
 
-// Delete
 // Function to delete a warehouse entry by ID
-async function deleteWarehouseEntry(id: string): Promise<DeleteWarehouseResponse | null> {
+export async function deleteWarehouseEntry(id: string): Promise<DeleteWarehouseResponse | null> {
     const url = `/warehouse/delete/${id}`;
     
     try {
         const response = await Api.delete<DeleteWarehouseResponse>(url);
         
-        // Check if the response indicates success
         if (response.data && response.data.result === "success") {
             return response.data;
         } else if (response.data && response.data.result === "error") {
@@ -121,14 +117,13 @@ async function deleteWarehouseEntry(id: string): Promise<DeleteWarehouseResponse
     return null;
 }
 
-
+// Export all functions as part of WarehouseApi
 const WarehouseApi = {
     addWarehouseEntry,
     updateWarehouseEntry,
-    deleteWarehouseEntry 
-}
+    deleteWarehouseEntry,
+    getWarehouseList,
+    getWarehouseById
+};
 
-// Export the function
 export default WarehouseApi;
-export { getWarehouseList };
-export type { WarehouseListParams, WarehouseListResponse, WarehouseGetResponse, DeleteWarehouseResponse};
