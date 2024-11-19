@@ -6,32 +6,29 @@ import React from 'react';
 import styles from './modal.module.scss'; // Create your own styles as needed
 import { Button } from '../button/button';
 
+// modal.tsx (or wherever your Modal component is defined)
+
 interface ModalProps {
-  style?: any,
+  title: string;
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
+  onSave?: () => void; // Add this line
+  style?: React.CSSProperties;
   children: React.ReactNode;
-  action?:string;
-  onAction?: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onAction, action, title, children,style }) => {
+const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose, onSave, style, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}  style={style}>
-        {title && <h2 className={styles.modalTitle}>{title}</h2>}
-        <div className={styles.modalBody}>
-          {children}
+    <div className="modal" style={style}>
+      <div className="modal-content">
+        <h2>{title}</h2>
+        {children}
+        <div className="modal-actions">
+          <button onClick={onClose}>Close</button>
+          {onSave && <button onClick={onSave}>Save</button>} {/* Add this line */}
         </div>
-        <div className={styles.btnContainer}>
-        <Button onClick={onClose}>Hủy</Button>
-        {action && <Button onClick={onAction}>{action}</Button>}
-
-        </div>
-
       </div>
     </div>
   );

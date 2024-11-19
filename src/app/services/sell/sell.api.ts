@@ -97,5 +97,5 @@ const SellAPI = {
     deleteSellItem 
 }
 // Export the function and types correctly for isolatedModules
-export { SellAPI };
+export default SellAPI ;
 export type { SellListParams, SellListResponse, SellItem, AddSellItemResponse, DeleteSellItemResponse};

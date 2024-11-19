@@ -7,7 +7,8 @@ import Import from "../components/modal-content/import/import";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import Modal from "../components/ui/modal/modal";
 import { Input, Select } from "../components/ui/input/input";
-import WarehouseApi from "@services/warehouse";
+import WarehouseApi from "../services/warehouse";
+import { IWarehouse, IWarehouseItem } from "@services/warehouse";
 
 export default function WareHouse() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,7 +71,20 @@ export default function WareHouse() {
   };
 
   const handleSave = async () => {
-    const entry = { name, quant, ingredientType, date, id };
+    const entry: IWarehouse = {
+      customerName: "Default Customer", // Replace with actual value
+      phoneNumber: "000-000-0000", // Replace with actual value
+      importDate: new Date().toISOString(), // Replace with actual value
+      values: [
+        {
+          name,
+          price: 0, // Replace with actual value
+          quant: typeof quant === "string" ? parseInt(quant) : quant,
+          unit: "kg" // Replace with actual value
+        }
+      ]
+    };
+
     if (editingId) {
       // Update existing entry
       await WarehouseApi.updateWarehouseEntry(editingId, entry);
@@ -165,8 +179,8 @@ export default function WareHouse() {
           value={ingredientType}
           onChange={(e) => handleIngredientTypeChange(e.target.value)}
         />
-        <Input label="Ngày tháng" value={date} readOnly />
-        <Input label="ID" value={id} readOnly />
+        <Input label="Ngày tháng" value={date} readOnly onChange={() => {}} /> {/* Add onChange */}
+        <Input label="ID" value={id} readOnly onChange={() => {}} /> {/* Add onChange */}
       </Modal>
     </div>
   );
