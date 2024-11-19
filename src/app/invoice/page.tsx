@@ -64,8 +64,9 @@ export default function Invoice() {
       <div className="" style={{ margin: "2em 0" }}>
         <Table
           style={{ borderRadius: "0px" }}
-          preHeader={false}
+          preHeader={true}
           pagination={true}
+          addButtonTitle="Thêm hóa đơn"
         >
           <TableHead style={{ background: "white" }}>
             <TableRow>
