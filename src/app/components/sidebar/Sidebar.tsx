@@ -25,7 +25,7 @@ export default function Sidebar() {
         />
         }
         label='Trang chủ'
-        href='/' />
+        href='/dashboard/' />
       <SideBarItem
         icon={<Image src={'/images/sidebar/warehouse.png'}
           width={20} height={20}
@@ -37,7 +37,7 @@ export default function Sidebar() {
         />
         }
         label='Kho hàng'
-        href='/warehouse' />
+        href='/dashboard/warehouse' />
       <SideBarItem
         icon={<Image src={'/images/sidebar/statistic.png'}
           width={20} height={20}
@@ -49,8 +49,8 @@ export default function Sidebar() {
         />
         }
         label='Bán hàng'
-        href='/sell' />
-      
+        href='/dashboard/sell' />
+
       <SideBarItem
         icon={<Image src={'/images/sidebar/statistic.png'}
           width={20} height={20}
@@ -62,7 +62,7 @@ export default function Sidebar() {
         />
         }
         label='Thực đơn'
-        href='/menu' />
+        href='/dashboard/menu' />
       <SideBarItem
         icon={<Image src={'/images/sidebar/staff.png'}
           width={20} height={20}
@@ -74,8 +74,8 @@ export default function Sidebar() {
         />
         }
         label='Nhân viên'
-        href='/employee' />
-        <SideBarItem
+        href='/dashboard/employee' />
+      <SideBarItem
         icon={<Image src={'/images/sidebar/statistic.png'}
           width={20} height={20}
           alt='Hóa đơn'
@@ -86,7 +86,7 @@ export default function Sidebar() {
         />
         }
         label='Hóa đơn'
-        href='/invoice' />  
+        href='/dashboard/invoice' />
     </div>
   )
 }
