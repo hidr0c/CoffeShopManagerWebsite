@@ -1,6 +1,6 @@
 import styles from './warehouse.module.scss'
-import { Table, TableCell, TableHead, TableRow, TableBody } from "../../components/ui/table/table";
-import SupplierForm from '../../components/modal-content/supplier/supplier';
+import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
+import SupplierForm from '@components/modal-content/supplier/supplier';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
 export default function Supplier() {

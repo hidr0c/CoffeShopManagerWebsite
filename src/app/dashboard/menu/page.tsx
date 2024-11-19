@@ -1,8 +1,8 @@
 'use client'
 
 import styles from './menu.module.scss'
-import { Table, TableCell, TableHead, TableRow, TableBody } from "../../components/ui/table/table";
-import Export from '../../components/modal-content/export/export';
+import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
+import Export from '@components/modal-content/export/export';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import AddDishModal from '@/components/modal-content/add-menu/addMenu';
 

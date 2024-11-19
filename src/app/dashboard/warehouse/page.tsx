@@ -3,11 +3,11 @@
 
 import { useState, useEffect } from "react";
 import styles from "./warehouse.module.scss";
-import { Table, TableCell, TableHead, TableRow, TableBody } from "../../components/ui/table/table";
-import Import from "../../components/modal-content/import/import";
+import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
+import Import from "@components/modal-content/import/import";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import Modal from "../../components/ui/modal/modal";
-import { Input, Select } from "../../components/ui/input/input";
+import Modal from "@components/ui/modal/modal";
+import { Input, Select } from "@components/ui/input/input";
 import WarehouseApi from "../../services/warehouse";
 import { IWarehouse, IWarehouseItem } from "@services/warehouse";
 

@@ -10,7 +10,10 @@
       ],
       "@services/*": [
         "./src/app/services/*"
-      ]
+      ],
+      "@components/*": [
+        "./src/app/components/*"
+      ],
     },
     "lib": [
       "dom",
