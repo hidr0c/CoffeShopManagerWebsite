@@ -13,13 +13,16 @@ import { Input, Select } from '../input/input'
 
 
 interface TableProps {
-  style?: any;
+  style?: React.CSSProperties; // Use React's CSSProperties for better type safety
   children: React.ReactNode;
-  preHeader?: boolean,
-  pagination?: boolean,
-  preHeaderName?: string,
-  addButtonTitle?: string,
-  addButtonAction?: () => void,
+  preHeader?: boolean;
+  pagination?: boolean;
+  preHeaderName?: string;
+  addButtonTitle?: string;
+  addButtonAction?: () => void;
+  modalAddContent?: React.ReactNode; // Property to pass modal content
+  modalStyle?: React.CSSProperties; // Optional custom style for the modal
+  modalTitle?: string; // Optional title for the modal
 }
 
 interface TableRowProps {
