@@ -98,61 +98,54 @@ export default function Employee() {
     closeModal();
   };
 
-  const handleDelete = async (id: string) => {
-    await EmployeeApi.deleteEmployee(id);
+  const handleDelete = async (id: number) => {
+    await EmployeeApi.deleteEmployee(id.toString());
     fetchEmployeeList();
   };
 
-
   return (
-    <div className="">
-      <h1 className="title">NHÂN VIÊN</h1>
-      <div className="" style={{ margin: '2em 0' }}>
-        <Table
-          style={{ borderRadius: '0px' }}
-          preHeader={true}
-          pagination={true}
-          addButtonAction={openModal}
-          addButtonTitle="Thêm nhân viên">
-          <TableHead style={{ background: 'white' }}>
-            <TableRow>
-              <TableCell>Mã nhân viên</TableCell>
-              <TableCell>Tên nhân viên</TableCell>
-              <TableCell>Ngày tháng năm</TableCell>
-              <TableCell>Giới tính</TableCell>
-              <TableCell>Địa chỉ</TableCell>
-              <TableCell>SĐT</TableCell>
-              <TableCell>Chỉnh sửa</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {employees.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.birthDate}</TableCell>
-                <TableCell>{item.sex}</TableCell>
-                <TableCell>{item.address}</TableCell>
-                <TableCell>{item.phone}</TableCell>
-                <TableCell>
-                  <div className="" style={{ display: 'flex', gap: '1em' }}>
-                    <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
-                      <FaRegTrashAlt />
-                    </div>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      <Modal
-        title="Thêm nhân viên"
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onSave={handleSave}>
-       <Import onDataChange={setFormData} initialData={formData} />
-      </Modal>
+    <div>
+      <h1>NHÂN VIÊN</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Mã nhân viên</th>
+            <th>Tên nhân viên</th>
+            <th>Ngày tháng năm</th>
+            <th>Giới tính</th>
+            <th>Địa chỉ</th>
+            <th>SĐT</th>
+            <th>Chỉnh sửa</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map((item) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>{item.birthDate}</td>
+              <td>{item.sex}</td>
+              <td>{item.address}</td>
+              <td>{item.phone}</td>
+              <td>
+                <button onClick={() => openModal(item)}>Edit</button>
+                <button onClick={() => handleDelete(item.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {isModalOpen && (
+        <Modal title="Employee Form" isOpen={isModalOpen} onClose={closeModal}>
+    <EmployeeForm
+      employee={formData || { name: '', birthDate: '', sex: 'Nam', address: '', phone: '', password: '',isActive: false, isVerified:false, isFirstTime: true,checkins: []    }}
+      onChange={(field, value) => {
+        setFormData((prev) => ({ ...prev, [field]: value }));
+      }}
+      onSave={handleSave}
+    />
+  </Modal>
+      )}
     </div>
   );
 }
