@@ -1,80 +1,110 @@
-"use client"
+"use client";
 
-import { Table, TableCell, TableHead, TableRow, TableBody } from "@ui/table/table";
-import { Input, Select } from '@ui/input/input'
+import { useState, ChangeEvent } from "react";
+import {
+  Table,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableBody,
+} from "@ui/table/table";
+import { Input, Select } from "@ui/input/input";
 import { Button } from "@ui/button/button";
-import { useState } from "react";
 
 export default function EmployeeForm() {
-  const data = [ //Mock data
+  const data = [
+    // Mock data
     {
-      name: 'Hat',
+      name: "Hat",
       price: 300000,
       quant: 30,
-      unit: 'Thùng',
+      unit: "Thùng",
     },
     {
-      name: 'Hat',
+      name: "Hat",
       price: 300000,
       quant: 30,
-      unit: 'Thùng',
+      unit: "Thùng",
     },
     {
-      name: 'Hat',
+      name: "Hat",
       price: 300000,
       quant: 30,
-      unit: 'Thùng',
+      unit: "Thùng",
     },
     {
-      name: 'Hat',
+      name: "Hat",
       price: 300000,
       quant: 30,
-      unit: 'Thùng',
-    }
-  ]
-  const [name, setName] = useState('');
-  const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('Nam');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
+      unit: "Thùng",
+    },
+  ];
 
-  const handleSelect = (value) => {
-    setGender(value);
+  const [name, setName] = useState("");
+  const [dob, setDob] = useState("");
+  const [gender, setGender] = useState("Nam");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setGender(e.target.value);
   };
 
   return (
-    <div className="" style={{ margin: '0 0 2em 0' }}>
+    <div>
       <Input
-        label='Tên nhân viên'
+        label="Tên nhân viên"
         value={name}
-        onChange={(e) => setName(e.target.value)} // Cập nhật state cho Tên nhân viên
+        onChange={(e) => setName(e.target.value)}
       />
       <Input
-        label='Ngày sinh'
-        type='date'
+        label="Ngày sinh"
         value={dob}
-        onChange={(e) => setDob(e.target.value)} // Cập nhật state cho Ngày sinh
+        onChange={(e) => setDob(e.target.value)}
       />
       <Select
         label="Giới tính"
         value={gender}
+        onChange={handleSelect}
         options={[
-          { value: 'Nam', label: 'Nam' },
-          { value: 'Nữ', label: 'Nữ' }
+          { label: "Nam", value: "Nam" },
+          { label: "Nữ", value: "Nữ" },
         ]}
-        onChange={(e) => handleSelect(e.target.value)} // Cập nhật state cho Giới tính
       />
       <Input
-        label='Địa chỉ'
+        label="Địa chỉ"
         value={address}
-        onChange={(e) => setAddress(e.target.value)} // Cập nhật state cho Địa chỉ
+        onChange={(e) => setAddress(e.target.value)}
       />
       <Input
-        label='SĐT'
+        label="SĐT"
         value={phone}
-        onChange={(e) => setPhone(e.target.value)} // Cập nhật state cho SĐT
+        onChange={(e) => setPhone(e.target.value)}
       />
-    </div>
-  )
-}
+      <Button onClick={() => console.log({ name, dob, gender, address, phone })}>
+        Submit
+      </Button>
 
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Tên</TableCell>
+            <TableCell>Giá</TableCell>
+            <TableCell>Số lượng</TableCell>
+            <TableCell>Đơn vị</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.price}</TableCell>
+              <TableCell>{item.quant}</TableCell>
+              <TableCell>{item.unit}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}

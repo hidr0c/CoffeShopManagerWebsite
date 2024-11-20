@@ -1,31 +1,18 @@
-// components/Select.tsx
-
-"use client";
-
-import React from 'react';
-import styles from './input.module.scss';
+import React, { ChangeEvent } from 'react';
 
 interface SelectProps {
   label: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: { value: string; label: string }[];
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  children: React.ReactNode;
 }
 
-const Select: React.FC<SelectProps> = ({ label, value, onChange, options }) => {
+const Select: React.FC<SelectProps> = ({ label, value, onChange, children }) => {
   return (
-    <div className={styles.inputContainer}>
-      <label className={styles.label}>{label}</label>
-      <select
-        value={value}
-        onChange={onChange}
-        className={styles.select}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+    <div>
+      <label>{label}</label>
+      <select value={value} onChange={onChange}>
+        {children}
       </select>
     </div>
   );
