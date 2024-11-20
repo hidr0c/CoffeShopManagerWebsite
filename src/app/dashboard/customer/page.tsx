@@ -1,3 +1,4 @@
+"use client"
 import styles from './warehouse.module.scss'
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import CustomerForm from '@components/modal-content/customer/customer';

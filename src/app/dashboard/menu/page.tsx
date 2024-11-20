@@ -49,13 +49,9 @@ export default function Menu() {
 
   return (
     <div className="">
-      <div className="" style={{ margin: '2em 0' }}>
-        <Table style={{ borderRadius: '0px' }} preHeader={true} pagination={true}
-          modalAddContent={<AddDishModal />}
-          modalStyle={{ width: '60vw' }}
-          modalTitle={'Thêm món vào thực đơn'} addButtonTitle="Thêm món"
-        >
-          <TableHead style={{ background: 'white' }}>
+      <div className="" style={{ margin: "2em 0" }}>
+        <Table style={{ borderRadius: "0px" }} preHeader={true} pagination={true}>
+          <TableHead style={{ background: "white" }}>
             <TableRow>
               <TableCell>STT</TableCell>
               <TableCell>ID</TableCell>
@@ -76,9 +72,14 @@ export default function Menu() {
                 <TableCell>{item.date}</TableCell>
                 <TableCell>{item.quant}</TableCell>
                 <TableCell>
-                  <div className="" style={{ display: 'flex', gap: '1em' }}>
-                    <div className="" style={{ color: '#624DE3', cursor: 'pointer' }} ><FaRegEdit /></div>
-                    <div style={{ color: '#A30D11', cursor: 'pointer' }}>
+                  <div className="" style={{ display: "flex", gap: "1em" }}>
+                    <div
+                      className=""
+                      style={{ color: "#624DE3", cursor: "pointer" }}
+                    >
+                      <FaRegEdit />
+                    </div>
+                    <div style={{ color: "#A30D11", cursor: "pointer" }}>
                       <FaRegTrashAlt />
                     </div>
                   </div>
@@ -87,6 +88,11 @@ export default function Menu() {
             ))}
           </TableBody>
         </Table>
+        <div style={{ width: "60vw" }}>
+          <h3>Thêm món vào thực đơn</h3>
+          <AddDishModal />
+          <button>Thêm món</button>
+        </div>
       </div>
     </div>
   );

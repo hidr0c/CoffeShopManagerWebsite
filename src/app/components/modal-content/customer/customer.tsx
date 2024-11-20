@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Input, Select } from '@ui/input/input';
 import { Button } from "@ui/button/button";
+import CustomerApi from "@services/Customer";
 
 export default function CustomerForm() {
   // Khởi tạo state cho từng trường
