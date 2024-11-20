@@ -77,14 +77,14 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>
                   <Input
-                    style={{ "grid-template-columns": "unset" }}
+                    style={{ gridTemplateColumns: "unset" }}
                     value={item.name}
                     onChange={(e) => updateItem(index, 'name', e.target.value)}
                   />
                 </TableCell>
                 <TableCell>
                   <Input
-                    style={{ "grid-template-columns": "unset" }}
+                    style={{ gridTemplateColumns: "unset" }}
                     type="number"
                     value={item.quant}
                     onChange={(e) => updateItem(index, 'quant', Number(e.target.value))}
@@ -92,7 +92,7 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
                 </TableCell>
                 <TableCell>
                   <Select
-                    style={{ "grid-template-columns": "unset" }}
+                    style={{ gridTemplateColumns: "unset" }}
                     value={item.unit}
                     options={[{ value: 'Thùng', label: 'Thùng' }, { value: 'Kg', label: 'Kg' }]}
                     onChange={(e) => updateItem(index, 'unit', e.target.value)}
@@ -100,7 +100,7 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
                 </TableCell>
                 <TableCell>
                   <Input
-                    style={{ "grid-template-columns": "unset" }}
+                    style={{ gridTemplateColumns: "unset" }}
                     type="number"
                     value={item.price}
                     onChange={(e) => updateItem(index, 'price', Number(e.target.value))}
