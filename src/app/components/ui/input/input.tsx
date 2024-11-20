@@ -6,7 +6,7 @@ import React from 'react';
 import styles from './input.module.scss';
 
 export interface InputProps {
-  label: string;
+  label?: string;
   value: any;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -40,12 +40,14 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <div className={styles.inputContainer} style={style}>
-      <label className={styles.label} style={labelStyle}>
-        {label}
-        <span style={{ color: '#CF0000', marginLeft: '0.5em' }}>
-          {required ? '(*)' : ''}
-        </span>
-      </label>
+      {label && (
+        <label className={styles.label} style={labelStyle}>
+          {label}
+          <span style={{ color: '#CF0000', marginLeft: '0.5em' }}>
+            {required ? '(*)' : ''}
+          </span>
+        </label>
+      )}
       <input
         type={type}
         value={inputValue}
@@ -61,7 +63,7 @@ export const Input: React.FC<InputProps> = ({
 
 
 interface SelectProps {
-  label: string;
+  label?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: { value: string; label: string }[];
@@ -70,7 +72,7 @@ interface SelectProps {
 export const Select: React.FC<SelectProps> = ({ label, value, onChange, options }) => {
   return (
     <div className={styles.inputContainer}>
-      <label className={styles.label}>{label}</label>
+      {label && <label className={styles.label}>{label}</label>}
       <select
         value={value}
         onChange={onChange}

@@ -13,13 +13,9 @@ import { IWarehouse, IWarehouseItem } from "@services/warehouse";
 
 export default function WareHouse() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [quant, setQuant] = useState<number | string>(0);
-  const [ingredientType, setIngredientType] = useState("Hạt cà phê");
-  const [date, setDate] = useState("");
-  const [id, setId] = useState("");
   const [data, setData] = useState<any[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [formData, setFormData] = useState<IWarehouse | null>(null);
 
   const ingredientTypeMapping: Record<string, string> = {
     "Hạt cà phê": "HCF",
@@ -30,7 +26,7 @@ export default function WareHouse() {
 
   // Fetch warehouse data
   const fetchWarehouseList = async () => {
-    const response = await WarehouseApi.getWarehouseList({ page: 1, limit: 10 }); // Adjust pagination
+    const response = await WarehouseApi.getWarehouseList({ page: 1, limit: 10 });
     if (response && response.exports) {
       setData(response.exports);
     }
@@ -42,57 +38,38 @@ export default function WareHouse() {
 
   const openModal = (item?: any) => {
     if (item) {
-      setEditingId(item.id); // Set for editing
-      setName(item.ingredient);
-      setQuant(item.quant);
-      setIngredientType(item.ingredientType);
-      setDate(item.date);
-      setId(item.id);
+      setEditingId(item.id);
+      const editData: IWarehouse = {
+        customerName: item.supplier || '',
+        phoneNumber: item.phoneNumber || '',
+        importDate: item.date || '',
+        values: [{
+          name: item.ingredient,
+          price: item.price || 0,
+          quant: item.quant || 0,
+          unit: item.unit || 'Thùng'
+        }]
+      };
+      setFormData(editData);
     } else {
-      // Default values for new entry
-      setDate(new Date().toLocaleString("vi-VN", { hour12: false }));
-      setIngredientType("Hạt cà phê");
-      const prefix = ingredientTypeMapping["Hạt cà phê"];
-      const count = Math.floor(Math.random() * 1000) + 1;
-      setId(`${prefix}${count.toString().padStart(3, "0")}`);
+      setFormData(null);
     }
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setEditingId(null); // Reset editing state
+    setEditingId(null);
   };
 
-  const handleIngredientTypeChange = (value: string) => {
-    setIngredientType(value);
-    const prefix = ingredientTypeMapping[value] || "UNK";
-    const count = Math.floor(Math.random() * 1000) + 1;
-    setId(`${prefix}${count.toString().padStart(3, "0")}`);
-  };
 
   const handleSave = async () => {
-    console.log("Save", name, quant, ingredientType, date, id);
-    const entry: IWarehouse = {
-      customerName: "Default Customer", // Replace with actual value
-      phoneNumber: "000-000-0000", // Replace with actual value
-      importDate: new Date().toISOString(), // Replace with actual value
-      values: [
-        {
-          name,
-          price: 0, // Replace with actual value
-          quant: typeof quant === "string" ? parseInt(quant) : quant,
-          unit: "kg" // Replace with actual value
-        }
-      ]
-    };
+    if (!formData) return;
 
     if (editingId) {
-      // Update existing entry
-      await WarehouseApi.updateWarehouseEntry(editingId, entry);
+      await WarehouseApi.updateWarehouseEntry(editingId, formData);
     } else {
-      // Add new entry
-      await WarehouseApi.addWarehouseEntry(entry);
+      await WarehouseApi.addWarehouseEntry(formData);
     }
     fetchWarehouseList();
     closeModal();
@@ -113,11 +90,6 @@ export default function WareHouse() {
           pagination={true}
           addButtonTitle="Thêm phiếu nhập"
           addButtonAction={openModal}
-        // modalChildren={<Import />}
-        // modalOptions={{
-        //   action: "Thêm phiếu nhập",
-        //   title: "Thêm phiếu nhập kho",
-        // }}
         >
           <TableHead style={{ background: "white" }}>
             <TableRow>
@@ -166,10 +138,8 @@ export default function WareHouse() {
         title={editingId ? "Chỉnh sửa kho hàng" : "Thêm mới kho hàng"}
         isOpen={isModalOpen}
         onClose={closeModal}
-        onSave={handleSave}
-      // style={{ width: "50vw", background: "#FFCC99" }}
-      >
-        <Import></Import>
+        onSave={handleSave}>
+        <Import onDataChange={setFormData} initialData={formData} />
       </Modal>
     </div>
   );
