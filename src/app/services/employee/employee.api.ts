@@ -77,7 +77,7 @@ interface EmployeeCountResponse {
   
 // GET
 // Function to get the paginated employee list
-async function getEmployeeList(params: EmployeeListParams): Promise<EmployeeListResponse | null> {
+export async function getEmployeeList(params: EmployeeListParams): Promise<EmployeeListResponse | null> {
   const url = `/employee/list?page=${params.page}&limit=${params.limit}`;
 
   try {
@@ -282,7 +282,6 @@ const EmployeeApi = {
 
 // Export the functions and types
 export default EmployeeApi;
-export { getEmployeeList, getEmployeeById };
 export type {
   EmployeeListParams,
   EmployeeListResponse,

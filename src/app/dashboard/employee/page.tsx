@@ -3,12 +3,18 @@
 import styles from './employee.module.scss';
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import EmployeeForm from '@components/modal-content/employee/employee';
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import Modal from '@/components/ui/modal/modal';
 import { useState } from 'react';
+import EmployeeApi, { IEmployee } from '@/services/employee';
+import {useEffect } from "react";
+import Import from '@/components/modal-content/import/import';
 
 export default function Employee() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState<any[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [formData, setFormData] = useState<IEmployee | null>(null);
   const [employees, setEmployees] = useState([
     {
       id: 1,
@@ -37,34 +43,66 @@ export default function Employee() {
     phone: '',
   });
 
-  // Mở modal và reset nhân viên mới
-  const openModal = () => {
-    setIsModalOpen(true);
-    setNewEmployee({
-      name: '',
-      birthDate: '',
-      sex: 'Nam',
-      address: '',
-      phone: '',
-    });
+  const fetchEmployeeList = async () => {
+    const response = await EmployeeApi.getEmployeeList({ page: 1, limit: 10 });
+    if (response && response.employees) {
+      setData(response.employees);
+    }
   };
+
+  useEffect(() => {
+    fetchEmployeeList();
+  }, []);
+
+  // Mở modal và reset nhân viên mới
+    // Open modal for add or edit
+    const openModal = (item?: any) => {
+      if (item) {
+        setEditingId(item.id);
+        const editData: IEmployee = {
+          name: item.name || '',
+          email: item.email || '',
+          phoneNumber: item.phoneNumber || '',
+          role:item.role || '',
+          password: item.password || '',
+          isActive: item.isActive || false,
+          isVerified: item.isVerified || false,
+          isFirstTime: item.isFirstTime || true,
+          checkins: item.checkins || []
+        };
+        setFormData(editData);
+  } else {
+    setFormData(null);
+  }
+  setIsModalOpen(true);
+};
+
+
 
   // Đóng modal
   const closeModal = () => {
     setIsModalOpen(false);
+    setEditingId(null);
   };
 
   // Lưu nhân viên mới
-  const handleSave = () => {
-    const nextId = employees.length > 0 ? Math.max(...employees.map(e => e.id)) + 1 : 1;
-    setEmployees([...employees, { ...newEmployee, id: nextId }]);
+  const handleSave = async () => {
+    if (!formData) return;
+
+    if (editingId) {
+      await EmployeeApi.updateEmployee(editingId, formData);
+    } else {
+      await EmployeeApi.addEmployee(formData);
+    } 
+    fetchEmployeeList();
     closeModal();
   };
 
-  // Xử lý thay đổi trong form
-  const handleChange = (field: string, value: string) => {
-    setNewEmployee({ ...newEmployee, [field]: value });
+  const handleDelete = async (id: string) => {
+    await EmployeeApi.deleteEmployee(id);
+    fetchEmployeeList();
   };
+
 
   return (
     <div className="">
@@ -113,8 +151,9 @@ export default function Employee() {
         isOpen={isModalOpen}
         onClose={closeModal}
         onSave={handleSave}>
-        <EmployeeForm employee={newEmployee} onChange={handleChange} />
+       <Import onDataChange={setFormData} initialData={formData} />
       </Modal>
     </div>
   );
 }
+
