@@ -7,7 +7,7 @@ export interface IWarehouseItem {
 
 export interface IWarehouse {
   _id?: string;
-  suplierName: string;
+  supplierName: string;
   phoneNumber: string;
   importDate: string;
   values: IWarehouseItem[];

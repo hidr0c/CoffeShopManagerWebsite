@@ -12,7 +12,7 @@ interface WarehouseListParams {
 }
 
 interface WarehouseListResponse extends IWarehouseRespone {
-  exports: IWarehouse[];
+  imports: IWarehouse[];
   pagination: {
     total: number;
     limit: number;
@@ -22,12 +22,12 @@ interface WarehouseListResponse extends IWarehouseRespone {
 }
 
 interface WarehouseGetResponse extends IWarehouseRespone {
-  exportItem: IWarehouse;
+  importItem: IWarehouse;
 }
 
 interface DeleteWarehouseResponse {
   result: string;
-  exportItem?: object;
+  importItem?: object;
   message?: string;
 }
 
