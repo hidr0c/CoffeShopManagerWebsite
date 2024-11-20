@@ -1,9 +1,21 @@
+'use client'
+
 import styles from './employee.module.scss'
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import EmployeeForm from '@components/modal-content/employee/employee';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import Modal from '@/components/ui/modal/modal';
+import { useState } from 'react';
 
 export default function Employee() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const data = [
     {
@@ -92,12 +104,12 @@ export default function Employee() {
       <h1 className="title">NHÂN VIÊN</h1>
       <div className="" style={{ margin: '2em 0' }}>
 
-        <Table style={{ borderRadius: '0px' }} preHeader={true} pagination={true}
-          modalAddContent={<EmployeeForm />
-
-          }
-          modalTitle={'Thêm nhân viên'} addButtonTitle="Thêm nhân viên"
-        >
+        <Table
+          style={{ borderRadius: '0px' }}
+          preHeader={true}
+          pagination={true}
+          addButtonAction={openModal}
+          addButtonTitle="Thêm nhân viên">
           <TableHead style={{ background: 'white' }}>
             <TableRow>
               <TableCell>
@@ -156,7 +168,14 @@ export default function Employee() {
           </TableBody>
         </Table>
       </div>
-
+      <Modal
+        title='Thêm nhân viên'
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={() => { }}  // TODO: Code cai nay cho tao
+      >
+        <EmployeeForm />
+      </Modal>
     </div>
   )
 }
