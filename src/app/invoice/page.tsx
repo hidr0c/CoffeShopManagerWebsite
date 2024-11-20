@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import styles from "./invoice.module.scss";
 import {
   Table,
@@ -8,10 +9,13 @@ import {
   TableRow,
   TableBody,
 } from "../components/ui/table/table";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
+import InvoiceForm from "@/components/modal-content/invoice/invoice";
+import Modal from "@/components/ui/modal/modal";
 
 export default function Invoice() {
-  const data = [
+  // Initialize state for data and modal visibility
+  const [data, setData] = useState([
     {
       id: "#20462",
       status: "Đã thanh toán",
@@ -57,7 +61,15 @@ export default function Invoice() {
       date: "09/05/2024 00:00:00",
       quant: 100,
     },
-  ];
+  ]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
+
+  // Show invoice details in modal
+  const handleView = (invoice: any) => {
+    setSelectedInvoice(invoice);
+    setShowModal(true); // Open modal
+  };
 
   return (
     <div className="">
@@ -67,6 +79,8 @@ export default function Invoice() {
           preHeader={true}
           pagination={true}
           addButtonTitle="Thêm hóa đơn"
+          modalAddContent={<InvoiceForm />}
+          modalTitle="Thêm hóa đơn"
         >
           <TableHead style={{ background: "white" }}>
             <TableRow>
@@ -99,7 +113,8 @@ export default function Invoice() {
                       color: "#007BFF",
                     }}
                   >
-                    <FaEye /> {/* Icon xem chi tiết */}
+                    <FaEye onClick={() => handleView(item)} />{" "}
+                    {/* View action */}
                   </div>
                 </TableCell>
               </TableRow>
@@ -107,6 +122,16 @@ export default function Invoice() {
           </TableBody>
         </Table>
       </div>
+      <Modal
+        isOpen={showModal}
+        title={"Chi tiết hóa đơn"}
+        onClose={() => setShowModal(false)}
+      >
+        <InvoiceForm
+          invoice={selectedInvoice}
+          onClose={() => setShowModal(false)} // Close modal
+        />
+      </Modal>
     </div>
   );
 }

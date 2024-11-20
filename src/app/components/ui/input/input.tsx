@@ -2,8 +2,8 @@
 
 "use client";
 
-import React from 'react';
-import styles from './input.module.scss';
+import React, { useEffect } from "react";
+import styles from "./input.module.scss";
 
 interface InputProps {
   label: string;
@@ -16,9 +16,21 @@ interface InputProps {
   required?: boolean;
 }
 
-export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholder, type = "text", style , labelStyle, required}) => {
+export const Input: React.FC<InputProps> = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  style,
+  labelStyle,
+  required,
+}) => {
   const [inputValue, setInputValue] = React.useState(value);
 
+  useEffect(() => {
+    setInputValue(value); // Update the input value when the value prop changes from the paren
+  }, [value]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     onChange(e);
@@ -26,7 +38,12 @@ export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholde
 
   return (
     <div className={styles.inputContainer} style={style}>
-      <label className={styles.label} style={labelStyle}>{label}<span  style={{color:'#CF0000', marginLeft:'0.5em'}}>{required ? '(*)' : ''}</span></label>
+      <label className={styles.label} style={labelStyle}>
+        {label}
+        <span style={{ color: "#CF0000", marginLeft: "0.5em" }}>
+          {required ? "(*)" : ""}
+        </span>
+      </label>
       <input
         type={type}
         value={inputValue}
@@ -38,7 +55,6 @@ export const Input: React.FC<InputProps> = ({ label, value, onChange, placeholde
   );
 };
 
-
 interface SelectProps {
   label: string;
   value: string;
@@ -46,15 +62,16 @@ interface SelectProps {
   options: { value: string; label: string }[];
 }
 
-export const Select: React.FC<SelectProps> = ({ label, value, onChange, options }) => {
+export const Select: React.FC<SelectProps> = ({
+  label,
+  value,
+  onChange,
+  options,
+}) => {
   return (
     <div className={styles.inputContainer}>
       <label className={styles.label}>{label}</label>
-      <select
-        value={value}
-        onChange={onChange}
-        className={styles.select}
-      >
+      <select value={value} onChange={onChange} className={styles.select}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
