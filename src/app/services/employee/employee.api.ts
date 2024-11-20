@@ -9,6 +9,12 @@ interface EmployeeListParams {
 
 interface EmployeeListResponse extends IEmployeeResponse {
   employees: IEmployee[];
+  pagination: {
+    total: number;
+    limit: number;
+    page: number;
+    pages: number;
+  };
 }
 
 interface EmployeeGetResponse extends IEmployeeResponse {
@@ -21,63 +27,64 @@ interface DeleteEmployeeResponse {
 }
 
 interface IEmployeeResponse {
-    result: string;
-    message?: string;
-  }
+  result: string;
+  message?: string;
+}
 
 // Interface for the count response
 interface EmployeeCountResponse {
-    result: string;
-    count?: number;
-    message?: string;
-  }
+  result: string;
+  count?: number;
+  message?: string;
+}
 
-  interface EmployeeSearchParams {
-    query: string; // Search query string
-  }
-  
-  interface EmployeeSearchResponse {
-    result: string;
-    employees?: string[]; // Array of matching employee IDs or strings
-    message?: string; // Error or success message
-    error?: {
-      message: string; // Detailed error message
-    };
-  }
-  interface UpdateEmployeeStatusParams {
-    id: string; // Employee ID
-    isActive: boolean; // New status of the employee
-  }
-  
-  interface UpdateEmployeeStatusResponse {
-    result: string; // "success" or "error"
-    message: string; // Success or error message
-  }
+interface EmployeeSearchParams {
+  query: string; // Search query string
+}
 
-  interface UpdateEmployeeStatusParams {
-    id: string; // Employee ID
-    isActive: boolean; // New status of the employee
-  }
-  
-  interface UpdateEmployeeStatusResponse {
-    result: string; // "success" or "error"
-    message: string; // Success or error message
-  }
-  
-  interface VerifyEmployeeParams {
-    id: string; // Employee ID
-  }
-  
-  interface VerifyEmployeeResponse {
-    result: string; // "success" or "error"
-    message: string; // Success or error message
-    employee?: object; // Optional: Employee data if provided in response
-  }
-  
-  
+interface EmployeeSearchResponse {
+  result: string;
+  employees?: string[]; // Array of matching employee IDs or strings
+  message?: string; // Error or success message
+  error?: {
+    message: string; // Detailed error message
+  };
+}
+interface UpdateEmployeeStatusParams {
+  id: string; // Employee ID
+  isActive: boolean; // New status of the employee
+}
+
+interface UpdateEmployeeStatusResponse {
+  result: string; // "success" or "error"
+  message: string; // Success or error message
+}
+
+interface UpdateEmployeeStatusParams {
+  id: string; // Employee ID
+  isActive: boolean; // New status of the employee
+}
+
+interface UpdateEmployeeStatusResponse {
+  result: string; // "success" or "error"
+  message: string; // Success or error message
+}
+
+interface VerifyEmployeeParams {
+  id: string; // Employee ID
+}
+
+interface VerifyEmployeeResponse {
+  result: string; // "success" or "error"
+  message: string; // Success or error message
+  employee?: object; // Optional: Employee data if provided in response
+}
+
 // GET
 // Function to get the paginated employee list
-export async function getEmployeeList(params: EmployeeListParams): Promise<EmployeeListResponse | null> {
+export async function getEmployeeList(
+  params: EmployeeListParams
+): Promise<EmployeeListResponse | null> {
   const url = `/employee/list?page=${params.page}&limit=${params.limit}`;
 
   try {
@@ -94,7 +101,9 @@ export async function getEmployeeList(params: EmployeeListParams): Promise<Emplo
 }
 
 // Function to get employee details by ID
-async function getEmployeeById(id: string): Promise<EmployeeGetResponse | null> {
+async function getEmployeeById(
+  id: string
+): Promise<EmployeeGetResponse | null> {
   const url = `/employee/get/${id}`;
 
   try {
@@ -111,52 +120,56 @@ async function getEmployeeById(id: string): Promise<EmployeeGetResponse | null> 
 }
 
 // Function to search employees by query
-async function searchEmployees(params: EmployeeSearchParams): Promise<EmployeeSearchResponse | null> {
-    const url = `/employee/search`; // Adjust endpoint if necessary
-    const requestConfig = {
-      params: {
-        query: params.query,
-      },
-    };
-  
-    try {
-      const response = await Api.get<EmployeeSearchResponse>(url, requestConfig);
-  
-      if (response.data && response.data.result === "success") {
-        return response.data;
-      } else if (response.data && response.data.result === "error") {
-        console.error("Error searching employees:", response.data.message);
-        return response.data; // Optionally return error information
-      }
-    } catch (error) {
-      console.error("Failed to search employees:", error);
+async function searchEmployees(
+  params: EmployeeSearchParams
+): Promise<EmployeeSearchResponse | null> {
+  const url = `/employee/search`; // Adjust endpoint if necessary
+  const requestConfig = {
+    params: {
+      query: params.query,
+    },
+  };
+
+  try {
+    const response = await Api.get<EmployeeSearchResponse>(url, requestConfig);
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    } else if (response.data && response.data.result === "error") {
+      console.error("Error searching employees:", response.data.message);
+      return response.data; // Optionally return error information
     }
-  
-    return null;
+  } catch (error) {
+    console.error("Failed to search employees:", error);
   }
-  
-  // Function to get the total count of employees
-  async function getEmployeeCount(): Promise<EmployeeCountResponse | null> {
-    const url = `/employee/count`;
-  
-    try {
-      const response = await Api.get<EmployeeCountResponse>(url);
-  
-      if (response.data && response.data.result === "success") {
-        return response.data;
-      } else if (response.data && response.data.result === "error") {
-        console.error("Error fetching employee count:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Failed to fetch employee count:", error);
+
+  return null;
+}
+
+// Function to get the total count of employees
+async function getEmployeeCount(): Promise<EmployeeCountResponse | null> {
+  const url = `/employee/count`;
+
+  try {
+    const response = await Api.get<EmployeeCountResponse>(url);
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    } else if (response.data && response.data.result === "error") {
+      console.error("Error fetching employee count:", response.data.message);
     }
-  
-    return null;
+  } catch (error) {
+    console.error("Failed to fetch employee count:", error);
   }
+
+  return null;
+}
 
 // POST
 // Function to add a new employee
-async function addEmployee(params: IEmployee): Promise<IEmployeeResponse | null> {
+async function addEmployee(
+  params: IEmployee
+): Promise<IEmployeeResponse | null> {
   const url = `/employee/add`;
   const requestHeaders = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -164,7 +177,9 @@ async function addEmployee(params: IEmployee): Promise<IEmployeeResponse | null>
   };
 
   try {
-    const response = await Api.post<IEmployeeResponse>(url, params, { headers: requestHeaders });
+    const response = await Api.post<IEmployeeResponse>(url, params, {
+      headers: requestHeaders,
+    });
 
     if (response.data && response.data.result === "success") {
       return response.data;
@@ -178,7 +193,10 @@ async function addEmployee(params: IEmployee): Promise<IEmployeeResponse | null>
 
 // PUT
 // Function to update an employee by ID
-async function updateEmployee(id: string, params: IEmployee): Promise<IEmployeeResponse | null> {
+async function updateEmployee(
+  id: string,
+  params: IEmployee
+): Promise<IEmployeeResponse | null> {
   const url = `/employee/update/${id}`;
   const requestHeaders = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -186,7 +204,9 @@ async function updateEmployee(id: string, params: IEmployee): Promise<IEmployeeR
   };
 
   try {
-    const response = await Api.put<IEmployeeResponse>(url, params, { headers: requestHeaders });
+    const response = await Api.put<IEmployeeResponse>(url, params, {
+      headers: requestHeaders,
+    });
 
     if (response.data && response.data.result === "success") {
       return response.data;
@@ -200,7 +220,9 @@ async function updateEmployee(id: string, params: IEmployee): Promise<IEmployeeR
 
 // DELETE
 // Function to delete an employee by ID
-async function deleteEmployee(id: string): Promise<DeleteEmployeeResponse | null> {
+async function deleteEmployee(
+  id: string
+): Promise<DeleteEmployeeResponse | null> {
   const url = `/employee/delete/${id}`;
 
   try {
@@ -220,52 +242,58 @@ async function deleteEmployee(id: string): Promise<DeleteEmployeeResponse | null
 }
 
 // Function to update employee status
-async function updateEmployeeStatus(params: UpdateEmployeeStatusParams): Promise<UpdateEmployeeStatusResponse | null> {
-    const url = `/employee/update-status`; // Adjust endpoint if necessary
-    const requestHeaders = {
-      "Content-Type": "application/json",
-    };
-  
-    try {
-      const response = await Api.put<UpdateEmployeeStatusResponse>(url, params, { headers: requestHeaders });
-  
-      if (response.data && response.data.result === "success") {
-        return response.data;
-      } else if (response.data && response.data.result === "error") {
-        console.error("Error updating employee status:", response.data.message);
-        return response.data; // Optionally return error information
-      }
-    } catch (error) {
-      console.error("Failed to update employee status:", error);
+async function updateEmployeeStatus(
+  params: UpdateEmployeeStatusParams
+): Promise<UpdateEmployeeStatusResponse | null> {
+  const url = `/employee/update-status`; // Adjust endpoint if necessary
+  const requestHeaders = {
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await Api.put<UpdateEmployeeStatusResponse>(url, params, {
+      headers: requestHeaders,
+    });
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    } else if (response.data && response.data.result === "error") {
+      console.error("Error updating employee status:", response.data.message);
+      return response.data; // Optionally return error information
     }
-  
-    return null;
+  } catch (error) {
+    console.error("Failed to update employee status:", error);
   }
 
-  // Function to verify an employee
-async function verifyEmployee(params: VerifyEmployeeParams): Promise<VerifyEmployeeResponse | null> {
-    const url = `/employee/verify`; // Adjust endpoint if necessary
-    const requestHeaders = {
-      "Content-Type": "application/json",
-    };
-  
-    try {
-      const response = await Api.post<VerifyEmployeeResponse>(url, params, { headers: requestHeaders });
-  
-      if (response.data && response.data.result === "success") {
-        return response.data;
-      } else if (response.data && response.data.result === "error") {
-        console.error("Error verifying employee:", response.data.message);
-        return response.data; // Optionally return error information
-      }
-    } catch (error) {
-      console.error("Failed to verify employee:", error);
-    }
-  
-    return null;
-  }
-  
+  return null;
+}
 
+// Function to verify an employee
+async function verifyEmployee(
+  params: VerifyEmployeeParams
+): Promise<VerifyEmployeeResponse | null> {
+  const url = `/employee/verify`; // Adjust endpoint if necessary
+  const requestHeaders = {
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await Api.post<VerifyEmployeeResponse>(url, params, {
+      headers: requestHeaders,
+    });
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    } else if (response.data && response.data.result === "error") {
+      console.error("Error verifying employee:", response.data.message);
+      return response.data; // Optionally return error information
+    }
+  } catch (error) {
+    console.error("Failed to verify employee:", error);
+  }
+
+  return null;
+}
 
 // Export all functions as EmployeeApi
 const EmployeeApi = {
@@ -277,7 +305,7 @@ const EmployeeApi = {
   getEmployeeCount,
   searchEmployees,
   updateEmployeeStatus,
-  verifyEmployee
+  verifyEmployee,
 };
 
 // Export the functions and types
@@ -293,5 +321,5 @@ export type {
   UpdateEmployeeStatusParams,
   UpdateEmployeeStatusResponse,
   VerifyEmployeeParams,
-  VerifyEmployeeResponse 
+  VerifyEmployeeResponse,
 };

@@ -1,15 +1,20 @@
 "use client";
 
+import { IEmployee } from "@/services/employee";
 import { Input, Select } from "@ui/input/input";
 import { ChangeEvent } from "react";
 
-export default function EmployeeForm({
-  employee,
-  onChange,
-}: {
-  employee: { name: string; birthDate: string; sex: string; address: string; phone: string };
+
+interface EmployeeFormProps {
+  employee: IEmployee;
   onChange: (field: string, value: string) => void;
-}) {
+}
+
+export default function EmployeeForm(
+  {
+    employee,
+    onChange
+  }: EmployeeFormProps) {
   return (
     <div>
       <Input
@@ -29,8 +34,9 @@ export default function EmployeeForm({
       <Select
         label="Giới tính"
         value={employee.sex}
-        onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+        onChange={(e: ChangeEvent<HTMLSelectElement>) => {
           onChange("sex", e.target.value)
+        }
         }
         options={[
           { label: "Nam", value: "Nam" },
@@ -46,10 +52,38 @@ export default function EmployeeForm({
       />
       <Input
         label="SĐT"
-        value={employee.phone}
+        value={employee.phoneNumber}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          onChange("phone", e.target.value)
+          onChange("phoneNumber", e.target.value)
         }
+      />
+      <Input
+        label="Email"
+        value={employee.email}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("email", e.target.value)
+        }
+      />
+      <Input
+        label="Mật khẩu"
+        value={employee.password}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("password", e.target.value)
+        }
+      />
+      <Select
+        label="Chức vụ"
+        value={employee.role}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+          onChange("role", e.target.value)
+        }
+        options={[
+          { label: "Nhân viên", value: "Employee" },
+          { label: "Kế toán", value: "Accounting" },
+          { label: "Quản lý kho", value: "WarehouseManager" },
+          { label: "Quản lý nhân viên", value: "EmployeeManager" },
+          { label: "Admin", value: "Admin" },
+        ]}
       />
     </div>
   );
