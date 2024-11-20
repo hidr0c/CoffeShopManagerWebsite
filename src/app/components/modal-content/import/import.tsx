@@ -23,6 +23,12 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
     onChange('values', newItems);
   };
 
+  const handleRemoveItem = (index: number) => {
+    const newItems = [...(warehouse?.values || [])];
+    newItems.splice(index, 1);
+    onChange('values', newItems);
+  }
+
   const updateItem = (index: number, field: keyof IWarehouseItem, value: string | number) => {
     const newItems = [...(warehouse?.values || [])];
     newItems[index] = { ...newItems[index], [field]: value };
@@ -34,12 +40,12 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
   };
 
   return (
-    <div className="">
+    <>
       <Select
         label="Tên nhà cung cấp"
-        value={warehouse?.suplierName || ''}
+        value={warehouse?.supplierName || suppliers[0]?.value || ''}
         options={suppliers}
-        onChange={(e) => onChange('suplierName', e.target.value)}
+        onChange={(e) => onChange('supplierName', e.target.value)}
       />
       <Input
         label='SĐT nhà cung cấp'
@@ -52,53 +58,67 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
         type='date'
         onChange={(e) => onChange('importDate', e.target.value)}
       />
-      <Table style={{ borderRadius: '5px' }} >
-        <TableHead style={{ background: '#D9DDEB' }}>
-          <TableRow>
-            <TableCell>STT</TableCell>
-            <TableCell>Tên sản phẩm</TableCell>
-            <TableCell>Số lượng</TableCell>
-            <TableCell>Đơn vị tính</TableCell>
-            <TableCell>Giá nhập</TableCell>
-            <TableCell>Tổng tiền</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(warehouse?.values || []).map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>
-                <Input
-                  value={item.name}
-                  onChange={(e) => updateItem(index, 'name', e.target.value)}
-                />
-              </TableCell>
-              <TableCell>
-                <Input
-                  type="number"
-                  value={item.quant}
-                  onChange={(e) => updateItem(index, 'quant', Number(e.target.value))}
-                />
-              </TableCell>
-              <TableCell>
-                <Select
-                  value={item.unit}
-                  options={[{ value: 'Thùng', label: 'Thùng' }, { value: 'Kg', label: 'Kg' }]}
-                  onChange={(e) => updateItem(index, 'unit', e.target.value)}
-                />
-              </TableCell>
-              <TableCell>
-                <Input
-                  type="number"
-                  value={item.price}
-                  onChange={(e) => updateItem(index, 'price', Number(e.target.value))}
-                />
-              </TableCell>
-              <TableCell>{formatCurrency(item.quant * item.price)}</TableCell>
+      <div style={{ maxHeight: "30vh", overflow: "auto" }}>
+        <Table style={{ borderRadius: '5px' }} >
+          <TableHead style={{ background: '#D9DDEB' }}>
+            <TableRow>
+              <TableCell>STT</TableCell>
+              <TableCell>Tên sản phẩm</TableCell>
+              <TableCell>Số lượng</TableCell>
+              <TableCell>Đơn vị tính</TableCell>
+              <TableCell>Giá nhập</TableCell>
+              <TableCell>Tổng tiền</TableCell>
+              <TableCell sticky={true}><></></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {(warehouse?.values || []).map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>
+                  <Input
+                    style={{ "grid-template-columns": "unset" }}
+                    value={item.name}
+                    onChange={(e) => updateItem(index, 'name', e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Input
+                    style={{ "grid-template-columns": "unset" }}
+                    type="number"
+                    value={item.quant}
+                    onChange={(e) => updateItem(index, 'quant', Number(e.target.value))}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Select
+                    style={{ "grid-template-columns": "unset" }}
+                    value={item.unit}
+                    options={[{ value: 'Thùng', label: 'Thùng' }, { value: 'Kg', label: 'Kg' }]}
+                    onChange={(e) => updateItem(index, 'unit', e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Input
+                    style={{ "grid-template-columns": "unset" }}
+                    type="number"
+                    value={item.price}
+                    onChange={(e) => updateItem(index, 'price', Number(e.target.value))}
+                  />
+                </TableCell>
+                <TableCell>{formatCurrency(item.quant * item.price)}</TableCell>
+                <TableCell sticky={true}>
+                  <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
+                    <Button onClick={() => handleRemoveItem(index)} style={{ background: 'transparent', color: 'black' }}>
+                      Xóa
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       <div className="" style={{ padding: '1em', fontWeight: '700' }}>
         <Button onClick={handleAddItem} style={{ background: 'transparent', color: 'black' }}>
           Thêm sản phẩm
@@ -110,7 +130,7 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
           {formatCurrency(handleTotal())}
         </span>
       </div>
-    </div>
+    </>
   );
 }
 
