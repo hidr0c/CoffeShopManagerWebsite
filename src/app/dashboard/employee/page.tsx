@@ -7,46 +7,25 @@ import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import Modal from '@/components/ui/modal/modal';
 import { useState } from 'react';
 import EmployeeApi, { IEmployee } from '@/services/employee';
-import {useEffect } from "react";
-import Import from '@/components/modal-content/import/import';
+import { useEffect } from "react";
 
 export default function Employee() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<any[]>([]);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string>("");
   const [formData, setFormData] = useState<IEmployee | null>(null);
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      name: 'Nguyễn Văn A',
-      birthDate: '13/05/1996',
-      sex: 'Nam',
-      address: '144 DHB',
-      phone: '0123456789',
-    },
-    {
-      id: 2,
-      name: 'Trần Thị B',
-      birthDate: '22/09/1998',
-      sex: 'Nữ',
-      address: '34 XYZ',
-      phone: '0987654321',
-    },
-    // ... Các nhân viên khác
-  ]);
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
-  const [newEmployee, setNewEmployee] = useState({
-    name: '',
-    birthDate: '',
-    sex: 'Nam',
-    address: '',
-    phone: '',
-  });
-
-  const fetchEmployeeList = async () => {
-    const response = await EmployeeApi.getEmployeeList({ page: 1, limit: 10 });
-    if (response && response.employees) {
-      setData(response.employees);
+  const fetchEmployeeList = async (page: number = 1) => {
+    const response = await EmployeeApi.getEmployeeList({ page, limit: 10 });
+    console.log(response);
+    if (response) {
+      if (response.employees) {
+        setEmployees(response.employees);
+      }
+      if (response.pagination) {
+        setTotalPages(response.pagination.pages);
+      }
     }
   };
 
@@ -54,36 +33,54 @@ export default function Employee() {
     fetchEmployeeList();
   }, []);
 
-  // Mở modal và reset nhân viên mới
-    // Open modal for add or edit
-    const openModal = (item?: any) => {
-      if (item) {
-        setEditingId(item.id);
-        const editData: IEmployee = {
-          name: item.name || '',
-          email: item.email || '',
-          phoneNumber: item.phoneNumber || '',
-          role:item.role || '',
-          password: item.password || '',
-          isActive: item.isActive || false,
-          isVerified: item.isVerified || false,
-          isFirstTime: item.isFirstTime || true,
-          checkins: item.checkins || []
-        };
-        setFormData(editData);
-  } else {
-    setFormData(null);
+  const setModalDefault = () => {
+    setFormData({
+      name: "",
+      email: "",
+      phoneNumber: "",
+      role: "Employee",
+      password: "",
+      isActive: true,
+      isVerified: true,
+      isFirstTime: true,
+      checkins: [],
+      birthDate: "",
+      sex: "Nam",
+      address: "",
+    });
   }
-  setIsModalOpen(true);
-};
 
-
+  // Mở modal và reset nhân viên mới
+  const openModal = () => {
+    setFormData({
+      name: "",
+      email: "",
+      phoneNumber: "",
+      role: "Employee",
+      password: "",
+      isActive: true,
+      isVerified: true,
+      isFirstTime: true,
+      checkins: [],
+      birthDate: "",
+      sex: "Nam",
+      address: "",
+    });
+    setIsModalOpen(true);
+  };
 
   // Đóng modal
   const closeModal = () => {
     setIsModalOpen(false);
-    setEditingId(null);
+    setEditingId("");
+    setFormData(null);
   };
+
+  const handleEdit = (item: IEmployee) => {
+    setEditingId(item._id);
+    setFormData(item);
+    setIsModalOpen(true);
+  }
 
   // Lưu nhân viên mới
   const handleSave = async () => {
@@ -93,12 +90,13 @@ export default function Employee() {
       await EmployeeApi.updateEmployee(editingId, formData);
     } else {
       await EmployeeApi.addEmployee(formData);
-    } 
+    }
     fetchEmployeeList();
     closeModal();
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
+    debugger;
     await EmployeeApi.deleteEmployee(id.toString());
     fetchEmployeeList();
   };
@@ -106,45 +104,71 @@ export default function Employee() {
   return (
     <div>
       <h1>NHÂN VIÊN</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Mã nhân viên</th>
-            <th>Tên nhân viên</th>
-            <th>Ngày tháng năm</th>
-            <th>Giới tính</th>
-            <th>Địa chỉ</th>
-            <th>SĐT</th>
-            <th>Chỉnh sửa</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.birthDate}</td>
-              <td>{item.sex}</td>
-              <td>{item.address}</td>
-              <td>{item.phone}</td>
-              <td>
-                <button onClick={() => openModal(item)}>Edit</button>
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
-              </td>
-            </tr>
+      <Table
+        style={{ borderRadius: '0px' }}
+        preHeader={true}
+        pagination={{
+          currentPage: 1,
+          totalPages: totalPages,
+          onPageChange: (page) => {
+            fetchEmployeeList(page);
+          }
+        }}
+        addButtonAction={openModal}
+        addButtonTitle="Thêm nhân viên">
+        <TableHead style={{ background: 'white' }}>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Tên nhân viên</TableCell>
+            <TableCell>Ngày tháng năm</TableCell>
+            <TableCell>Giới tính</TableCell>
+            <TableCell>Địa chỉ</TableCell>
+            <TableCell>SĐT</TableCell>
+            <TableCell sticky={true}>Chỉnh sửa</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {employees.map((item, index) => (
+            <TableRow key={item._id}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.birthDate}</TableCell>
+              <TableCell>{item.sex}</TableCell>
+              <TableCell>{item.address}</TableCell>
+              <TableCell>{item.phoneNumber}</TableCell>
+              <TableCell sticky={true}>
+                <div className="" style={{ display: 'flex', gap: '1.5em' }}>
+                  <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
+                    <FaRegTrashAlt
+                      onClick={() => {
+                        handleDelete(item._id);
+                      }} />
+                  </div>
+                  <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
+                    <FaRegEdit
+                      onClick={() => {
+                        handleEdit(item);
+                      }} />
+                  </div>
+                </div>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
       {isModalOpen && (
-        <Modal title="Employee Form" isOpen={isModalOpen} onClose={closeModal}>
-    <EmployeeForm
-      employee={formData || { name: '', birthDate: '', sex: 'Nam', address: '', phone: '', password: '',isActive: false, isVerified:false, isFirstTime: true,checkins: []    }}
-      onChange={(field, value) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-      }}
-      onSave={handleSave}
-    />
-  </Modal>
+        <Modal
+          title="Employee Form"
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onSave={handleSave}>
+          <EmployeeForm
+            employee={formData}
+            onChange={(field, value) => {
+              setFormData((prev) => ({ ...prev, [field]: value }));
+            }}
+          />
+        </Modal>
       )}
     </div>
   );
