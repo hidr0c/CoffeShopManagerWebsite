@@ -18,8 +18,8 @@ export default function Header() {
 
       <div className={styles.right}>
         <nav className="">
-          <Link href={'/supplier'} className={path == '/supplier' ? styles.navItemActive : styles.navItem}>Nhà cung cấp</Link>
-          <Link href={'/customer'} className={path == '/customer' ? styles.navItemActive : styles.navItem}>Khách hàng</Link>
+          <Link href={'/dashboard/supplier'} className={path == '/dashboard/supplier' ? styles.navItemActive : styles.navItem}>Nhà cung cấp</Link>
+          <Link href={'/dashboard/customer'} className={path == '/dashboard/customer' ? styles.navItemActive : styles.navItem}>Khách hàng</Link>
           <Link href={'/'} className={styles.navItem}>Hỗ trợ</Link>
         </nav>
         <div className={styles.profile}>
