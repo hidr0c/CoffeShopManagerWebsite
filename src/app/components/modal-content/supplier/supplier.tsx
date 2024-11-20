@@ -1,47 +1,43 @@
-"use client";
+'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input, Select } from '@ui/input/input';
 import { Button } from "@ui/button/button";
 
-export default function SupplierForm() {
-  // Khởi tạo state cho từng trường
-  const [supplierName, setSupplierName] = useState('');
-  const [field, setField] = useState('Thiết bị điện tử'); // Mặc định là 'Thiết bị điện tử'
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-
-  const handleSelect = (value) => {
-    setField(value); // Cập nhật lĩnh vực khi người dùng chọn
+// Define the types for the props
+interface SupplierFormProps {
+  formData: {
+    name: string;
+    field: string;
+    phone: string;
+    address: string;
   };
+  onChange: (key: string, value: string) => void;
+}
 
+export default function SupplierForm({ formData, onChange }: SupplierFormProps) {
   return (
-    <div className="" style={{ margin: '0 0 2em 0' }}>
+    <div style={{ margin: '0 0 2em 0' }}>
       <Input
         label='Tên nhà cung cấp'
-        value={supplierName}
-        onChange={(e) => setSupplierName(e.target.value)} // Cập nhật state cho Tên nhà cung cấp
+        value={formData.name}
+        onChange={(e) => onChange('name', e.target.value)}
       />
-      <Select
+      <Input
         label="Lĩnh vực"
-        value={field}
-        options={[
-          { value: 'Thiết bị điện tử', label: 'Thiết bị điện tử' },
-          { value: 'Trang phục', label: 'Trang phục' }
-        ]}
-        onChange={(e) => handleSelect(e.target.value)} // Cập nhật state cho Lĩnh vực
+        value={formData.field}
+        onChange={(e) => onChange('field', e.target.value)}
       />
       <Input
         label='SĐT'
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)} // Cập nhật state cho SĐT
+        value={formData.phone}
+        onChange={(e) => onChange('phone', e.target.value)}
       />
       <Input
         label='Địa chỉ'
-        value={address}
-        onChange={(e) => setAddress(e.target.value)} // Cập nhật state cho Địa chỉ
+        value={formData.address}
+        onChange={(e) => onChange('address', e.target.value)}
       />
-
     </div>
   );
 }

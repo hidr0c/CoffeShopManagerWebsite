@@ -1,46 +1,63 @@
 "use client";
 
-import { useState } from 'react';
-import { Input, Select } from '@ui/input/input';
-import { Button } from "@ui/button/button";
+import { ICustomer } from "@/services/customer";
+import { Input, Select } from "@ui/input/input";
+import { ChangeEvent } from "react";
 
-export default function CustomerForm() {
-  // Khởi tạo state cho từng trường
-  const [customerName, setCustomerName] = useState('');
-  const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('Nam'); // Mặc định là Nam
-  const [address, setAddress] = useState('');
+interface CustomerFormProps {
+  customer: ICustomer;
+  onChange: (field: string, value: string) => void;
+}
 
-  const handleSelect = (value) => {
-    setGender(value); // Cập nhật giới tính khi người dùng chọn
-  };
-
+export default function CustomerForm({ customer, onChange }: CustomerFormProps) {
   return (
-    <div className="" style={{ margin: '0 0 2em 0' }}>
+    <div>
       <Input
-        label='Tên khách hàng'
-        value={customerName}
-        onChange={(e) => setCustomerName(e.target.value)} // Cập nhật state cho Tên khách hàng
+        label="Tên khách hàng"
+        value={customer.name}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("name", e.target.value)
+        }
       />
       <Input
-        label='Ngày sinh'
-        type='date'
-        value={dob}
-        onChange={(e) => setDob(e.target.value)} // Cập nhật state cho Ngày sinh
+        label="Ngày sinh"
+        type="date"
+        value={customer.birthDate}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("birthDate", e.target.value)
+        }
       />
       <Select
         label="Giới tính"
-        value={gender}
+        value={customer.sex}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+          onChange("sex", e.target.value)
+        }
         options={[
-          { value: 'Nam', label: 'Nam' },
-          { value: 'Nữ', label: 'Nữ' }
+          { label: "Nam", value: "Nam" },
+          { label: "Nữ", value: "Nữ" },
         ]}
-        onChange={(e) => handleSelect(e.target.value)} // Cập nhật state cho Giới tính
       />
       <Input
-        label='Địa chỉ'
-        value={address}
-        onChange={(e) => setAddress(e.target.value)} // Cập nhật state cho Địa chỉ
+        label="Địa chỉ"
+        value={customer.address}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("address", e.target.value)
+        }
+      />
+      <Input
+        label="SĐT"
+        value={customer.phoneNumber}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("phoneNumber", e.target.value)
+        }
+      />
+      <Input
+        label="Email"
+        value={customer.email}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("email", e.target.value)
+        }
       />
     </div>
   );

@@ -1,80 +1,90 @@
-"use client"
+"use client";
 
-import { Table, TableCell, TableHead, TableRow, TableBody } from "@ui/table/table";
-import { Input, Select } from '@ui/input/input'
-import { Button } from "@ui/button/button";
-import { useState } from "react";
+import { IEmployee } from "@/services/employee";
+import { Input, Select } from "@ui/input/input";
+import { ChangeEvent } from "react";
 
-export default function EmployeeForm() {
-  const data = [ //Mock data
-    {
-      name: 'Hat',
-      price: 300000,
-      quant: 30,
-      unit: 'Thùng',
-    },
-    {
-      name: 'Hat',
-      price: 300000,
-      quant: 30,
-      unit: 'Thùng',
-    },
-    {
-      name: 'Hat',
-      price: 300000,
-      quant: 30,
-      unit: 'Thùng',
-    },
-    {
-      name: 'Hat',
-      price: 300000,
-      quant: 30,
-      unit: 'Thùng',
-    }
-  ]
-  const [name, setName] = useState('');
-  const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('Nam');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
 
-  const handleSelect = (value) => {
-    setGender(value);
-  };
+interface EmployeeFormProps {
+  employee: IEmployee;
+  onChange: (field: string, value: string) => void;
+}
 
+export default function EmployeeForm(
+  {
+    employee,
+    onChange
+  }: EmployeeFormProps) {
   return (
-    <div className="" style={{ margin: '0 0 2em 0' }}>
+    <div>
       <Input
-        label='Tên nhân viên'
-        value={name}
-        onChange={(e) => setName(e.target.value)} // Cập nhật state cho Tên nhân viên
+        label="Tên nhân viên"
+        value={employee.name}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("name", e.target.value)
+        }
       />
       <Input
-        label='Ngày sinh'
-        type='date'
-        value={dob}
-        onChange={(e) => setDob(e.target.value)} // Cập nhật state cho Ngày sinh
+        label="Ngày sinh"
+        value={employee.birthDate}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("birthDate", e.target.value)
+        }
       />
       <Select
         label="Giới tính"
-        value={gender}
+        value={employee.sex}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+          onChange("sex", e.target.value)
+        }
+        }
         options={[
-          { value: 'Nam', label: 'Nam' },
-          { value: 'Nữ', label: 'Nữ' }
+          { label: "Nam", value: "Nam" },
+          { label: "Nữ", value: "Nữ" },
         ]}
-        onChange={(e) => handleSelect(e.target.value)} // Cập nhật state cho Giới tính
       />
       <Input
-        label='Địa chỉ'
-        value={address}
-        onChange={(e) => setAddress(e.target.value)} // Cập nhật state cho Địa chỉ
+        label="Địa chỉ"
+        value={employee.address}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("address", e.target.value)
+        }
       />
       <Input
-        label='SĐT'
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)} // Cập nhật state cho SĐT
+        label="SĐT"
+        value={employee.phoneNumber}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("phoneNumber", e.target.value)
+        }
+      />
+      <Input
+        label="Email"
+        value={employee.email}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("email", e.target.value)
+        }
+      />
+      <Input
+        label="Mật khẩu"
+        value={employee.password}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onChange("password", e.target.value)
+        }
+      />
+      <Select
+        label="Chức vụ"
+        value={employee.role}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+          onChange("role", e.target.value)
+        }
+        options={[
+          { label: "Nhân viên", value: "Employee" },
+          { label: "Kế toán", value: "Accounting" },
+          { label: "Quản lý kho", value: "WarehouseManager" },
+          { label: "Quản lý nhân viên", value: "EmployeeManager" },
+          { label: "Admin", value: "Admin" },
+        ]}
       />
     </div>
-  )
+  );
 }
-

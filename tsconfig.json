@@ -8,9 +8,12 @@
       "@ui/*": [
         "./src/app/components/ui/*"
       ],
-      "@servies": [
+      "@services/*": [
         "./src/app/services/*"
-      ]
+      ],
+      "@components/*": [
+        "./src/app/components/*"
+      ],
     },
     "lib": [
       "dom",
