@@ -2,8 +2,18 @@ import styles from './warehouse.module.scss'
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import CustomerForm from '@components/modal-content/customer/customer';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import Modal from '@/components/ui/modal/modal';
+import { useState } from 'react';
 
 export default function Supplier() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const data = [
     {
@@ -48,11 +58,12 @@ export default function Supplier() {
       <h1 className="title">KHÁCH HÀNG</h1>
       <div className="" style={{ margin: '2em 0' }}>
 
-        <Table style={{ borderRadius: '0px' }} preHeader={true} pagination={true}
-          modalAddContent={<CustomerForm />
-
-          }
-          modalTitle={'Thêm khách hàng'} addButtonTitle="Thêm khách hàng"
+        <Table
+          style={{ borderRadius: '0px' }}
+          preHeader={true}
+          pagination={true}
+          addButtonTitle="Thêm khách hàng"
+          addButtonAction={openModal}
         >
           <TableHead style={{ background: 'white' }}>
             <TableRow>
@@ -102,7 +113,14 @@ export default function Supplier() {
           </TableBody>
         </Table>
       </div>
-
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={() => { }}  // TODO: Code cai nay cho tao
+        title='Thêm khách hàng'
+      >
+        <CustomerForm />
+      </Modal>
     </div>
   )
 }
