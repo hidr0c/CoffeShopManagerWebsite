@@ -1,9 +1,21 @@
+'use client'
+
 import styles from './warehouse.module.scss'
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import SupplierForm from '@components/modal-content/supplier/supplier';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import Modal from '@components/ui/modal/modal';
+import { useState } from 'react';
 
 export default function Supplier() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const data = [
     {
@@ -48,12 +60,11 @@ export default function Supplier() {
       <h1 className="title">NHÀ CUNG CẤP</h1>
       <div className="" style={{ margin: '2em 0' }}>
 
-        <Table style={{ borderRadius: '0px' }} preHeader={true} pagination={true}
-          modalAddContent={<SupplierForm />
-
-          }
-          modalTitle={'Thêm nhà cung cấp'} addButtonTitle="Thêm nhà cung cấp"
-        >
+        <Table style={{ borderRadius: '0px' }}
+          preHeader={true}
+          pagination={true}
+          addButtonTitle='Thêm nhà cung cấp'
+          addButtonAction={openModal}>
           <TableHead style={{ background: 'white' }}>
             <TableRow>
               <TableCell>
@@ -102,6 +113,13 @@ export default function Supplier() {
           </TableBody>
         </Table>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={() => { }}  // TODO: Code cai nay cho tao
+        title='Thêm nhà cung cấp'>
+        <SupplierForm />
+      </Modal>
 
     </div>
   )
