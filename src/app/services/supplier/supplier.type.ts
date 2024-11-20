@@ -1,55 +1,12 @@
-//Note: Cái này là cho cái phần menu bởi vì vô tình hiểu lầm sang nhà cung cấp
-
-export interface IProduct {
-    name: string;
-    price: number;
-    unit: string;
-    description?: string;
-    isAvailable: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+export interface ISupplier {
+  _id?: string;
+  name: string;
+  field: string;
+  phone: string;
+  address: string;
 }
 
-export interface ProductListResponse {
-    result: string;
-    products?: string[]; // Assuming "products" is an array of product names (strings)
-    message?: string;
-}
-
-export interface ProductCountResponse {
-    result: string;
-    count?: number;
-    message?: string;
-}
-
-export interface ProductSearchResponse {
-    result: string;
-    products?: string[];
-    message?: string;
-}
-
-// Define the request structure for adding a product
-export interface AddProductRequest {
-    name: string;
-    price: number;
-    quantity: number;
-}
-
-// Define the response structure for adding a product
-export interface AddProductResponse {
-    result: string;
-    message: string;
-    product?: string;
-}
-
-// Define the request structure for setting product availability
-export interface SetAvailabilityRequest {
-    id: string;
-    isAvailable: boolean;
-}
-
-// Define the response structure for setting product availability
-export interface SetAvailabilityResponse {
-    result: string;
-    message: string;
+export interface ISupplierResponse {
+  result: string;
+  message: string;
 }

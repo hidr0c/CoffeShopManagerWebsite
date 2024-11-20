@@ -1,92 +1,56 @@
 "use client"
 
-import { useState, useEffect } from 'react';
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@ui/table/table";
 import { Input, Select } from '@ui/input/input'
 import { Button } from "@ui/button/button";
 import { formatCurrency } from "../../../helper/format";
-import { IWarehouseItem } from "@services/warehouse";
+import { IWarehouse, IWarehouseItem } from "@services/warehouse";
 
 interface ImportProps {
-  onDataChange: (data: { customerName: string, phoneNumber: string, importDate: string, values: IWarehouseItem[] }) => void;
-  initialData?: { customerName: string, phoneNumber: string, importDate: string, values: IWarehouseItem[] } | null;
+  warehouse: IWarehouse | null;
+  onChange: (field: keyof IWarehouse, value: any) => void;
+  suppliers: { value: string, label: string }[]; // Add this prop
 }
 
-export default function Import({ onDataChange, initialData }: ImportProps) {
-  const [customerName, setCustomerName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [importDate, setImportDate] = useState('');
-  const [items, setItems] = useState<IWarehouseItem[]>([]);
-
-  // Initialize form with existing data when editing
-  useEffect(() => {
-    if (initialData) {
-      setCustomerName(initialData.customerName);
-      setPhoneNumber(initialData.phoneNumber);
-      setImportDate(initialData.importDate);
-      setItems(initialData.values);
-    } else {
-      // Reset form for new entries
-      setCustomerName('');
-      setPhoneNumber('');
-      setImportDate('');
-      setItems([]);
-    }
-  }, [initialData]);
-
+export default function Import({ warehouse, onChange, suppliers }: ImportProps) {
   const handleAddItem = () => {
-    setItems([...items, {
+    const newItems = [...(warehouse?.values || []), {
       name: '',
       price: 0,
       quant: 0,
       unit: 'Thùng'
-    }]);
+    }];
+    onChange('values', newItems);
   };
 
   const updateItem = (index: number, field: keyof IWarehouseItem, value: string | number) => {
-    const newItems = [...items];
+    const newItems = [...(warehouse?.values || [])];
     newItems[index] = { ...newItems[index], [field]: value };
-    setItems(newItems);
-
-    onDataChange({
-      customerName,
-      phoneNumber,
-      importDate,
-      values: newItems
-    });
+    onChange('values', newItems);
   };
 
   const handleTotal = () => {
-    return items.reduce((total, item) => total + (item.price * item.quant), 0);
+    return (warehouse?.values || []).reduce((total, item) => total + (item.price * item.quant), 0);
   };
 
   return (
     <div className="">
       <Select
         label="Tên nhà cung cấp"
-        value={customerName}
-        options={[{ value: 'Luu Minh Tri Supplier', label: 'Luu Minh Tri Supplier' }]}
-        onChange={(value) => {
-          setCustomerName(value.target.value);
-          onDataChange({ customerName: value.target.value, phoneNumber, importDate, values: items });
-        }}
+        value={warehouse?.suplierName || ''}
+        options={suppliers}
+        onChange={(e) => onChange('suplierName', e.target.value)}
       />
       <Input
         label='SĐT nhà cung cấp'
-        value={phoneNumber}
-        onChange={(e) => {
-          setPhoneNumber(e.target.value);
-          onDataChange({ customerName, phoneNumber: e.target.value, importDate, values: items });
-        }}
+        value={warehouse?.phoneNumber || ''}
+        onChange={(e) => onChange('phoneNumber', e.target.value)}
       />
       <Input
         label='Ngày nhập kho'
-        value={importDate}
+        value={warehouse?.importDate || ''}
         type='date'
-        onChange={(e) => {
-          setImportDate(e.target.value);
-          onDataChange({ customerName, phoneNumber, importDate: e.target.value, values: items });
-        }}
+        onChange={(e) => onChange('importDate', e.target.value)}
       />
       <Table style={{ borderRadius: '5px' }} >
         <TableHead style={{ background: '#D9DDEB' }}>
@@ -100,7 +64,7 @@ export default function Import({ onDataChange, initialData }: ImportProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item, index) => (
+          {(warehouse?.values || []).map((item, index) => (
             <TableRow key={index}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
@@ -120,7 +84,7 @@ export default function Import({ onDataChange, initialData }: ImportProps) {
                 <Select
                   value={item.unit}
                   options={[{ value: 'Thùng', label: 'Thùng' }, { value: 'Kg', label: 'Kg' }]}
-                  onChange={(value) => updateItem(index, 'unit', value.target.value)}
+                  onChange={(e) => updateItem(index, 'unit', e.target.value)}
                 />
               </TableCell>
               <TableCell>

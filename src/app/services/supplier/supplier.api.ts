@@ -1,206 +1,172 @@
-//Note: Cái này là cho cái phần menu bởi vì vô tình hiểu lầm sang nhà cung cấp
-
 import Api from "../api";
-import {IProduct, ProductListResponse, ProductCountResponse, ProductSearchResponse, AddProductRequest, AddProductResponse, SetAvailabilityRequest, SetAvailabilityResponse} from "./supplier.type";
+import { ISupplierResponse, ISupplier } from "./supplier.type";
 
-// Define the request structure for updating a product
-interface UpdateProductRequest {
-    name?: string;
-    price?: number;
-    quantity?: number;
+// Define parameters and response types for supplier list
+interface SupplierListParams {
+  page: number;
+  limit: number;
 }
 
-// Define the response structure for updating a product
-interface UpdateProductResponse {
-    result: string;
-    product?: {
-        id: string;
-        name: string;
-        price: number;
-        quantity: number;
-    };
-    message?: string;
+interface SupplierListResponse extends ISupplierResponse {
+  suppliers: ISupplier[];
+  pagination: {
+    total: number;
+    limit: number;
+    page: number;
+    pages: number;
+  };
 }
 
-// Define the response structure for deleting a product
-interface DeleteProductResponse {
-    result: string;
-    product?: {
-        id: string;
-        name: string;
-        price: number;
-        quantity: number;
-        isAvailable: boolean;
-        createdAt: string;
-        updatedAt: string;
-    };
-    message?: string;
+interface SupplierGetResponse extends ISupplierResponse {
+  supplier: ISupplier;
 }
 
-// Get
-// Function to get the list of products with pagination
-async function getProductList(page: number = 1, limit: number = 10): Promise<ProductListResponse | null> {
-    const url = `/product/list?page=${page}&limit=${limit}`;
+interface DeleteSupplierResponse {
+  result: string;
+  supplier?: object;
+  message?: string;
+}
 
-    try {
-        const response = await Api.get<ProductListResponse>(url);
+interface SupplierAllResponse extends ISupplierResponse {
+  suppliers: ISupplier[];
+}
 
-        if (response.data && response.data.result === "success") {
-            return response.data;
-        } else if (response.data && response.data.result === "error") {
-            console.error("Error:", response.data.message);
-            return response.data;
-        }
-    } catch (error) {
-        console.error("Failed to retrieve product list:", error);
+// Function to get the paginated supplier list
+export async function getSupplierList(
+  params: SupplierListParams
+): Promise<SupplierListResponse | null> {
+  const url = `/supplier/list?page=${params.page}&limit=${params.limit}`;
+
+  try {
+    const response = await Api.get<SupplierListResponse>(url);
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
     }
+  } catch (error) {
+    console.error("Failed to fetch supplier list:", error);
+  }
 
-    return null;
+  return null;
 }
 
-// Function to get the count of all products
-async function getProductCount(): Promise<ProductCountResponse | null> {
-    const url = `/product/count`;
+// Function to get supplier details by ID
+export async function getSupplierById(
+  id: string
+): Promise<SupplierGetResponse | null> {
+  const url = `/supplier/get/${id}`;
 
-    try {
-        const response = await Api.get<ProductCountResponse>(url);
+  try {
+    const response = await Api.get<SupplierGetResponse>(url);
 
-        if (response.data && response.data.result === "success") {
-            return response.data;
-        } else if (response.data && response.data.result === "error") {
-            console.error("Error:", response.data.message);
-            return response.data;
-        }
-    } catch (error) {
-        console.error("Failed to retrieve product count:", error);
+    if (response.data && response.data.result === "success") {
+      return response.data;
     }
+  } catch (error) {
+    console.error(`Failed to fetch supplier by ID ${id}:`, error);
+  }
 
-    return null;
+  return null;
 }
 
-// Function to search for products by name
-async function searchProductByName(search: string): Promise<ProductSearchResponse | null> {
-    const url = `/product/search/${encodeURIComponent(search)}`;
+// Function to add a new supplier entry
+export async function addSupplierEntry(
+  params: ISupplier
+): Promise<ISupplierResponse | null> {
+  const url = `/supplier/add`;
+  const requestHeaders = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  };
 
-    try {
-        const response = await Api.get<ProductSearchResponse>(url);
+  try {
+    const response = await Api.post<ISupplierResponse>(url, params, {
+      headers: requestHeaders,
+    });
 
-        if (response.data && response.data.result === "success") {
-            return response.data;
-        } else if (response.data && response.data.result === "error") {
-            console.error("Error:", response.data.message);
-            return response.data;
-        }
-    } catch (error) {
-        console.error("Failed to search for products:", error);
+    if (response.data && response.data.result === "success") {
+      return response.data;
     }
+  } catch (error) {
+    console.error("Failed to add supplier entry:", error);
+  }
 
-    return null;
+  return null;
 }
 
-// Post
-// Function to add a new product
-async function addProduct(productData: AddProductRequest): Promise<AddProductResponse | null> {
-    const url = "/product/add";
+// Function to update an existing supplier entry
+export async function updateSupplierEntry(
+  id: string,
+  params: ISupplier
+): Promise<ISupplierResponse | null> {
+  const url = `/supplier/update/${id}`;
+  const requestHeaders = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  };
 
-    try {
-        const response = await Api.post<AddProductResponse>(url, productData);
+  try {
+    const response = await Api.put<ISupplierResponse>(url, params, {
+      headers: requestHeaders,
+    });
 
-        if (response.data && response.data.result === "success") {
-            return response.data;
-        } else if (response.data && response.data.result === "error") {
-            console.error("Error:", response.data.message);
-            return response.data;
-        }
-    } catch (error) {
-        console.error("Failed to add product:", error);
+    if (response.data && response.data.result === "success") {
+      return response.data;
     }
+  } catch (error) {
+    console.error("Failed to update supplier entry:", error);
+  }
 
-    return null;
+  return null;
 }
 
-// Function to set product availability
-async function setProductAvailability(productData: SetAvailabilityRequest): Promise<SetAvailabilityResponse | null> {
-    const url = "/product/set-availability";
+// Function to delete a supplier entry by ID
+export async function deleteSupplierEntry(
+  id: string
+): Promise<DeleteSupplierResponse | null> {
+  const url = `/supplier/delete/${id}`;
 
-    try {
-        const response = await Api.post<SetAvailabilityResponse>(url, productData);
+  try {
+    const response = await Api.delete<DeleteSupplierResponse>(url);
 
-        if (response.data && response.data.result === "success") {
-            return response.data;
-        } else if (response.data && response.data.result === "error") {
-            console.error("Error:", response.data.message);
-            return response.data;
-        }
-    } catch (error) {
-        console.error("Failed to set product availability:", error);
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    } else if (response.data && response.data.result === "error") {
+      console.error("Error:", response.data.message);
+      return response.data;
     }
+  } catch (error) {
+    console.error("Failed to delete supplier entry:", error);
+  }
 
-    return null;
+  return null;
 }
 
-// Put
-// Function to update a product by ID
-async function updateProduct(id: string, productData: UpdateProductRequest): Promise<UpdateProductResponse | null> {
-    const url = `/product/update/${id}`;
+// Function to get all suppliers
+export async function getAllSuppliers(): Promise<SupplierAllResponse | null> {
+  const url = `/supplier/all`;
 
-    try {
-        const response = await Api.put<UpdateProductResponse>(url, productData);
+  try {
+    const response = await Api.get<SupplierAllResponse>(url);
 
-        if (response.data && response.data.result === "success") {
-            return response.data;
-        } else if (response.data && response.data.result === "error") {
-            console.error("Error:", response.data.message);
-            return response.data;
-        }
-    } catch (error) {
-        console.error("Failed to update product:", error);
+    if (response.data && response.data.result === "success") {
+      return response.data;
     }
+  } catch (error) {
+    console.error("Failed to fetch all suppliers:", error);
+  }
 
-    return null;
+  return null;
 }
 
-//Delete
-// Function to delete a product by ID
-async function deleteProduct(id: string): Promise<DeleteProductResponse | null> {
-    const url = `/product/delete/${id}`;
-
-    try {
-        const response = await Api.delete<DeleteProductResponse>(url);
-
-        if (response.data && response.data.result === "success") {
-            return response.data;
-        } else if (response.data && response.data.result === "error") {
-            console.error("Error:", response.data.message);
-            return response.data;
-        }
-    } catch (error) {
-        console.error("Failed to delete product:", error);
-    }
-
-    return null;
-}
-
-const supplierapi = {
-    getProductList,
-    getProductCount,
-    searchProductByName,
-    addProduct,
-    setProductAvailability,
-    updateProduct,
-    deleteProduct   
-}
-// Export the function and type for isolatedModules
-export { supplierapi };
-export type { 
-    ProductListResponse, 
-    ProductCountResponse, 
-    ProductSearchResponse, 
-    AddProductRequest, 
-    AddProductResponse,
-    SetAvailabilityRequest, 
-    SetAvailabilityResponse,
-    UpdateProductRequest, 
-    UpdateProductResponse,
-    DeleteProductResponse  
+// Export all functions as part of SupplierApi
+const SupplierApi = {
+  addSupplierEntry,
+  updateSupplierEntry,
+  deleteSupplierEntry,
+  getSupplierList,
+  getSupplierById,
+  getAllSuppliers,
 };
+
+export default SupplierApi;

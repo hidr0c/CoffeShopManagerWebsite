@@ -6,7 +6,8 @@ export interface IWarehouseItem {
 }
 
 export interface IWarehouse {
-  customerName: string;
+  _id?: string;
+  suplierName: string;
   phoneNumber: string;
   importDate: string;
   values: IWarehouseItem[];

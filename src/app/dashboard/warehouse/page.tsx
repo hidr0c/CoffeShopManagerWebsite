@@ -7,61 +7,63 @@ import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui
 import Import from "@components/modal-content/import/import";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import Modal from "@components/ui/modal/modal";
-import { Input, Select } from "@components/ui/input/input";
 import WarehouseApi from "../../services/warehouse";
+import SupplierApi, { ISupplier } from "../../services/supplier"; // Add this import
 import { IWarehouse, IWarehouseItem } from "@services/warehouse";
 
 export default function WareHouse() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<any[]>([]);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [data, setData] = useState<IWarehouse[]>([]);
+  const [editingId, setEditingId] = useState<string>("");
   const [formData, setFormData] = useState<IWarehouse | null>(null);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [suppliers, setSuppliers] = useState<{ value: string, label: string }[]>([]); // Add this state
 
-  const ingredientTypeMapping: Record<string, string> = {
-    "Hạt cà phê": "HCF",
-    "Trà xanh": "TX",
-    "Đường": "DU",
-    "Sữa": "SU",
-  };
-
-  // Fetch warehouse data
-  const fetchWarehouseList = async () => {
-    const response = await WarehouseApi.getWarehouseList({ page: 1, limit: 10 });
+  // Fetch warehouse data with pagination
+  const fetchWarehouseList = async (page: number = 1) => {
+    const response = await WarehouseApi.getWarehouseList({ limit: 10, page });
     if (response && response.exports) {
       setData(response.exports);
+    }
+    if (response && response.pagination) {
+      setTotalPages(response.pagination.pages);
+    }
+  };
+
+  // Fetch supplier data
+  const fetchSupplierList = async () => {
+    const response = await SupplierApi.getAllSuppliers();
+    if (response && response.suppliers) {
+      setSuppliers(response.suppliers.map((supplier: ISupplier) => ({ value: supplier.name, label: supplier.name })));
     }
   };
 
   useEffect(() => {
-    fetchWarehouseList();
-  }, []);
+    fetchWarehouseList(currentPage);
+    fetchSupplierList(); // Fetch suppliers when component mounts
+  }, [currentPage]);
 
-  const openModal = (item?: any) => {
+  const openModal = (item?: IWarehouse) => {
     if (item) {
-      setEditingId(item.id);
-      const editData: IWarehouse = {
-        customerName: item.supplier || '',
-        phoneNumber: item.phoneNumber || '',
-        importDate: item.date || '',
-        values: [{
-          name: item.ingredient,
-          price: item.price || 0,
-          quant: item.quant || 0,
-          unit: item.unit || 'Thùng'
-        }]
-      };
-      setFormData(editData);
+      setEditingId(item._id || "");
+      setFormData(item);
     } else {
-      setFormData(null);
+      setFormData({
+        suplierName: "",
+        phoneNumber: "",
+        importDate: "",
+        values: []
+      });
     }
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setEditingId(null);
+    setEditingId("");
+    setFormData(null);
   };
-
 
   const handleSave = async () => {
     if (!formData) return;
@@ -71,13 +73,13 @@ export default function WareHouse() {
     } else {
       await WarehouseApi.addWarehouseEntry(formData);
     }
-    fetchWarehouseList();
+    fetchWarehouseList(currentPage);
     closeModal();
   };
 
   const handleDelete = async (id: string) => {
     await WarehouseApi.deleteWarehouseEntry(id);
-    fetchWarehouseList();
+    fetchWarehouseList(currentPage);
   };
 
   return (
@@ -87,32 +89,38 @@ export default function WareHouse() {
         <Table
           style={{ borderRadius: "0px" }}
           preHeader={true}
-          pagination={true}
+          pagination={{
+            currentPage,
+            totalPages,
+            onPageChange: (page) => {
+              setCurrentPage(page);
+            }
+          }}
           addButtonTitle="Thêm phiếu nhập"
-          addButtonAction={openModal}
+          addButtonAction={() => openModal()}
         >
           <TableHead style={{ background: "white" }}>
             <TableRow>
               <TableCell>STT</TableCell>
               <TableCell>ID</TableCell>
-              <TableCell>Tên nguyên liệu</TableCell>
-              <TableCell>Nhà cung cấp</TableCell>
-              <TableCell>Số lượng</TableCell>
+              <TableCell>Tên khách hàng</TableCell>
               <TableCell>Ngày tháng</TableCell>
-              <TableCell>Loại nguyên liệu</TableCell>
+              <TableCell>SĐT</TableCell>
+              <TableCell>Tổng số hàng</TableCell>
+              <TableCell>Tổng số tiền</TableCell>
               <TableCell>Chỉnh sửa</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((item, index) => (
-              <TableRow key={item.id || index}>
+              <TableRow key={item._id || index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.ingredient}</TableCell>
-                <TableCell>{item.supplier || "Unknown"}</TableCell>
-                <TableCell>{item.quant}</TableCell>
-                <TableCell>{item.date}</TableCell>
-                <TableCell>{item.ingredientType}</TableCell>
+                <TableCell>{item._id}</TableCell>
+                <TableCell>{item.suplierName}</TableCell>
+                <TableCell>{item.importDate}</TableCell>
+                <TableCell>{item.phoneNumber}</TableCell>
+                <TableCell>{item.values.reduce((total, value) => total + value.quant, 0)}</TableCell>
+                <TableCell>{item.values.reduce((total, value) => total + value.price * value.quant, 0)}</TableCell>
                 <TableCell>
                   <div style={{ display: "flex", gap: "1em" }}>
                     <div
@@ -123,7 +131,7 @@ export default function WareHouse() {
                     </div>
                     <div
                       style={{ color: "#A30D11", cursor: "pointer" }}
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDelete(item._id || "")}
                     >
                       <FaRegTrashAlt />
                     </div>
@@ -138,8 +146,15 @@ export default function WareHouse() {
         title={editingId ? "Chỉnh sửa kho hàng" : "Thêm mới kho hàng"}
         isOpen={isModalOpen}
         onClose={closeModal}
-        onSave={handleSave}>
-        <Import onDataChange={setFormData} initialData={formData} />
+        onSave={handleSave}
+      >
+        <Import
+          warehouse={formData}
+          suppliers={suppliers}
+          onChange={(field, value) => {
+            setFormData(prev => ({ ...prev, [field]: value }));
+          }}
+        />
       </Modal>
     </div>
   );
