@@ -32,7 +32,7 @@ export const Input: React.FC<InputProps> = ({
   const [inputValue, setInputValue] = React.useState(value);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!readOnly) { // Chỉ thay đổi giá trị khi không ở chế độ readOnly
+    if (!readOnly) {
       setInputValue(e.target.value);
       onChange(e);
     }
@@ -65,13 +65,14 @@ export const Input: React.FC<InputProps> = ({
 interface SelectProps {
   label?: string;
   value: string;
+  style?: any;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: { value: string; label: string }[];
 }
 
-export const Select: React.FC<SelectProps> = ({ label, value, onChange, options }) => {
+export const Select: React.FC<SelectProps> = ({ label, value, style, onChange, options }) => {
   return (
-    <div className={styles.inputContainer}>
+    <div className={styles.inputContainer} style={style}>
       {label && <label className={styles.label}>{label}</label>}
       <select
         value={value}
