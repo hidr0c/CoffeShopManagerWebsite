@@ -1,3 +1,5 @@
+//Note: Cái này là cho cái phần menu bởi vì vô tình hiểu lầm sang nhà cung cấp
+
 import Api from "../api";
 import {IProduct, ProductListResponse, ProductCountResponse, ProductSearchResponse, AddProductRequest, AddProductResponse, SetAvailabilityRequest, SetAvailabilityResponse} from "./supplier.type";
 

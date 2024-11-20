@@ -1,3 +1,5 @@
+//Note: Cái này là cho cái phần menu bởi vì vô tình hiểu lầm sang nhà cung cấp
+
 export interface IProduct {
     name: string;
     price: number;

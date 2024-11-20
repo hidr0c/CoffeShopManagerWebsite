@@ -5,6 +5,8 @@ import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui
 import Export from '@components/modal-content/export/export';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import AddDishModal from '@/components/modal-content/add-menu/addMenu';
+import { supplierapi } from '@/services/supplier/supplier.api';
+import {IProduct} from "@services/supplier";
 
 export default function Menu() {
   const data = [

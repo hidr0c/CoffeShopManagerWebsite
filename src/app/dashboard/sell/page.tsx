@@ -5,6 +5,8 @@
 import React, { useState } from 'react';
 import styles from './sell.module.scss';
 import { FaPlus, FaTrashAlt, FaInfoCircle } from 'react-icons/fa';
+import { supplierapi } from '@/services/supplier/supplier.api'; // Not sure 
+import {IProduct} from "@services/supplier"; // Not sure 
 
 // Mock data for products with categories
 const products = [

@@ -7,6 +7,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import Modal from '@components/ui/modal/modal';
 import { useState } from 'react';
 
+
 export default function Supplier() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {

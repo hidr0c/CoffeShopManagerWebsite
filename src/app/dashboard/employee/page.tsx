@@ -6,6 +6,7 @@ import EmployeeForm from '@components/modal-content/employee/employee';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import Modal from '@/components/ui/modal/modal';
 import { useState } from 'react';
+import EmployeeApi from "@/services/employee/employee.api"
 
 export default function Employee() {
   const [isModalOpen, setIsModalOpen] = useState(false);
