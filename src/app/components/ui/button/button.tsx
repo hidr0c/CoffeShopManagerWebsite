@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react'
 interface ButtonProps {
   style?: any,
   children: ReactNode,
-  onClick: () => void
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export function Button({ style, children, onClick }: ButtonProps) {

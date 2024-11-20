@@ -27,38 +27,103 @@
   background-color: white;
   border-radius: 0 0 20px 20px;
 }
+
+.tableWrapper {
+  width: 100%;
+  overflow: auto;
+  max-height: 70vh;
+  background: white;
+  position: relative; // Add positioning context
+  display: block; // Add this
+  
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
 .table{
   border-spacing: 0;
-  width: 100%;
+  min-width: 100%;
+  width: max-content; // Change from width: 100%
   border-collapse: collapse;
-  border-radius: 20px; /* Thay đổi giá trị này theo ý bạn */
-  overflow: hidden;
-
-
+  overflow: visible; // Change from hidden
+  position: relative; // Add this for sticky positioning context
+  white-space: nowrap;
+  table-layout: auto; // Change from fixed
 }
 .head {
   font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 20; // Increased z-index
+  background: white;
+  
+  .row {
+    background: white;
+  }
+
+  .cell {
+    background: white;
+    
+    &.sticky {
+      position: sticky;
+      right: 0;
+      z-index: 21; // Higher than regular header
+      background: white;
+    }
+  }
 }
 
-.body{
-    .row:nth-child(odd) {
-      background-color: #F9F9F9 ; /* Màu nền cho dòng lẻ */
+.body {
+  .row:nth-child(odd) {
+    background-color: #F9F9F9;
+    .cell.sticky {
+      background-color: #F9F9F9;
     }
+  }
 
-    .row:nth-child(even) {
+  .row:nth-child(even) {
+    background: #f0f0f0;
+    .cell.sticky {
       background: #f0f0f0;
     }
-
-    .cell {
-      font-weight: 500;
-    }
-
-
+  }
+  .row {
+    position: relative; // Add positioning context for sticky cells
+  }
 }
 
 .cell {
   position: relative;
   padding: 1em 1em 1em 2em;
+  background: inherit; // Add this to maintain background when sticky
+  
+  &.sticky {
+    position: sticky;
+    right: 0;  // Change from left: 0
+    z-index: 10; // Higher z-index
+    background-clip: padding-box;
+    border-left: 2px solid rgba(0, 0, 0, 0.1);
+    min-width: 100px; // Add minimum width for sticky columns
+    
+    &:after {
+      display: none; // Remove the gradient effect
+    }
+  }
 }
 
 .sort{

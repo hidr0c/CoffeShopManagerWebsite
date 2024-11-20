@@ -16,13 +16,15 @@ interface TableProps {
   style?: React.CSSProperties; // Use React's CSSProperties for better type safety
   children: React.ReactNode;
   preHeader?: boolean;
-  pagination?: boolean;
+  pagination?: {
+    currentPage: number;
+    totalPages: number;
+    onPageChange: (page: number) => void;
+  };
   preHeaderName?: string;
   addButtonTitle?: string;
-  addButtonAction?: () => void;
-  modalAddContent?: React.ReactNode; // Property to pass modal content
-  modalStyle?: React.CSSProperties; // Optional custom style for the modal
-  modalTitle?: string; // Optional title for the modal
+  addButtonAction?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+
 }
 
 interface TableRowProps {
@@ -39,6 +41,7 @@ interface TableCellProps {
   style?: any;
   children: React.ReactNode;
   sort?: boolean;
+  sticky?: boolean;
 }
 
 interface TableBodyProps {
@@ -49,18 +52,11 @@ interface TableBodyProps {
 export function Table({
   style = {},
   children,
-  pagination = false,
+  pagination = null,
   preHeader = false,
   addButtonTitle,
-  addButtonAction = () => { },
+  addButtonAction = (e) => { },
 }: TableProps) {
-  const handlePageChange = () => {
-
-
-  }
-
-
-
   return (
     <div className="">
       {preHeader && <div className={styles.preHeader}>
@@ -77,21 +73,21 @@ export function Table({
         </div>
         <div className={styles.right}>
           <Button onClick={addButtonAction}>
-            <>
-              <FaPlus />
-              {addButtonTitle}
-            </>
+            <FaPlus />
+            {addButtonTitle}
           </Button>
         </div>
       </div>}
-      <table className={styles.table} style={style}>
-        {children}
-      </table>
+      <div className={styles.tableWrapper}>
+        <table className={styles.table} style={style}>
+          {children}
+        </table>
+      </div>
       {pagination && <div className={styles.pagination}>
         <Pagination
-          currentPage={1}
-          totalPages={10}
-          onPageChange={handlePageChange}
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          onPageChange={pagination.onPageChange}
         />
       </div>}
     </div>
@@ -123,9 +119,9 @@ export function TableBody({ style = {}, children }: TableBodyProps) {
   );
 }
 
-export function TableCell({ style = {}, children, sort }: TableCellProps) {
+export function TableCell({ style = {}, children, sort, sticky = false }: TableCellProps & { sticky?: boolean }) {
   return (
-    <td className={styles.cell} style={style}>
+    <td className={`${styles.cell} ${sticky ? styles.sticky : ''}`} style={style}>
       {sort && <div className={styles.sort}><FaSort /></div>}
       {children}
     </td>

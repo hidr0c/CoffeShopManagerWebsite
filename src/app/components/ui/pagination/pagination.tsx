@@ -12,6 +12,10 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+  const handlePageChange = (page: number) => {
+    onPageChange(page);
+  };
+
   const handlePrevPage = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -24,9 +28,6 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages,
     }
   };
 
-  const handlePageChange = (page: number) => {
-    onPageChange(page);
-  };
 
   const renderPageNumbers = () => {
     const pages = [];
@@ -101,7 +102,7 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages,
         onClick={handlePrevPage}
         className={styles.paginationButton}
         disabled={currentPage === 1}
-        style={{backgroundColor: 'transparent',border:'none'}}
+        style={{ backgroundColor: 'transparent', border: 'none' }}
       >
         Trước
       </button>
@@ -110,7 +111,7 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages,
         onClick={handleNextPage}
         className={styles.paginationButton}
         disabled={currentPage === totalPages}
-        style={{backgroundColor: 'transparent' ,border:'none'}}
+        style={{ backgroundColor: 'transparent', border: 'none' }}
       >
         Tiếp
       </button>
