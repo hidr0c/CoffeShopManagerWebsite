@@ -7,6 +7,7 @@ import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import Modal from '@components/ui/modal/modal';
 import MenuApi from "../../services/menu";
 import { IMenuItem } from "@services/menu";
+import { Toggle } from '@ui/input/toggle';
 
 export default function Menu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,7 +105,14 @@ export default function Menu() {
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.type}</TableCell>
                 <TableCell>{item.price}</TableCell>
-                <TableCell>{item.isAvailable ? "Có" : "Không"}</TableCell>
+                <TableCell>
+                  <Toggle
+                    checked={item.isAvailable}
+                    onChange={async (e) => {
+                      await MenuApi.updateMenuItem(item._id || "", { ...item, isAvailable: e.target.checked });
+                      fetchMenuList(currentPage);
+                    }} label={''} />
+                </TableCell>
                 <TableCell>
                   <div style={{ display: 'flex', gap: '1em' }}>
                     <div
