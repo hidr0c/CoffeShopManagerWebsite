@@ -1,4 +1,3 @@
-// page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -23,8 +22,10 @@ export default function WareHouse() {
   // Fetch warehouse data with pagination
   const fetchWarehouseList = async (page: number = 1) => {
     const response = await WarehouseApi.getWarehouseList({ limit: 10, page });
-    if (response && response.exports) {
-      setData(response.exports);
+    console.log(response);
+    if (response && response.imports) {
+      console.log(response.imports);
+      setData(response.imports);
     }
     if (response && response.pagination) {
       setTotalPages(response.pagination.pages);
@@ -40,8 +41,8 @@ export default function WareHouse() {
   };
 
   useEffect(() => {
+    fetchSupplierList();
     fetchWarehouseList(currentPage);
-    fetchSupplierList(); // Fetch suppliers when component mounts
   }, [currentPage]);
 
   const openModal = (item?: IWarehouse) => {
@@ -50,7 +51,7 @@ export default function WareHouse() {
       setFormData(item);
     } else {
       setFormData({
-        suplierName: "",
+        supplierName: suppliers[0]?.value || "",
         phoneNumber: "",
         importDate: "",
         values: []
@@ -116,7 +117,7 @@ export default function WareHouse() {
               <TableRow key={item._id || index}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{item._id}</TableCell>
-                <TableCell>{item.suplierName}</TableCell>
+                <TableCell>{item.supplierName}</TableCell>
                 <TableCell>{item.importDate}</TableCell>
                 <TableCell>{item.phoneNumber}</TableCell>
                 <TableCell>{item.values.reduce((total, value) => total + value.quant, 0)}</TableCell>
@@ -143,6 +144,7 @@ export default function WareHouse() {
         </Table>
       </div>
       <Modal
+        style={{ maxHeight: "80vh" }}
         title={editingId ? "Chỉnh sửa kho hàng" : "Thêm mới kho hàng"}
         isOpen={isModalOpen}
         onClose={closeModal}
@@ -152,6 +154,7 @@ export default function WareHouse() {
           warehouse={formData}
           suppliers={suppliers}
           onChange={(field, value) => {
+            console.log(formData);
             setFormData(prev => ({ ...prev, [field]: value }));
           }}
         />
