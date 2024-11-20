@@ -15,6 +15,7 @@ export interface InputProps {
   labelStyle?: any;
   required?: boolean;
   readOnly?: boolean;
+  disabled?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
