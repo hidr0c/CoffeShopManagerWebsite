@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import styles from './sell.module.scss';
 import { FaPlus, FaTrashAlt, FaInfoCircle } from 'react-icons/fa';
-import MenuApi from '@/services/menu';
+import MenuApi, { IMenuItem } from '@/services/menu';
 import { useEffect } from "react";
 import jsPDF from 'jspdf';
 
@@ -26,7 +26,7 @@ const Sell: React.FC = () => {
   // State for selected category
   const [selectedCategory, setSelectedCategory] = useState('Coffee');
   // State for menu items
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuItems, setMenuItems] = useState<IMenuItem[]>([]);
 
 
   // Fetch menu items from API
@@ -70,7 +70,7 @@ const Sell: React.FC = () => {
 
 
   // Filtered products based on selected category
-  const filteredProducts = menuItems.filter((product) => product.type === selectedCategory);
+  const filteredProducts = menuItems.filter((product) => product.type === selectedCategory && product.isAvailable);
 
   return (
     <div className={styles.container}>
