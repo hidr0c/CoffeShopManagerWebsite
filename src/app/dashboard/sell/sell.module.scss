@@ -160,3 +160,38 @@
   gap: 0.5em;
   padding: 0.7em 1.2em;
 }
+
+.productItem {
+  display: grid;
+  grid-template-rows: 1fr auto; /* Dòng đầu cho tên, dòng dưới cho giá */
+  justify-items: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  height: auto;
+  max-height: 120px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+  .hover {
+    transform: translateY(-2px); /* Hiệu ứng nhấn */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng khi hover */
+  }
+
+  .span {
+    font-size: 16px; /* Kích thước chữ */
+    color: #333; /* Màu chữ */
+  }
+  .productName {
+    font-size: 14px; /* Kích thước chữ nhỏ gọn */
+    font-weight: bold; /* Tên sản phẩm đậm */
+    color: #333; /* Màu sắc chữ */
+    margin-bottom: 5px; /* Cách giá tiền một khoảng nhỏ */
+  }
+  
+  .productPrice {
+    font-size: 13px; /* Kích thước chữ nhỏ hơn tên sản phẩm */
+    color: #777; /* Màu chữ nhẹ hơn */
+  }
