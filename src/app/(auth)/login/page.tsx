@@ -18,7 +18,7 @@ export default function LoginPage() {
         try {
             const res = await AuthApi.login(data);
             if (res.result === "success") {
-                router.push("/profile/");
+                router.push("/dashboard/");
             } else {
                 message.error(res.message);
             }
