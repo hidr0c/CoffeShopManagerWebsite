@@ -9,6 +9,8 @@ import MenuApi, { IMenuItem } from '@/services/menu';
 import { useEffect } from "react";
 import jsPDF from 'jspdf';
 import { Button } from '@/components/ui/button/button';
+import CustomerAPI, { ICustomer } from '@/services/customer';
+import Customer from '../customer/page';
 
 // Mock data for products with categories
 const products = [
@@ -28,6 +30,10 @@ const Sell: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('Coffee');
   // State for menu items
   const [menuItems, setMenuItems] = useState<IMenuItem[]>([]);
+  // State for Customer
+  const [customerName, setCustomerName] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+
 
 
   // Fetch menu items from API
@@ -77,6 +83,17 @@ const Sell: React.FC = () => {
   const clearOrder = () => {
     setOrderItems([]); // Xóa tất cả các sản phẩm trong giỏ hàng
   };
+
+  //Customer
+  const [customer, setCustomer] = useState<ICustomer>({
+    name: '',
+    phoneNumber: '',
+    email: '',
+    birthDate: '',
+    sex: '',
+    address: '',
+  });
+
   // Icon delete
   <ul>
     {orderItems.map((item, index) => (
@@ -123,6 +140,24 @@ const Sell: React.FC = () => {
       {/* Order Summary */}
       <div className={styles.orderSummary}>
         <h2>Order Summary</h2>
+        <div className={styles.customerForm}>
+          <input
+            type="text"
+            placeholder="Customer Name"
+            value={customer.name || ''} // Safeguard to ensure value is a string
+            onChange={(e) =>
+              setCustomer((prev) => ({ ...prev, name: e.target.value })) // Update only the `name` field
+            }
+            className={styles.inputField}
+          />
+          <input
+            type="text"
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            className={styles.inputField}
+          />
+        </div>
         <ul>
           {orderItems.map((item, index) => (
             <li key={index}>

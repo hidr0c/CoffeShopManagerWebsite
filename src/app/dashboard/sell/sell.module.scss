@@ -226,3 +226,31 @@
   font-size: 14px;
   color: #777;
 }
+
+.customerForm {
+  display: flex;
+  gap: 10px;
+  /* Adds space between input fields */
+  margin-bottom: 20px;
+  /* Optional: adds space below the form */
+}
+
+.inputField {
+  background-color: white;
+  /* White background */
+  color: black;
+  /* Black text */
+  border: 1px solid #ccc;
+  /* Light gray border */
+  padding: 8px 12px;
+  /* Add some padding */
+  border-radius: 4px;
+  /* Optional: rounded corners */
+  flex: 1;
+  /* Make inputs evenly sized */
+}
+
+.inputField::placeholder {
+  color: #888;
+  /* Gray placeholder text */
+}
