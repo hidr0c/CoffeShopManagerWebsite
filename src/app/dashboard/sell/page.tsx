@@ -87,7 +87,7 @@ const Sell: React.FC = () => {
   const [customer, setCustomer] = useState<ISell>({
     customerName: '',
     phoneNumber: '',
-    sellDate: '',
+    sellDate: (new Date()).toISOString().split('T')[0],
     values: []
   });
 
