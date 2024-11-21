@@ -80,6 +80,24 @@ interface VerifyEmployeeResponse {
   employee?: object; // Optional: Employee data if provided in response
 }
 
+interface CheckinParams {
+  checkinTime: Date;
+  type: string;
+  value: number;
+  employee_id: string;
+}
+
+interface CheckinResponse {
+  result: string;
+  message?: string;
+  checkins?: ICheckin[];
+}
+
+interface DeleteCheckinParams {
+  employee_id: string;
+  checkin_id: string;
+}
+
 // GET
 // Function to get the paginated employee list
 export async function getEmployeeList(
@@ -191,6 +209,30 @@ async function addEmployee(
   return null;
 }
 
+// Function to add a new checkin
+async function addCheckin(
+  params: CheckinParams
+): Promise<IEmployeeResponse | null> {
+  const url = `/employee/checkin`;
+  const requestHeaders = {
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await Api.post<IEmployeeResponse>(url, params, {
+      headers: requestHeaders,
+    });
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Failed to add checkin:", error);
+  }
+
+  return null;
+}
+
 // PUT
 // Function to update an employee by ID
 async function updateEmployee(
@@ -213,6 +255,33 @@ async function updateEmployee(
     }
   } catch (error) {
     console.error("Failed to update employee:", error);
+  }
+
+  return null;
+}
+
+// Function to update employee status
+async function updateEmployeeStatus(
+  params: UpdateEmployeeStatusParams
+): Promise<UpdateEmployeeStatusResponse | null> {
+  const url = `/employee/update-status`; // Adjust endpoint if necessary
+  const requestHeaders = {
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await Api.put<UpdateEmployeeStatusResponse>(url, params, {
+      headers: requestHeaders,
+    });
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    } else if (response.data && response.data.result === "error") {
+      console.error("Error updating employee status:", response.data.message);
+      return response.data; // Optionally return error information
+    }
+  } catch (error) {
+    console.error("Failed to update employee status:", error);
   }
 
   return null;
@@ -241,28 +310,51 @@ async function deleteEmployee(
   return null;
 }
 
-// Function to update employee status
-async function updateEmployeeStatus(
-  params: UpdateEmployeeStatusParams
-): Promise<UpdateEmployeeStatusResponse | null> {
-  const url = `/employee/update-status`; // Adjust endpoint if necessary
+// Function to get checkins for an employee
+async function getCheckins(
+  employee_id: string
+): Promise<CheckinResponse | null> {
+  const url = `/employee/checkin`;
   const requestHeaders = {
     "Content-Type": "application/json",
   };
 
   try {
-    const response = await Api.put<UpdateEmployeeStatusResponse>(url, params, {
+    const response = await Api.get<CheckinResponse>(url, {
       headers: requestHeaders,
+      data: { employee_id },
     });
 
     if (response.data && response.data.result === "success") {
       return response.data;
-    } else if (response.data && response.data.result === "error") {
-      console.error("Error updating employee status:", response.data.message);
-      return response.data; // Optionally return error information
     }
   } catch (error) {
-    console.error("Failed to update employee status:", error);
+    console.error("Failed to get checkins:", error);
+  }
+
+  return null;
+}
+
+// Function to delete a checkin
+async function deleteCheckin(
+  params: DeleteCheckinParams
+): Promise<IEmployeeResponse | null> {
+  const url = `/employee/checkin`;
+  const requestHeaders = {
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await Api.delete<IEmployeeResponse>(url, {
+      headers: requestHeaders,
+      data: params,
+    });
+
+    if (response.data && response.data.result === "success") {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Failed to delete checkin:", error);
   }
 
   return null;
@@ -306,6 +398,9 @@ const EmployeeApi = {
   searchEmployees,
   updateEmployeeStatus,
   verifyEmployee,
+  addCheckin,
+  getCheckins,
+  deleteCheckin,
 };
 
 // Export the functions and types
@@ -322,4 +417,7 @@ export type {
   UpdateEmployeeStatusResponse,
   VerifyEmployeeParams,
   VerifyEmployeeResponse,
+  CheckinParams,
+  CheckinResponse,
+  DeleteCheckinParams,
 };
