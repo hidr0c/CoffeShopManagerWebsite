@@ -3,7 +3,7 @@
 import styles from './employee.module.scss';
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import EmployeeForm from '@components/modal-content/employee/employee';
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit, FaRegTrashAlt, FaRegEye } from 'react-icons/fa';
 import Modal from '@/components/ui/modal/modal';
 import { useState } from 'react';
 import EmployeeApi, { IEmployee } from '@/services/employee';
@@ -18,6 +18,7 @@ export default function Employee() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentLimit, setLimit] = useState<number>(10);
+  const [isModalEdit, setModalEdit] = useState(false);
 
 
   const fetchEmployeeList = async (page: number = 1, limit: number = 10) => {
@@ -80,9 +81,16 @@ export default function Employee() {
     setFormData(null);
   };
 
+  const handleView = (item: IEmployee) => {
+    setFormData(item);
+    setModalEdit(false);
+    setIsModalOpen(true);
+  }
+
   const handleEdit = (item: IEmployee) => {
     setEditingId(item._id);
     setFormData(item);
+    setModalEdit(true);
     setIsModalOpen(true);
   }
 
@@ -148,6 +156,9 @@ export default function Employee() {
               <TableCell sticky={true}>
                 <div className="" style={{ display: 'flex', gap: '1.5em' }}>
                   <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
+                    <FaRegEye onClick={() => handleView(item)} />
+                  </div>
+                  <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
                     <FaRegTrashAlt
                       onClick={() => {
                         handleDelete(item._id);
@@ -173,6 +184,7 @@ export default function Employee() {
           onSave={handleSave}>
           <EmployeeForm
             employee={formData}
+            isEdit={isModalEdit}
             onChange={(field, value) => {
               setFormData((prev) => ({ ...prev, [field]: value }));
             }}

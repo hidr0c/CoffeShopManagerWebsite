@@ -6,13 +6,15 @@ import { ChangeEvent } from "react";
 
 interface CustomerFormProps {
   customer: ICustomer;
+  isEdit?: boolean;
   onChange: (field: string, value: string) => void;
 }
 
-export default function CustomerForm({ customer, onChange }: CustomerFormProps) {
+export default function CustomerForm({ customer, onChange, isEdit = false }: CustomerFormProps) {
   return (
     <div>
       <Input
+        readOnly={!isEdit}
         label="Tên khách hàng"
         value={customer.name}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -20,6 +22,7 @@ export default function CustomerForm({ customer, onChange }: CustomerFormProps) 
         }
       />
       <Input
+        readOnly={!isEdit}
         label="Ngày sinh"
         type="date"
         value={customer.birthDate}
@@ -28,6 +31,7 @@ export default function CustomerForm({ customer, onChange }: CustomerFormProps) 
         }
       />
       <Select
+        readOnly={!isEdit}
         label="Giới tính"
         value={customer.sex}
         onChange={(e: ChangeEvent<HTMLSelectElement>) =>
@@ -39,6 +43,7 @@ export default function CustomerForm({ customer, onChange }: CustomerFormProps) 
         ]}
       />
       <Input
+        readOnly={!isEdit}
         label="Địa chỉ"
         value={customer.address}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -46,6 +51,7 @@ export default function CustomerForm({ customer, onChange }: CustomerFormProps) 
         }
       />
       <Input
+        readOnly={!isEdit}
         label="SĐT"
         value={customer.phoneNumber}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -53,6 +59,7 @@ export default function CustomerForm({ customer, onChange }: CustomerFormProps) 
         }
       />
       <Input
+        readOnly={!isEdit}
         label="Email"
         value={customer.email}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>

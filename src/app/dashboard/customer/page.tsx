@@ -2,7 +2,7 @@
 
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import CustomerForm from '@components/modal-content/customer/customer';
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit, FaRegEye, FaRegTrashAlt } from 'react-icons/fa';
 import Modal from '@/components/ui/modal/modal';
 import { useState, useEffect } from 'react';
 import CustomerApi, { ICustomer } from '@/services/customer';
@@ -16,6 +16,8 @@ export default function Customer() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentLimit, setLimit] = useState<number>(10);
+
+  const [isModalEdit, setModalEdit] = useState(false);
 
   const fetchCustomersList = async (page: number = 1, limit: number = 10) => {
     const response = await CustomerApi.getCustomerList({ page, limit });
@@ -51,9 +53,16 @@ export default function Customer() {
     setFormData(null);
   };
 
+  const handleView = (item: ICustomer) => {
+    setFormData(item);
+    setModalEdit(false);
+    setIsModalOpen(true);
+  }
+
   const handleEdit = (item: ICustomer) => {
     setEditingId(item._id);
     setFormData(item);
+    setModalEdit(true);
     setIsModalOpen(true);
   }
 
@@ -119,6 +128,9 @@ export default function Customer() {
               <TableCell sticky={true}>
                 <div className="" style={{ display: 'flex', gap: '1.5em' }}>
                   <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
+                    <FaRegEye onClick={() => handleView(item)} />
+                  </div>
+                  <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
                     <FaRegTrashAlt onClick={() => handleDelete(item._id)} />
                   </div>
                   <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
@@ -139,6 +151,7 @@ export default function Customer() {
         >
           <CustomerForm
             customer={formData}
+            isEdit={isModalEdit}
             onChange={(field, value) => {
               console.log(field, value);
               console.log(formData);

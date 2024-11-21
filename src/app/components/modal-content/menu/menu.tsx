@@ -12,36 +12,39 @@ interface MenuFormProps {
         isAvailable: boolean;
     };
     onChange: (key: string, value: string | number | boolean) => void;
+    isEdit?: boolean;
 }
 
-export default function MenuForm({ formData, onChange }: MenuFormProps) {
+export default function MenuForm({ formData, onChange, isEdit = false }: MenuFormProps) {
     return (
         <div style={{ margin: '0 0 2em 0' }}>
             <Input
+                readOnly={!isEdit}
                 label='Tên món'
                 value={formData.name}
                 onChange={(e) => onChange('name', e.target.value)}
             />
             <Select
-                options={
-                    [
-                        { label: 'Coffee', value: 'Coffee' },
-                        { label: 'Trà', value: 'Trà' },
-                        { label: 'Bánh', value: 'Bánh' },
-                        { label: 'Khác', value: 'Khác' },
-                    ]
-                }
+                readOnly={!isEdit}
+                options={[
+                    { label: 'Coffee', value: 'Coffee' },
+                    { label: 'Trà', value: 'Trà' },
+                    { label: 'Bánh', value: 'Bánh' },
+                    { label: 'Khác', value: 'Khác' },
+                ]}
                 label="Loại"
                 value={formData.type}
                 onChange={(e) => onChange('type', e.target.value)}
             />
             <Input
+                readOnly={!isEdit}
                 label='Giá'
                 type="number"
                 value={formData.price}
                 onChange={(e) => onChange('price', parseFloat(e.target.value))}
             />
             <Toggle
+                readOnly={!isEdit}
                 label='Có sẵn'
                 checked={formData.isAvailable}
                 onChange={(e) => onChange('isAvailable', e.target.checked)}

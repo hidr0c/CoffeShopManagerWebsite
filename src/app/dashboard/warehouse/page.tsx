@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import styles from "./warehouse.module.scss";
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import Import from "@components/modal-content/import/import";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { FaRegEdit, FaRegTrashAlt, FaRegEye } from "react-icons/fa"; // Add this import
 import Modal from "@components/ui/modal/modal";
 import WarehouseApi from "../../services/warehouse";
 import SupplierApi, { ISupplier } from "../../services/supplier"; // Add this import
@@ -16,11 +16,11 @@ export default function WareHouse() {
   const [editingId, setEditingId] = useState<string>("");
   const [formData, setFormData] = useState<IWarehouse | null>(null);
   const [suppliers, setSuppliers] = useState<{ value: string, label: string }[]>([]); // Add this state
+  const [isModalEdit, setModalEdit] = useState(false); // Add this state
 
   const [totalPages, setTotalPages] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentLimit, setLimit] = useState<number>(10);
-
 
   // Fetch warehouse data with pagination
   const fetchWarehouseList = async (page: number = 1, limit: number = 10) => {
@@ -48,7 +48,8 @@ export default function WareHouse() {
     fetchWarehouseList(currentPage);
   }, [currentPage]);
 
-  const openModal = (item?: IWarehouse) => {
+  const openModal = (item?: IWarehouse, isEdit: boolean = true) => {
+    setModalEdit(isEdit);
     if (item) {
       setEditingId(item._id || "");
       setFormData(item);
@@ -132,6 +133,12 @@ export default function WareHouse() {
                   <div style={{ display: "flex", gap: "1em" }}>
                     <div
                       style={{ color: "#624DE3", cursor: "pointer" }}
+                      onClick={() => openModal(item, false)}
+                    >
+                      <FaRegEye />
+                    </div>
+                    <div
+                      style={{ color: "#624DE3", cursor: "pointer" }}
                       onClick={() => openModal(item)}
                     >
                       <FaRegEdit />
@@ -151,14 +158,15 @@ export default function WareHouse() {
       </div>
       <Modal
         style={{ maxHeight: "90vh" }}
-        title={editingId ? "Chỉnh sửa kho hàng" : "Thêm mới kho hàng"}
+        title={editingId ? (isModalEdit ? "Chỉnh sửa kho hàng" : "Xem kho hàng") : "Thêm mới kho hàng"}
         isOpen={isModalOpen}
         onClose={closeModal}
-        onSave={handleSave}
+        onSave={isModalEdit ? handleSave : undefined} // Disable save button in view mode
       >
         <Import
           warehouse={formData}
           suppliers={suppliers}
+          isEdit={isModalEdit} // Pass isEdit prop
           onChange={(field, value) => {
             console.log(formData);
             setFormData(prev => ({ ...prev, [field]: value }));

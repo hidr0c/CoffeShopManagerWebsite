@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Table, TableCell, TableHead, TableRow, TableBody } from "@components/ui/table/table";
 import MenuForm from '@components/modal-content/menu/menu';
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit, FaRegEye, FaRegTrashAlt } from 'react-icons/fa';
 import Modal from '@components/ui/modal/modal';
 import MenuApi from "../../services/menu";
 import { IMenuItem } from "@services/menu";
@@ -43,6 +43,11 @@ export default function Menu() {
         isAvailable: true,
       });
     }
+    setIsModalOpen(true);
+  };
+
+  const handleView = (item: IMenuItem) => {
+    setFormData(item);
     setIsModalOpen(true);
   };
 
@@ -113,6 +118,12 @@ export default function Menu() {
                 </TableCell>
                 <TableCell>
                   <div style={{ display: 'flex', gap: '1em' }}>
+                    <div
+                      style={{ color: '#624DE3', cursor: 'pointer' }}
+                      onClick={() => handleView(item)}
+                    >
+                      <FaRegEye />
+                    </div>
                     <div
                       style={{ color: '#624DE3', cursor: 'pointer' }}
                       onClick={() => openModal(item)}

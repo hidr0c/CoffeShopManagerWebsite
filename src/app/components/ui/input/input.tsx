@@ -72,15 +72,17 @@ interface SelectProps {
   label?: string;
   value: string;
   style?: any;
+  readOnly?: boolean;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: { value: string; label: string }[];
 }
 
-export const Select: React.FC<SelectProps> = ({ label, value, style, onChange, options }) => {
+export const Select: React.FC<SelectProps> = ({ label, value, style, readOnly, onChange, options }) => {
   return (
     <div className={styles.inputContainer} style={style}>
       {label && <label className={styles.label}>{label}</label>}
       <select
+        disabled={readOnly}
         value={value}
         onChange={onChange}
         className={styles.select}

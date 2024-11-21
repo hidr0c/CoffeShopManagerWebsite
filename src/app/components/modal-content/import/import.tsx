@@ -9,10 +9,11 @@ import { IWarehouse, IWarehouseItem } from "@services/warehouse";
 interface ImportProps {
   warehouse: IWarehouse | null;
   onChange: (field: keyof IWarehouse, value: any) => void;
-  suppliers: { value: string, label: string }[]; // Add this prop
+  suppliers: { value: string, label: string }[];
+  isEdit: boolean; // Add this prop
 }
 
-export default function Import({ warehouse, onChange, suppliers }: ImportProps) {
+export default function Import({ warehouse, onChange, suppliers, isEdit }: ImportProps) {
   const handleAddItem = () => {
     const newItems = [...(warehouse?.values || []), {
       name: '',
@@ -46,17 +47,20 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
         value={warehouse?.supplierName || suppliers[0]?.value || ''}
         options={suppliers}
         onChange={(e) => onChange('supplierName', e.target.value)}
+        readOnly={!isEdit} // Add readOnly prop
       />
       <Input
         label='SĐT nhà cung cấp'
         value={warehouse?.phoneNumber || ''}
         onChange={(e) => onChange('phoneNumber', e.target.value)}
+        readOnly={!isEdit} // Add readOnly prop
       />
       <Input
         label='Ngày nhập kho'
         value={warehouse?.importDate || ''}
         type='date'
         onChange={(e) => onChange('importDate', e.target.value)}
+        readOnly={!isEdit} // Add readOnly prop
       />
       <div style={{ maxHeight: "30vh", overflow: "auto" }}>
         <Table style={{ borderRadius: '5px' }} >
@@ -80,6 +84,7 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
                     style={{ gridTemplateColumns: "unset" }}
                     value={item.name}
                     onChange={(e) => updateItem(index, 'name', e.target.value)}
+                    readOnly={!isEdit} // Add readOnly prop
                   />
                 </TableCell>
                 <TableCell>
@@ -88,6 +93,7 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
                     type="number"
                     value={item.quant}
                     onChange={(e) => updateItem(index, 'quant', Number(e.target.value))}
+                    readOnly={!isEdit} // Add readOnly prop
                   />
                 </TableCell>
                 <TableCell>
@@ -96,6 +102,7 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
                     value={item.unit}
                     options={[{ value: 'Thùng', label: 'Thùng' }, { value: 'Kg', label: 'Kg' }]}
                     onChange={(e) => updateItem(index, 'unit', e.target.value)}
+                    readOnly={!isEdit} // Add readOnly prop
                   />
                 </TableCell>
                 <TableCell>
@@ -104,26 +111,31 @@ export default function Import({ warehouse, onChange, suppliers }: ImportProps) 
                     type="number"
                     value={item.price}
                     onChange={(e) => updateItem(index, 'price', Number(e.target.value))}
+                    readOnly={!isEdit} // Add readOnly prop
                   />
                 </TableCell>
                 <TableCell>{formatCurrency(item.quant * item.price)}</TableCell>
                 <TableCell sticky={true}>
-                  <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
-                    <Button onClick={() => handleRemoveItem(index)} style={{ background: 'transparent', color: 'black' }}>
-                      Xóa
-                    </Button>
-                  </div>
+                  {isEdit && (
+                    <div className="" style={{ color: '#A30D11', cursor: 'pointer' }}>
+                      <Button onClick={() => handleRemoveItem(index)} style={{ background: 'transparent', color: 'black' }}>
+                        Xóa
+                      </Button>
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <div className="" style={{ padding: '1em', fontWeight: '700' }}>
-        <Button onClick={handleAddItem} style={{ background: 'transparent', color: 'black' }}>
-          Thêm sản phẩm
-        </Button>
-      </div>
+      {isEdit && (
+        <div className="" style={{ padding: '1em', fontWeight: '700' }}>
+          <Button onClick={handleAddItem} style={{ background: 'transparent', color: 'black' }}>
+            Thêm sản phẩm
+          </Button>
+        </div>
+      )}
       <div className="" style={{ padding: '1em 1em 1em 2em', fontWeight: '700', background: '#624DE3', color: 'white', display: 'flex', justifyContent: 'space-between' }}>
         Tổng tiền:
         <span>
