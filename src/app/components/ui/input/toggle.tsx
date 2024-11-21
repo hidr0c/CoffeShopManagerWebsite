@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import './toggle.module.scss';
+import styles from './toggle.module.scss';
 
 interface ToggleProps {
     label: string;
@@ -11,8 +11,8 @@ interface ToggleProps {
 
 export const Toggle: React.FC<ToggleProps> = ({ label, checked, onChange }) => {
     return (
-        <div className="toggle-container" style={{ margin: '1em 0' }}>
-            <label className="toggle-label">
+        <div className={styles.toggle_container}>
+            <label className={styles.toggle_label}>
                 {label}
                 <input
                     type="checkbox"
