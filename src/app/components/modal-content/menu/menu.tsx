@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from '@ui/input/input';
+import { Input, Select } from '@ui/input/input';
 import { Toggle } from '@ui/input/toggle';
 
 // Define the types for the props
@@ -22,7 +22,15 @@ export default function MenuForm({ formData, onChange }: MenuFormProps) {
                 value={formData.name}
                 onChange={(e) => onChange('name', e.target.value)}
             />
-            <Input
+            <Select
+                options={
+                    [
+                        { label: 'Coffee', value: 'Coffee' },
+                        { label: 'Trà', value: 'Trà' },
+                        { label: 'Bánh', value: 'Bánh' },
+                        { label: 'Khác', value: 'Khác' },
+                    ]
+                }
                 label="Loại"
                 value={formData.type}
                 onChange={(e) => onChange('type', e.target.value)}
