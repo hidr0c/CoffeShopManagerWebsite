@@ -9,8 +9,7 @@ import MenuApi, { IMenuItem } from '@/services/menu';
 import { useEffect } from "react";
 import jsPDF from 'jspdf';
 import { Button } from '@/components/ui/button/button';
-import CustomerAPI, { ICustomer } from '@/services/customer';
-import Customer from '../customer/page';
+import SellAPI, { ISell } from '@/services/sell';
 
 // Mock data for products with categories
 const products = [
@@ -85,13 +84,11 @@ const Sell: React.FC = () => {
   };
 
   //Customer
-  const [customer, setCustomer] = useState<ICustomer>({
-    name: '',
+  const [customer, setCustomer] = useState<ISell>({
+    customerName: '',
     phoneNumber: '',
-    email: '',
-    birthDate: '',
-    sex: '',
-    address: '',
+    sellDate: '',
+    values: []
   });
 
   // Icon delete
@@ -144,7 +141,7 @@ const Sell: React.FC = () => {
           <input
             type="text"
             placeholder="Customer Name"
-            value={customer.name || ''} // Safeguard to ensure value is a string
+            value={customer.customerName || ''} // Safeguard to ensure value is a string
             onChange={(e) =>
               setCustomer((prev) => ({ ...prev, name: e.target.value })) // Update only the `name` field
             }
