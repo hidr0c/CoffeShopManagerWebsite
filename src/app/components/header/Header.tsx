@@ -28,10 +28,12 @@ export default function Header() {
           }
             count={3}
           />
-          <Icon icon={
-            <Image src={'/images/account_circle.png'} alt='Avatar' width={30} height={30} />
-          }
-          />
+          <Link href="/logout">
+            <Icon icon={
+              <Image src={'/images/account_circle.png'} alt='Avatar' width={30} height={30} />
+            }
+            />
+          </Link>
         </div>
       </div>
 

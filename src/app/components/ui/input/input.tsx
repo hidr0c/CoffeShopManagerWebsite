@@ -50,6 +50,7 @@ export const Input: React.FC<InputProps> = ({
       )}
       <input
         type={type}
+        min={0}
         value={inputValue}
         onChange={handleChange}
         placeholder={placeholder}

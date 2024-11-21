@@ -144,7 +144,7 @@ export default function WareHouse() {
         </Table>
       </div>
       <Modal
-        style={{ maxHeight: "80vh" }}
+        style={{ maxHeight: "90vh" }}
         title={editingId ? "Chỉnh sửa kho hàng" : "Thêm mới kho hàng"}
         isOpen={isModalOpen}
         onClose={closeModal}

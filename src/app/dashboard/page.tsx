@@ -20,7 +20,7 @@ export default function Dashboard() {
     totalStock: 0,
     suppliers: 0,
     purchaseQuantity: 0,
-    purchaseRevenue: 0,
+    employeeCount: 0,
     salesQuantity: 0,
     salesRevenue: 0,
   });
@@ -40,7 +40,7 @@ export default function Dashboard() {
         totalStock: warehouseData?.imports.reduce((acc, item) => acc + item.values.reduce((itm, i) => itm + i.quant, 0), 0) || 0,
         suppliers: supplierData?.pagination.total || 0,
         purchaseQuantity: warehouseData?.imports.reduce((acc, item) => acc + item.values.reduce((itm, i) => itm + i.quant, 0), 0) || 0,
-        purchaseRevenue: warehouseData?.imports.reduce((acc, item) => acc + item.values.reduce((itm, i) => itm + i.quant, 0), 0) || 0,
+        employeeCount: employeeCount?.count || 0,
         salesQuantity: sellData?.total || 0,
         salesRevenue: sellData?.total || 0, // Adjust this based on actual revenue data
       });
@@ -103,7 +103,7 @@ export default function Dashboard() {
         <Card number={stats.totalStock} textColor="#539F8F" label="Tổng số hàng tồn" icon={<Image src={'/images/request_quote.png'} width={15} height={20} alt="Request quote" />} />
         <Card number={stats.suppliers} textColor="#E27F6A" label="Nhà cung cấp" icon={<Image src={'/images/request_quote.png'} width={15} height={20} alt="Request quote" />} />
         <Card number={stats.purchaseQuantity} textColor="#C94752" label="Số lượng mua hàng" icon={<Image src={'/images/request_quote.png'} width={15} height={20} alt="Request quote" />} />
-        <Card number={formatCurrency(stats.purchaseRevenue)} textColor="#365CA0" label="Doanh thu mua hàng" icon={<Image src={'/images/request_quote.png'} width={15} height={20} alt="Request quote" />} />
+        <Card number={stats.employeeCount} textColor="#C94752" label="Số lượng nhân viên" icon={<Image src={'/images/request_quote.png'} width={15} height={20} alt="Request quote" />} />
         <Card number={stats.salesQuantity} textColor="#7F4783" label="Số lượng bán hàng" icon={<Image src={'/images/request_quote.png'} width={15} height={20} alt="Request quote" />} />
         <Card number={formatCurrency(stats.salesRevenue)} textColor="#C94752" label="Doanh thu bán hàng" icon={<Image src={'/images/request_quote.png'} width={15} height={20} alt="Request quote" />} />
 
