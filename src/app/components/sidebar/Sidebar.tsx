@@ -75,7 +75,7 @@ export default function Sidebar() {
         }
         label='Nhân viên'
         href='/dashboard/employee' />
-      <SideBarItem
+      {/* <SideBarItem
         icon={<Image src={'/images/sidebar/staff.png'}
           width={20} height={20}
           alt='Điểm danh'
@@ -86,7 +86,7 @@ export default function Sidebar() {
         />
         }
         label='Điểm danh'
-        href='/dashboard/checkin' />
+        href='/dashboard/checkin' /> */}
       <SideBarItem
         icon={<Image src={'/images/sidebar/statistic.png'}
           width={20} height={20}
