@@ -1,4 +1,3 @@
-
 .toggle-container {
   display: flex;
   align-items: center;
@@ -37,10 +36,10 @@
   transition: transform 0.2s;
 }
 
-.toggle-input:checked + .toggle-slider {
+.toggle-input:checked+.toggle-slider {
   background-color: #4caf50;
 }
 
-.toggle-input:checked + .toggle-slider::before {
+.toggle-input:checked+.toggle-slider::before {
   transform: translateX(20px);
 }

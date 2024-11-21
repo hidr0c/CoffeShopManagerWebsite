@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import './toggle.scss';
+import './toggle.module.scss';
 
 interface ToggleProps {
     label: string;
