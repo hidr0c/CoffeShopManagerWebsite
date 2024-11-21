@@ -17,8 +17,8 @@ export default function Menu() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const fetchMenuList = async (page: number = 1) => {
-    const response = await MenuApi.getMenuList({ limit: 10, page });
+  const fetchMenuList = async (page: number = 1, limit: number = 10) => {
+    const response = await MenuApi.getMenuList({ limit, page });
     if (response && response.items) {
       setData(response.items);
     }
@@ -89,7 +89,6 @@ export default function Menu() {
           <TableHead style={{ background: 'white' }}>
             <TableRow>
               <TableCell>STT</TableCell>
-              <TableCell>ID</TableCell>
               <TableCell>Tên món</TableCell>
               <TableCell>Loại</TableCell>
               <TableCell>Giá</TableCell>
@@ -101,7 +100,6 @@ export default function Menu() {
             {data.map((item, index) => (
               <TableRow key={item._id || index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item._id}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.type}</TableCell>
                 <TableCell>{item.price}</TableCell>

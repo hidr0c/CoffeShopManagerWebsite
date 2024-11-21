@@ -4,10 +4,11 @@
 
 import React, { useState } from 'react';
 import styles from './sell.module.scss';
-import { FaPlus, FaTrashAlt, FaInfoCircle } from 'react-icons/fa';
+import { FaPlus, FaTrashAlt, FaInfoCircle, FaRegTrashAlt } from 'react-icons/fa';
 import MenuApi, { IMenuItem } from '@/services/menu';
 import { useEffect } from "react";
 import jsPDF from 'jspdf';
+import { Button } from '@/components/ui/button/button';
 
 // Mock data for products with categories
 const products = [
@@ -72,24 +73,24 @@ const Sell: React.FC = () => {
   const removeFromOrder = (productId: string) => {
     setOrderItems(orderItems.filter(item => item._id !== productId)); // Lọc bỏ sản phẩm có id tương ứng
   };
-  
+
   const clearOrder = () => {
     setOrderItems([]); // Xóa tất cả các sản phẩm trong giỏ hàng
   };
   // Icon delete
   <ul>
-  {orderItems.map((item, index) => (
-    <li key={index}>
-      <span>{item.name}</span>
-      <span>{item.quantity}</span>
-      <span>{item.total.toLocaleString()} VND</span>
-      <FaTrashAlt 
-        className={styles.deleteIcon}
-        onClick={() => removeFromOrder(item._id)} 
-      />
-    </li>
-  ))}
-</ul>
+    {orderItems.map((item, index) => (
+      <li key={index}>
+        <span>{item.name}</span>
+        <span>{item.quantity}</span>
+        <span>{item.total.toLocaleString()} VND</span>
+        <FaTrashAlt
+          className={styles.deleteIcon}
+          onClick={() => removeFromOrder(item._id)}
+        />
+      </li>
+    ))}
+  </ul>
 
 
   // Filtered products based on selected category
@@ -111,10 +112,10 @@ const Sell: React.FC = () => {
         {/* Product List */}
         <div className={styles.productList}>
           {filteredProducts.map((product) => (
-            <li key={product._id} onClick={() => addToOrder(product)}>
-              <span>{product.name}</span>
-              <span>{product.price.toLocaleString()} VND</span>
-            </li>
+            <div key={product._id} className={styles.productItem} onClick={() => addToOrder(product)}>
+              <span className={styles.productName}>{product.name}</span>
+              <span className={styles.productPrice}>{product.price.toLocaleString()} VND</span>
+            </div>
           ))}
         </div>
       </div>
@@ -128,6 +129,13 @@ const Sell: React.FC = () => {
               <span>{item.name}</span>
               <span>{item.quantity}</span>
               <span>{item.total.toLocaleString()} VND</span>
+              <span>
+                <button
+                  style={{ display: "flex", background: "transparent" }}
+                  onClick={() => removeFromOrder(item._id)}>
+                  <FaRegTrashAlt />
+                </button>
+              </span>
             </li>
           ))}
         </ul>

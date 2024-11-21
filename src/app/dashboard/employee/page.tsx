@@ -14,10 +14,14 @@ export default function Employee() {
   const [editingId, setEditingId] = useState<string>("");
   const [formData, setFormData] = useState<IEmployee | null>(null);
   const [employees, setEmployees] = useState<IEmployee[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(1);
 
-  const fetchEmployeeList = async (page: number = 1) => {
-    const response = await EmployeeApi.getEmployeeList({ page, limit: 10 });
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentLimit, setLimit] = useState<number>(10);
+
+
+  const fetchEmployeeList = async (page: number = 1, limit: number = 10) => {
+    const response = await EmployeeApi.getEmployeeList({ page, limit });
     console.log(response);
     if (response) {
       if (response.employees) {
@@ -108,10 +112,15 @@ export default function Employee() {
         style={{ borderRadius: '0px' }}
         preHeader={true}
         pagination={{
-          currentPage: 1,
-          totalPages: totalPages,
+          currentPage,
+          totalPages,
           onPageChange: (page) => {
+            setCurrentPage(page);
             fetchEmployeeList(page);
+          },
+          onLimitChange: (limit) => {
+            setLimit(limit);
+            fetchEmployeeList(currentPage, limit);
           }
         }}
         addButtonAction={openModal}

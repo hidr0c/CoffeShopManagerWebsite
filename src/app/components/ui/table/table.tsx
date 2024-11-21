@@ -19,7 +19,8 @@ interface TableProps {
   pagination?: {
     currentPage: number;
     totalPages: number;
-    onPageChange: (page: number) => void;
+    onLimitChange?: (limit: number) => void;
+    onPageChange?: (page: number) => void;
   };
   preHeaderName?: string;
   addButtonTitle?: string;
@@ -62,10 +63,10 @@ export function Table({
       {preHeader && <div className={styles.preHeader}>
         <div className={styles.left}>
           <span>Show</span>
-          <select name="" id="" className="">
-            <option value="" className="">10</option>
-            <option value="" className="">20</option>
-            <option value="" className="">50</option>
+          <select onChange={(e) => pagination.onLimitChange?.(isNaN(Number(e.currentTarget.value)) ? 0 : Number(e.currentTarget.value))}>
+            <option value="10" className="">10</option>
+            <option value="20" className="">20</option>
+            <option value="50" className="">50</option>
 
           </select>
           <span>entries</span>

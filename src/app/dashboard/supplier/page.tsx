@@ -14,12 +14,14 @@ export default function Supplier() {
   const [data, setData] = useState<ISupplier[]>([]);
   const [editingId, setEditingId] = useState<string>("");
   const [formData, setFormData] = useState<ISupplier | null>(null);
+
   const [totalPages, setTotalPages] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentLimit, setLimit] = useState<number>(10);
 
   // Fetch supplier data with pagination
-  const fetchSupplierList = async (page: number = 1) => {
-    const response = await SupplierApi.getSupplierList({ limit: 10, page });
+  const fetchSupplierList = async (page: number = 1, limit: number = 10) => {
+    const response = await SupplierApi.getSupplierList({ limit, page });
     if (response && response.suppliers) {
       setData(response.suppliers);
     }
@@ -82,6 +84,11 @@ export default function Supplier() {
             totalPages,
             onPageChange: (page) => {
               setCurrentPage(page);
+              fetchSupplierList(page);
+            },
+            onLimitChange: (limit) => {
+              setLimit(limit);
+              fetchSupplierList(currentPage, limit);
             }
           }}
           addButtonTitle="Thêm nhà cung cấp"
@@ -90,7 +97,6 @@ export default function Supplier() {
           <TableHead style={{ background: 'white' }}>
             <TableRow>
               <TableCell>STT</TableCell>
-              <TableCell>ID</TableCell>
               <TableCell>Tên nhà cung cấp</TableCell>
               <TableCell>Liên hệ</TableCell>
               <TableCell>Địa chỉ</TableCell>
@@ -101,7 +107,6 @@ export default function Supplier() {
             {data.map((item, index) => (
               <TableRow key={item._id || index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item._id}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.phone}</TableCell>
                 <TableCell>{item.address}</TableCell>

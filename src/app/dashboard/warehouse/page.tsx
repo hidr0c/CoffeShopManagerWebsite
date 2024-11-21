@@ -15,13 +15,16 @@ export default function WareHouse() {
   const [data, setData] = useState<IWarehouse[]>([]);
   const [editingId, setEditingId] = useState<string>("");
   const [formData, setFormData] = useState<IWarehouse | null>(null);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [suppliers, setSuppliers] = useState<{ value: string, label: string }[]>([]); // Add this state
 
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentLimit, setLimit] = useState<number>(10);
+
+
   // Fetch warehouse data with pagination
-  const fetchWarehouseList = async (page: number = 1) => {
-    const response = await WarehouseApi.getWarehouseList({ limit: 10, page });
+  const fetchWarehouseList = async (page: number = 1, limit: number = 10) => {
+    const response = await WarehouseApi.getWarehouseList({ limit: currentLimit, page });
     console.log(response);
     if (response && response.imports) {
       console.log(response.imports);
@@ -95,6 +98,11 @@ export default function WareHouse() {
             totalPages,
             onPageChange: (page) => {
               setCurrentPage(page);
+              fetchWarehouseList(page);
+            },
+            onLimitChange: (limit) => {
+              setLimit(limit);
+              fetchWarehouseList(currentPage, limit);
             }
           }}
           addButtonTitle="Thêm phiếu nhập"
@@ -103,7 +111,6 @@ export default function WareHouse() {
           <TableHead style={{ background: "white" }}>
             <TableRow>
               <TableCell>STT</TableCell>
-              <TableCell>ID</TableCell>
               <TableCell>Tên khách hàng</TableCell>
               <TableCell>Ngày tháng</TableCell>
               <TableCell>SĐT</TableCell>
@@ -116,7 +123,6 @@ export default function WareHouse() {
             {data.map((item, index) => (
               <TableRow key={item._id || index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item._id}</TableCell>
                 <TableCell>{item.supplierName}</TableCell>
                 <TableCell>{item.importDate}</TableCell>
                 <TableCell>{item.phoneNumber}</TableCell>

@@ -12,10 +12,13 @@ export default function Customer() {
   const [editingId, setEditingId] = useState<string>("");
   const [formData, setFormData] = useState<ICustomer | null>(null);
   const [customers, setCustomers] = useState<ICustomer[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(1);
 
-  const fetchCustomersList = async (page: number = 1) => {
-    const response = await CustomerApi.getCustomerList({ limit: 10, page });
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentLimit, setLimit] = useState<number>(10);
+
+  const fetchCustomersList = async (page: number = 1, limit: number = 10) => {
+    const response = await CustomerApi.getCustomerList({ page, limit });
     if (response && response.customers) {
       setCustomers(response.customers);
     }
@@ -79,10 +82,15 @@ export default function Customer() {
         preHeader={true}
         pagination={
           {
-            currentPage: 1,
-            totalPages: totalPages,
+            currentPage,
+            totalPages,
             onPageChange: (page) => {
+              setCurrentPage(page);
               fetchCustomersList(page);
+            },
+            onLimitChange: (limit) => {
+              setLimit(limit);
+              fetchCustomersList(currentPage, limit);
             }
           }
         }

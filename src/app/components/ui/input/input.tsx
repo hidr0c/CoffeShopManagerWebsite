@@ -33,6 +33,10 @@ export const Input: React.FC<InputProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!readOnly) {
+      console.log(e.target.max);
+      if (e.target.max && e.target.value > e.target.max) {
+        return
+      }
       setInputValue(e.target.value);
       onChange(e);
     }
@@ -50,7 +54,8 @@ export const Input: React.FC<InputProps> = ({
       )}
       <input
         type={type}
-        min={0}
+        min={type === "number" ? 0 : type === "date" ? "1970-01-01" : undefined}
+        max={type === "date" ? (new Date()).toISOString().split('T')[0] : undefined}
         value={inputValue}
         onChange={handleChange}
         placeholder={placeholder}
