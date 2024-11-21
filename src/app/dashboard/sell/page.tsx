@@ -6,40 +6,40 @@ import React, { useState } from 'react';
 import styles from './sell.module.scss';
 import { FaPlus, FaTrashAlt, FaInfoCircle } from 'react-icons/fa';
 import MenuApi from '@/services/menu';
-import { useEffect } from "react"; 
+import { useEffect } from "react";
 import jsPDF from 'jspdf';
 
 // Mock data for products with categories
 const products = [
-  { id: '1', name: 'Espresso', price: 39000, category: 'Coffee'},
+  { id: '1', name: 'Espresso', price: 39000, category: 'Coffee' },
   { id: '2', name: 'Black Coffee', price: 25000, category: 'Coffee' },
-  { id: '3', name: 'Flat White', price: 45000, category: 'Coffee'},
+  { id: '3', name: 'Flat White', price: 45000, category: 'Coffee' },
   { id: '4', name: 'Irish Coffee', price: 50000, category: 'Coffee' },
-  { id: '5', name: 'Trà Đào', price: 30000, category: 'Trà'},
-  { id: '6', name: 'Bánh Croissant', price: 20000, category: 'Bánh'},
-  { id: '7', name: 'Nước Cam', price: 25000, category: 'Khác'},
+  { id: '5', name: 'Trà Đào', price: 30000, category: 'Trà' },
+  { id: '6', name: 'Bánh Croissant', price: 20000, category: 'Bánh' },
+  { id: '7', name: 'Nước Cam', price: 25000, category: 'Khác' },
   // Add more products as needed
 ];
 
 
 const Sell: React.FC = () => {
- // State for selected category
- const [selectedCategory, setSelectedCategory] = useState('Coffee');
- // State for menu items
- const [menuItems, setMenuItems] = useState([]);
+  // State for selected category
+  const [selectedCategory, setSelectedCategory] = useState('Coffee');
+  // State for menu items
+  const [menuItems, setMenuItems] = useState([]);
 
 
- // Fetch menu items from API
- const fetchMenuItems = async () => {
-   const response = await MenuApi.getMenuList({ limit: 100, page: 1 });
-   if (response && response.items) {
-     setMenuItems(response.items);
-   }
- };
+  // Fetch menu items from API
+  const fetchMenuItems = async () => {
+    const response = await MenuApi.getMenuList({ limit: 100, page: 1 });
+    if (response && response.items) {
+      setMenuItems(response.items);
+    }
+  };
 
- useEffect(() => {
-   fetchMenuItems();
- }, []);
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
 
   // State for order
   const [orderItems, setOrderItems] = useState([]);
@@ -67,10 +67,10 @@ const Sell: React.FC = () => {
     });
     doc.save('order_summary.pdf');
   };
-  
+
 
   // Filtered products based on selected category
-  const filteredProducts = menuItems.filter((product) => product.category === selectedCategory);
+  const filteredProducts = menuItems.filter((product) => product.type === selectedCategory);
 
   return (
     <div className={styles.container}>
@@ -88,10 +88,10 @@ const Sell: React.FC = () => {
         {/* Product List */}
         <div className={styles.productList}>
           {filteredProducts.map((product) => (
-             <li key={product._id} onClick={() => addToOrder(product)}>
-             <span>{product.name}</span>
-             <span>{product.price.toLocaleString()} VND</span>
-           </li>
+            <li key={product._id} onClick={() => addToOrder(product)}>
+              <span>{product.name}</span>
+              <span>{product.price.toLocaleString()} VND</span>
+            </li>
           ))}
         </div>
       </div>
