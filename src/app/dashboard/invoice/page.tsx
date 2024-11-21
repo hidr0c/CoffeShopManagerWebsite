@@ -14,49 +14,39 @@ import { FaEye } from "react-icons/fa";
 export default function Invoice() {
   const data = [
     {
-      id: "#20462",
-      status: "Đã thanh toán",
-      customerType: "Mới",
-      customer: "Diddy",
-      category: "Hat",
-      date: "13/05/2024 00:00:00",
-      quant: 144,
+      stt: 1,
+      id: 'KH001',
+      name: 'Nguyen Van A',
+      phoneNumber: '0901234567',
+      createdAt: '2024-11-20',
     },
     {
-      id: "#20463",
-      status: "Chưa thanh toán",
-      customerType: "Cũ",
-      customer: "John",
-      category: "Shoes",
-      date: "12/05/2024 00:00:00",
-      quant: 55,
+      stt: 2,
+      id: 'KH002',
+      name: 'Tran Thi B',
+      phoneNumber: '0987654321',
+      createdAt: '2024-11-19',
     },
     {
-      id: "#20464",
-      status: "Đã thanh toán",
-      customerType: "Cũ",
-      customer: "Sarah",
-      category: "Shirt",
-      date: "11/05/2024 00:00:00",
-      quant: 30,
+      stt: 3,
+      id: 'KH003',
+      name: 'Le Van C',
+      phoneNumber: '0912345678',
+      createdAt: '2024-11-18',
     },
     {
-      id: "#20465",
-      status: "Chưa thanh toán",
-      customerType: "Mới",
-      customer: "Mike",
-      category: "Jacket",
-      date: "10/05/2024 00:00:00",
-      quant: 5,
+      stt: 4,
+      id: 'KH004',
+      name: 'Pham Thi D',
+      phoneNumber: '0938765432',
+      createdAt: '2024-11-17',
     },
     {
-      id: "#20466",
-      status: "Đã thanh toán",
-      customerType: "Mới",
-      customer: "Anna",
-      category: "Pants",
-      date: "09/05/2024 00:00:00",
-      quant: 100,
+      stt: 5,
+      id: 'KH005',
+      name: 'Hoang Van E',
+      phoneNumber: '0923456789',
+      createdAt: '2024-11-16',
     },
   ];
 
@@ -67,11 +57,9 @@ export default function Invoice() {
           <TableRow>
             <TableCell>STT</TableCell>
             <TableCell>ID</TableCell>
-            <TableCell>Trạng thái</TableCell>
             <TableCell>Khách hàng</TableCell>
-            <TableCell>Loại khách</TableCell>
+            <TableCell>Số điện thoại</TableCell>
             <TableCell>Ngày tạo</TableCell>
-            <TableCell>Số lượng sản phẩm</TableCell>
             <TableCell>Chi tiết</TableCell>
           </TableRow>
         </TableHead>
@@ -80,11 +68,9 @@ export default function Invoice() {
             <TableRow key={item.id}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{item.id}</TableCell>
-              <TableCell>{item.status}</TableCell>
-              <TableCell>{item.customer}</TableCell>
-              <TableCell>{item.customerType}</TableCell>
-              <TableCell>{item.date}</TableCell>
-              <TableCell>{item.quant}</TableCell>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.phoneNumber}</TableCell>
+              <TableCell>{item.createdAt}</TableCell>
               <TableCell>
                 <FaEye />
               </TableCell>
