@@ -8,10 +8,18 @@ import { Input, Checkbox, message } from "antd"
 import AuthApi from "@services/auth";
 import { LoginParams } from "../../models/AuthModel";
 import AuthLayout from "@/components/auth/layout";
+import { useEffect } from "react";
 
 
 export default function LoginPage() {
     const router = useRouter();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            router.push("/dashboard/");
+        }
+    }, []);
 
     const onSubmit = async (data: LoginParams) => {
         console.log(data);
