@@ -68,6 +68,29 @@ const Sell: React.FC = () => {
     doc.save('order_summary.pdf');
   };
 
+  // Delete
+  const removeFromOrder = (productId: string) => {
+    setOrderItems(orderItems.filter(item => item._id !== productId)); // Lọc bỏ sản phẩm có id tương ứng
+  };
+  
+  const clearOrder = () => {
+    setOrderItems([]); // Xóa tất cả các sản phẩm trong giỏ hàng
+  };
+  // Icon delete
+  <ul>
+  {orderItems.map((item, index) => (
+    <li key={index}>
+      <span>{item.name}</span>
+      <span>{item.quantity}</span>
+      <span>{item.total.toLocaleString()} VND</span>
+      <FaTrashAlt 
+        className={styles.deleteIcon}
+        onClick={() => removeFromOrder(item._id)} 
+      />
+    </li>
+  ))}
+</ul>
+
 
   // Filtered products based on selected category
   const filteredProducts = menuItems.filter((product) => product.type === selectedCategory && product.isAvailable);
@@ -114,7 +137,7 @@ const Sell: React.FC = () => {
         </div>
         <div className={styles.actions}>
           <button className={styles.payButton} onClick={generatePDF}>Thanh toán</button>
-          <button className={styles.cancelButton}>Hủy bỏ</button>
+          <button className={styles.cancelButton} onClick={clearOrder}>Hủy bỏ</button>
         </div>
       </div>
     </div>

@@ -195,3 +195,12 @@
     font-size: 13px; /* Kích thước chữ nhỏ hơn tên sản phẩm */
     color: #777; /* Màu chữ nhẹ hơn */
   }
+  .deleteIcon {
+    color: #A30D11;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .deleteIcon:hover {
+    color: #ff0000;
+  }

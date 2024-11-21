@@ -15,7 +15,6 @@ export default function Header() {
       <div className={styles.search}>
         <Search />
       </div>
-
       <div className={styles.right}>
         <nav className="">
           <Link href={'/dashboard/supplier'} className={path == '/dashboard/supplier' ? styles.navItemActive : styles.navItem}>Nhà cung cấp</Link>
